@@ -589,6 +589,27 @@ code, pre {
 .toast-warn { border-color: var(--yellow); color: var(--yellow); }
 
 
+/* ── RESIZER HANDLES ────────────────────────────────── */
+.resizer {
+  width: 5px;
+  flex-shrink: 0;
+  background: var(--border);
+  cursor: col-resize;
+  position: relative;
+  transition: background 0.15s;
+  z-index: 5;
+}
+.resizer::after {
+  content: '';
+  position: absolute;
+  inset: 0 -3px;   /* wider hit area */
+}
+.resizer:hover,
+.resizer.is-dragging {
+  background: var(--accent);
+}
+
+
 /* ── RESPONSIVE ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .lesson-body { flex-direction: column; }

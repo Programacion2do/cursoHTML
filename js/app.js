@@ -1,4 +1,58 @@
 let editor = null;
+
+function initResizers() {
+  const leftPanel  = document.getElementById('panel-lesson');
+  const rightPanel = document.getElementById('panel-preview');
+  const rLeft  = document.getElementById('resizer-left');
+  const rRight = document.getElementById('resizer-right');
+
+  const MIN = 160, MAX = 700;
+
+  function makeResizable(resizer, panel, side) {
+    resizer.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      const startX     = e.clientX;
+      const startWidth = panel.getBoundingClientRect().width;
+
+      resizer.classList.add('is-dragging');
+      document.body.style.cursor      = 'col-resize';
+      document.body.style.userSelect  = 'none';
+
+      // Disable iframe pointer events while dragging (prevents capture)
+      document.getElementById('preview-frame').style.pointerEvents = 'none';
+
+      function onMove(e) {
+        const delta = e.clientX - startX;
+        const newW  = side === 'left'
+          ? Math.max(MIN, Math.min(MAX, startWidth + delta))
+          : Math.max(MIN, Math.min(MAX, startWidth - delta));
+        panel.style.width = newW + 'px';
+      }
+
+      function onUp() {
+        resizer.classList.remove('is-dragging');
+        document.body.style.cursor     = '';
+        document.body.style.userSelect = '';
+        document.getElementById('preview-frame').style.pointerEvents = '';
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup',   onUp);
+        if (editor) editor.refresh();
+      }
+
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup',   onUp);
+    });
+
+    // Double-click → reset to default width
+    resizer.addEventListener('dblclick', () => {
+      panel.style.width = side === 'left' ? '320px' : '340px';
+      if (editor) editor.refresh();
+    });
+  }
+
+  makeResizable(rLeft,  leftPanel,  'left');
+  makeResizable(rRight, rightPanel, 'right');
+}
 let currentLesson = null;
 let previewDebounce = null;
 let completedLessons = JSON.parse(localStorage.getItem('htmlcourse_progress') || '[]');
@@ -23,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     previewDebounce = setTimeout(updatePreview, 500);
   });
 
+  initResizers();
   loadLesson(lessonId);
 });
 

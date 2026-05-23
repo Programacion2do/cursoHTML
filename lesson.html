@@ -35,7 +35,7 @@
   <div class="lesson-body">
 
     <!-- LEFT: Lesson content -->
-    <aside class="panel-lesson">
+    <aside class="panel-lesson" id="panel-lesson">
       <div class="panel-lesson-scroll">
         <div class="lesson-num-badge" id="lesson-number">Lección 1 de 9</div>
         <h2 id="lesson-title-panel"></h2>
@@ -79,6 +79,8 @@
       </div>
     </aside>
 
+    <div class="resizer" id="resizer-left" title="Arrastrar para redimensionar. Doble clic para resetear."></div>
+
     <!-- CENTER: Code editor -->
     <section class="panel-editor">
       <div class="editor-topbar">
@@ -89,8 +91,10 @@
       </div>
     </section>
 
+    <div class="resizer" id="resizer-right" title="Arrastrar para redimensionar. Doble clic para resetear."></div>
+
     <!-- RIGHT: Preview -->
-    <section class="panel-preview">
+    <section class="panel-preview" id="panel-preview">
       <div class="preview-topbar">
         <span class="preview-dot preview-dot-r"></span>
         <span class="preview-dot preview-dot-y"></span>
