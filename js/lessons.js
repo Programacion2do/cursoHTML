@@ -45,6 +45,20 @@ const lessons = [
       { type: 'element',         selector: 'head',               message: 'Necesitás el elemento <head>',              hint: 'Dentro de <html>, agregá <head>...</head>' },
       { type: 'elementWithText', selector: 'title',              message: '<title> debe tener el nombre de tu fan page', hint: 'Ej: <title>Fan Page de Bad Bunny</title>' },
       { type: 'element',         selector: 'body',               message: 'Necesitás el elemento <body>',              hint: 'Después de </head>, agregá <body>...</body>' },
+    ],
+    quiz: [
+      {
+        question: '¿Qué hace la declaración <code>&lt;!DOCTYPE html&gt;</code>?',
+        options: ['Aplica estilos a la página', 'Le dice al navegador que el documento es HTML5', 'Define el título de la página', 'Crea el cuerpo del documento'],
+        correct: 1,
+        explanation: '¡Correcto! &lt;!DOCTYPE html&gt; le avisa al navegador que el documento está escrito en HTML5. Sin esta declaración, el navegador puede interpretar el código de manera incorrecta.'
+      },
+      {
+        question: '¿Dónde va el contenido visible de la página (texto, imágenes, etc.)?',
+        options: ['Dentro de &lt;head&gt;', 'Dentro de &lt;title&gt;', 'Dentro de &lt;body&gt;', 'Dentro de &lt;html&gt;'],
+        correct: 2,
+        explanation: '¡Correcto! El &lt;body&gt; contiene todo lo que el usuario puede ver en pantalla: texto, imágenes, links, videos, etc. El &lt;head&gt; es para información que no se muestra.'
+      }
     ]
   },
 
@@ -98,6 +112,20 @@ const lessons = [
       { type: 'elementWithText', selector: 'h1', message: 'Agregá un <h1> con el nombre del gamer',         hint: '<h1>Nombre del gamer</h1>' },
       { type: 'elementWithText', selector: 'h2', message: 'Agregá al menos un <h2> para una sección',       hint: '<h2>Juegos favoritos</h2>' },
       { type: 'elementWithText', selector: 'h3', message: 'Agregá al menos un <h3> con un detalle',         hint: '<h3>Minecraft</h3>' },
+    ],
+    quiz: [
+      {
+        question: '¿Cuántos <code>&lt;h1&gt;</code> se recomienda usar por página?',
+        options: ['Los que necesités', 'Solo uno', 'Dos como máximo', 'Ninguno'],
+        correct: 1,
+        explanation: '¡Correcto! Solo un &lt;h1&gt; por página — es el título principal. Usar varios confunde a Google y a los lectores de pantalla.'
+      },
+      {
+        question: '¿Cuál de estos títulos tiene menor jerarquía (es el más pequeño visualmente)?',
+        options: ['&lt;h1&gt;', '&lt;h3&gt;', '&lt;h4&gt;', '&lt;h6&gt;'],
+        correct: 3,
+        explanation: '¡Correcto! HTML tiene 6 niveles: &lt;h1&gt; es el más grande e importante, &lt;h6&gt; el más pequeño. Se usan para organizar la jerarquía del contenido.'
+      }
     ]
   },
 
@@ -147,6 +175,20 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
     checks: [
       { type: 'elementWithText', selector: 'h1',  message: 'Agregá un <h1> con tu nombre o apodo',    hint: '<h1>@tu_nombre</h1>' },
       { type: 'minCount',        selector: 'p',   count: 3, message: 'Escribí al menos 3 párrafos <p>', hint: 'Cada bloque de texto va en su propio <p>...</p>' },
+    ],
+    quiz: [
+      {
+        question: '¿Qué etiqueta insertá un salto de línea DENTRO de un párrafo?',
+        options: ['&lt;p&gt;', '&lt;break&gt;', '&lt;br&gt;', '&lt;lb&gt;'],
+        correct: 2,
+        explanation: '¡Correcto! &lt;br&gt; es una etiqueta vacía (sin cierre) que inserta un salto de línea. &lt;p&gt; en cambio crea un párrafo nuevo con espacio adicional arriba y abajo.'
+      },
+      {
+        question: '¿Qué pasa si escribís diez espacios seguidos en el código HTML?',
+        options: ['Se muestran todos en la página', 'El navegador los muestra como uno solo', 'Genera un error de sintaxis', 'La página no carga'],
+        correct: 1,
+        explanation: '¡Correcto! El navegador colapsa múltiples espacios en uno solo. Para agregar espacio visual usá párrafos &lt;p&gt;, el salto &lt;br&gt;, o la entidad &amp;nbsp;'
+      }
     ]
   },
 
@@ -221,6 +263,20 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'minCount',   selector: 'ul li', count: 5, message: 'La lista <ul> necesita al menos 5 elementos', hint: 'Ponele 5 cosas a tu lista <ul>' },
       { type: 'element',    selector: 'ol',    message: 'Agregá un ranking <ol>',                        hint: '<ol><li>...</li></ol>' },
       { type: 'minCount',   selector: 'ol li', count: 3, message: 'El ranking <ol> necesita al menos 3 posiciones', hint: 'Ponele 3 cosas a tu ranking <ol>' },
+    ],
+    quiz: [
+      {
+        question: '¿Para qué sirve la etiqueta <code>&lt;ol&gt;</code>?',
+        options: ['Para listas sin orden (bullets)', 'Para crear links', 'Para listas ordenadas (numeradas)', 'Para listas de imágenes'],
+        correct: 2,
+        explanation: '¡Correcto! &lt;ol&gt; (ordered list) numera los elementos automáticamente. Se usa para rankings, pasos de recetas o instrucciones donde el orden importa.'
+      },
+      {
+        question: '¿Qué etiqueta va DENTRO de &lt;ul&gt; y &lt;ol&gt; para cada elemento?',
+        options: ['&lt;item&gt;', '&lt;list&gt;', '&lt;element&gt;', '&lt;li&gt;'],
+        correct: 3,
+        explanation: '¡Correcto! &lt;li&gt; (list item) es cada elemento de la lista. Siempre va dentro de &lt;ul&gt; o &lt;ol&gt; — nunca solo en el HTML.'
+      }
     ]
   },
 
@@ -279,6 +335,20 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'minCount',      selector: 'a',        count: 3, message: 'Agregá al menos 3 links <a>',              hint: '<a href="https://...">texto del link</a>' },
       { type: 'elementWithAttr', selector: 'a',      attr: 'href', message: 'Los links necesitan el atributo href',  hint: 'href="https://www.youtube.com"' },
       { type: 'elementWithAttr', selector: 'a[target="_blank"]', attr: 'target', message: 'Al menos un link debe abrir en nueva pestaña (target="_blank")', hint: 'Agregá target="_blank" a tus links' },
+    ],
+    quiz: [
+      {
+        question: '¿Qué atributo de <code>&lt;a&gt;</code> indica a dónde va el link?',
+        options: ['src', 'link', 'href', 'url'],
+        correct: 2,
+        explanation: '¡Correcto! href (hypertext reference) contiene la URL de destino. Sin href el elemento &lt;a&gt; no lleva a ningún lado.'
+      },
+      {
+        question: '¿Qué hace <code>target="_blank"</code> en un link?',
+        options: ['Lo hace invisible', 'Lo bloquea', 'Lo abre en la misma pestaña', 'Lo abre en una nueva pestaña'],
+        correct: 3,
+        explanation: '¡Correcto! target="_blank" le dice al navegador que abra el link en una nueva pestaña, sin cerrar la página actual. Muy útil para links externos.'
+      }
     ]
   },
 
@@ -337,6 +407,20 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'minCount',      selector: 'img',      count: 2, message: 'Agregá al menos 2 imágenes <img>',        hint: '<img src="https://..." alt="descripción">' },
       { type: 'elementWithAttr', selector: 'img',    attr: 'src',  message: 'Las imágenes necesitan el atributo src',   hint: 'src="URL de la imagen"' },
       { type: 'elementWithAttr', selector: 'img',    attr: 'alt',  message: 'Las imágenes necesitan el atributo alt',   hint: 'alt="descripción de la imagen"' },
+    ],
+    quiz: [
+      {
+        question: '¿Para qué sirve el atributo <code>alt</code> en las imágenes?',
+        options: ['Define el tamaño de la imagen', 'Muestra texto si la imagen no carga y mejora la accesibilidad', 'Es el link de la imagen', 'No tiene ninguna función importante'],
+        correct: 1,
+        explanation: '¡Correcto! alt es fundamental: aparece si la imagen falla al cargar, lo leen los lectores de pantalla para personas con discapacidad visual, y mejora el SEO en Google.'
+      },
+      {
+        question: '¿Cuál de estos códigos de imagen es correcto?',
+        options: ['&lt;img href="foto.jpg" alt="mi foto"&gt;', '&lt;img src="foto.jpg" alt="mi foto"&gt;', '&lt;image src="foto.jpg"&gt;', '&lt;img src="foto.jpg"&gt;&lt;/img&gt;'],
+        correct: 1,
+        explanation: '¡Correcto! &lt;img&gt; usa src (no href) para la URL de la imagen. Además es una etiqueta vacía — no necesita etiqueta de cierre &lt;/img&gt;.'
+      }
     ]
   },
 
@@ -399,6 +483,20 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'minCount',        selector: 'p',    count: 2, message: 'Escribí al menos 2 párrafos',                        hint: 'Dos bloques de texto entre <p>...</p>' },
       { type: 'element',         selector: 'strong, b',      message: 'Usá <strong> para destacar algo importante',         hint: '<strong>el título o algo clave</strong>' },
       { type: 'element',         selector: 'em, i',          message: 'Usá <em> para tu opinión personal',                  hint: '<em>es increíble</em>' },
+    ],
+    quiz: [
+      {
+        question: '¿Cuál es la diferencia entre <code>&lt;strong&gt;</code> y <code>&lt;b&gt;</code>?',
+        options: ['No hay diferencia, son iguales', '&lt;strong&gt; indica importancia semántica, &lt;b&gt; es solo visual', '&lt;b&gt; es más moderno y recomendado', '&lt;strong&gt; hace el texto más grande'],
+        correct: 1,
+        explanation: '¡Correcto! Aunque ambos muestran negrita, &lt;strong&gt; le indica al navegador que ese contenido es importante. Los lectores de pantalla lo leen con mayor énfasis.'
+      },
+      {
+        question: '¿Qué etiqueta resalta texto como con un marcador fluorescente?',
+        options: ['&lt;highlight&gt;', '&lt;yellow&gt;', '&lt;mark&gt;', '&lt;em&gt;'],
+        correct: 2,
+        explanation: '¡Correcto! &lt;mark&gt; resalta el texto en amarillo, como un marcador. Ideal para spoilers, datos clave o advertencias importantes en tu contenido.'
+      }
     ]
   },
 
@@ -493,6 +591,20 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'minCount',   selector: 'th',     count: 4,  message: 'La tabla necesita 4 encabezados <th>',          hint: 'Personaje | Poder | Punto débil | Nivel' },
       { type: 'minCount',   selector: 'tr',     count: 4,  message: 'Necesitás al menos 4 filas <tr> (encabezado + 3 personajes)', hint: 'Una fila de encabezados y una por cada personaje' },
       { type: 'minCount',   selector: 'td',     count: 9,  message: 'Completá los datos de los 3 personajes',        hint: 'Cada personaje necesita 4 celdas <td>' },
+    ],
+    quiz: [
+      {
+        question: '¿Qué etiqueta define una celda de ENCABEZADO en una tabla?',
+        options: ['&lt;td&gt;', '&lt;th&gt;', '&lt;head&gt;', '&lt;header&gt;'],
+        correct: 1,
+        explanation: '¡Correcto! &lt;th&gt; (table header) crea celdas de encabezado — aparecen en negrita y centradas por defecto. &lt;td&gt; es para los datos normales de la tabla.'
+      },
+      {
+        question: '¿Qué etiqueta representa una FILA completa en una tabla?',
+        options: ['&lt;row&gt;', '&lt;line&gt;', '&lt;tr&gt;', '&lt;td&gt;'],
+        correct: 2,
+        explanation: '¡Correcto! &lt;tr&gt; (table row) define una fila completa. Dentro de cada &lt;tr&gt; van las celdas: &lt;th&gt; para encabezados o &lt;td&gt; para datos.'
+      }
     ]
   },
 
@@ -570,6 +682,20 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'element', selector: 'input[type="email"]',                    message: 'Agregá un campo de email',                         hint: '<input type="email" name="email">' },
       { type: 'element', selector: 'textarea',                               message: 'Agregá un <textarea> para la pregunta del fan',    hint: '<textarea name="razon"></textarea>' },
       { type: 'element', selector: 'button, input[type="submit"]',           message: 'Agregá un botón para enviar el formulario',        hint: '<button type="submit">Unirme al club 🎤</button>' },
+    ],
+    quiz: [
+      {
+        question: '¿Qué tipo de <code>&lt;input&gt;</code> se usa para campos de contraseña?',
+        options: ['type="secret"', 'type="hidden"', 'type="password"', 'type="text"'],
+        correct: 2,
+        explanation: '¡Correcto! type="password" oculta lo que el usuario escribe con puntos o asteriscos. Es esencial para proteger contraseñas en cualquier formulario.'
+      },
+      {
+        question: '¿Qué etiqueta crea un área de texto multilínea (como para escribir un mensaje largo)?',
+        options: ['&lt;input type="textarea"&gt;', '&lt;text&gt;', '&lt;textarea&gt;', '&lt;input type="multiline"&gt;'],
+        correct: 2,
+        explanation: '¡Correcto! &lt;textarea&gt; crea un campo de texto multilínea que el usuario puede expandir. A diferencia de &lt;input&gt;, tiene etiqueta de cierre: &lt;/textarea&gt;.'
+      }
     ]
   },
 ];

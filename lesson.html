@@ -52,8 +52,28 @@
         <div id="success-banner">
           <span class="success-icon">🎉</span>
           <div class="success-text">
-            <strong>¡Lección completada!</strong>
-            <span>Sigue a la siguiente cuando estés listo.</span>
+            <strong>¡Ejercicio completado!</strong>
+            <span>Ahora respondé el quiz para continuar.</span>
+          </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div id="quiz-panel" style="display:none">
+          <div class="divider"></div>
+          <div class="quiz-header">
+            <span class="quiz-title-icon">🧠</span>
+            <div>
+              <div class="quiz-title">Quiz rápido</div>
+              <div class="quiz-subtitle">Respondé las 2 preguntas para desbloquear la siguiente lección</div>
+            </div>
+          </div>
+          <div id="quiz-questions"></div>
+          <div id="quiz-done-banner" style="display:none" class="quiz-done-banner">
+            <span>🏆</span>
+            <div>
+              <strong>¡Quiz completado!</strong>
+              <span>Ya podés pasar a la siguiente lección.</span>
+            </div>
           </div>
         </div>
 
