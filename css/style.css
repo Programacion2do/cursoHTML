@@ -347,21 +347,31 @@ code, pre {
 .divider { height: 1px; background: var(--border); margin: 16px 0; }
 
 .instructions-box {
-  background: rgba(124,58,237,0.08);
-  border: 1px solid rgba(124,58,237,0.25);
-  border-radius: var(--radius);
-  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(251,146,60,0.13) 0%, rgba(245,158,11,0.07) 100%);
+  border: 1px solid rgba(251,146,60,0.35);
+  border-left: 4px solid #fb923c;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 14px 16px;
   margin-bottom: 14px;
+  position: relative;
 }
 .instructions-label {
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--accent2);
-  margin-bottom: 6px;
+  letter-spacing: 1px;
+  color: #fb923c;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-#instructions-text { font-size: 0.87rem; color: var(--text2); line-height: 1.6; }
+#instructions-text {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.65;
+  font-weight: 400;
+}
 
 /* CHECKS */
 #checks-panel { display: none; margin-bottom: 12px; }
