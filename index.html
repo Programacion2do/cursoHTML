@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprende HTML — Curso interactivo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="home-header">
+    <div class="logo">&lt;<span>HTML</span>&gt;</div>
+    <span style="color: var(--text3); font-size: 0.9rem;">Curso interactivo para principiantes</span>
+  </header>
+
+  <main class="home-main">
+
+    <!-- HERO -->
+    <div class="course-hero">
+      <h1>Aprende <span>HTML</span> desde cero</h1>
+      <p>Domina el lenguaje de la web con ejercicios interactivos. Escribe código real y ve los resultados al instante.</p>
+
+      <div class="hero-stats">
+        <div class="stat-chip">📚 9 lecciones</div>
+        <div class="stat-chip">⏱️ ~1 hora</div>
+        <div class="stat-chip">🎯 Nivel principiante</div>
+        <div class="stat-chip">💻 Sin instalación</div>
+      </div>
+
+      <div class="overall-progress">
+        <span class="prog-label">Tu progreso</span>
+        <div class="prog-track">
+          <div class="prog-fill" id="home-progress-bar" style="width:0%"></div>
+        </div>
+        <span class="prog-pct" id="home-progress-pct">0%</span>
+      </div>
+    </div>
+
+    <!-- LESSONS BY CHAPTER -->
+    <div id="chapters-container"></div>
+
+  </main>
+
+  <script src="js/lessons.js"></script>
+  <script>
+    const completed = JSON.parse(localStorage.getItem('htmlcourse_progress') || '[]');
+
+    // Update hero progress
+    const pct = Math.round((completed.length / lessons.length) * 100);
+    document.getElementById('home-progress-bar').style.width = pct + '%';
+    document.getElementById('home-progress-pct').textContent = pct + '%';
+
+    // Group lessons by chapter
+    const chapters = {};
+    lessons.forEach(l => {
+      if (!chapters[l.chapter]) chapters[l.chapter] = { title: l.chapterTitle, lessons: [] };
+      chapters[l.chapter].lessons.push(l);
+    });
+
+    const container = document.getElementById('chapters-container');
+
+    Object.values(chapters).forEach(ch => {
+      const group = document.createElement('div');
+      group.className = 'chapter-group';
+
+      const label = document.createElement('div');
+      label.className = 'chapter-label';
+      label.textContent = ch.title;
+      group.appendChild(label);
+
+      const grid = document.createElement('div');
+      grid.className = 'lessons-grid';
+
+      ch.lessons.forEach(l => {
+        const isDone = completed.includes(l.id);
+        const card = document.createElement('a');
+        card.href = `lesson.html?id=${l.id}`;
+        card.className = 'lesson-card' + (isDone ? ' completed' : '');
+        card.innerHTML = `
+          <div class="card-icon">${l.icon}</div>
+          <div class="card-info">
+            <div class="card-num">Lección ${l.id}</div>
+            <div class="card-title">${l.title}</div>
+            <div class="card-duration">${l.duration}</div>
+          </div>
+          <div class="card-status">
+            <div class="check-circle">${isDone ? '✓' : ''}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      group.appendChild(grid);
+      container.appendChild(group);
+    });
+
+    // Show start or continue button
+    const nextLesson = lessons.find(l => !completed.includes(l.id)) || lessons[0];
+    const btnLabel = completed.length === 0 ? '▶ Comenzar el curso' : '▶ Continuar';
+    const heroBtn = document.createElement('a');
+    heroBtn.href = `lesson.html?id=${nextLesson.id}`;
+    heroBtn.className = 'btn-start';
+    heroBtn.style.marginTop = '20px';
+    heroBtn.textContent = btnLabel;
+    document.querySelector('.course-hero').appendChild(heroBtn);
+  </script>
+
+</body>
+</html>

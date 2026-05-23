@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lección — Aprende HTML</title>
+
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="lesson-page">
+
+  <!-- TOP BAR -->
+  <header class="lesson-topbar">
+    <a href="index.html" class="topbar-logo">
+      &lt;<span>HTML</span>&gt;
+    </a>
+    <div class="topbar-sep"></div>
+    <span class="topbar-chapter" id="chapter-badge"></span>
+    <span class="topbar-sep"></span>
+    <span class="topbar-title" id="lesson-title"></span>
+
+    <div class="topbar-progress">
+      <div class="topbar-prog-track">
+        <div class="topbar-prog-fill" id="progress-bar" style="width:0%"></div>
+      </div>
+      <span id="progress-text">0/9</span>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <div class="lesson-body">
+
+    <!-- LEFT: Lesson content -->
+    <aside class="panel-lesson">
+      <div class="panel-lesson-scroll">
+        <div class="lesson-num-badge" id="lesson-number">Lección 1 de 9</div>
+        <h2 id="lesson-title-panel"></h2>
+
+        <div id="theory-content"></div>
+
+        <div class="divider"></div>
+
+        <div class="instructions-box">
+          <div class="instructions-label">🎯 Tu misión</div>
+          <p id="instructions-text"></p>
+        </div>
+
+        <div id="success-banner">
+          <span class="success-icon">🎉</span>
+          <div class="success-text">
+            <strong>¡Lección completada!</strong>
+            <span>Sigue a la siguiente cuando estés listo.</span>
+          </div>
+        </div>
+
+        <div id="checks-panel">
+          <div class="checks-title">Resultados</div>
+          <div id="checks-list"></div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="panel-actions">
+        <button class="btn-verify" onclick="verifyCode()">
+          ✓ Verificar código
+        </button>
+        <div class="btn-row">
+          <button class="btn-sm" onclick="resetCode()">↺ Resetear</button>
+          <button class="btn-sm" onclick="showSolution()">💡 Solución</button>
+        </div>
+        <div class="nav-row">
+          <button class="btn-nav" id="btn-prev">← Anterior</button>
+          <button class="btn-nav" id="btn-next">Siguiente →</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER: Code editor -->
+    <section class="panel-editor">
+      <div class="editor-topbar">
+        <div class="editor-tab">index.html</div>
+      </div>
+      <div class="editor-wrap">
+        <textarea id="code-editor"></textarea>
+      </div>
+    </section>
+
+    <!-- RIGHT: Preview -->
+    <section class="panel-preview">
+      <div class="preview-topbar">
+        <span class="preview-dot preview-dot-r"></span>
+        <span class="preview-dot preview-dot-y"></span>
+        <span class="preview-dot preview-dot-g"></span>
+        <span>Vista previa</span>
+      </div>
+      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+    </section>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
+  <script src="js/lessons.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Sync the h2 title in panel with the topbar title
+    document.addEventListener('DOMContentLoaded', () => {
+      const obs = new MutationObserver(() => {
+        const t = document.getElementById('lesson-title').textContent;
+        document.getElementById('lesson-title-panel').textContent = t;
+      });
+      obs.observe(document.getElementById('lesson-title'), { childList: true, characterData: true, subtree: true });
+    });
+  </script>
+</body>
+</html>
