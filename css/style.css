@@ -548,6 +548,9 @@ code, pre {
   justify-content: space-between;
   flex-shrink: 0;
 }
+.editor-tab-css.active { color: #38bdf8; border-bottom-color: #38bdf8 !important; }
+.editor-tab-css:not(.active):hover { color: #7dd3fc; }
+
 .editor-tab {
   font-size: 0.8rem;
   color: var(--text2);

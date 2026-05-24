@@ -9,6 +9,8 @@ const _quizKey     = _course === 'css' ? 'csscourse_quiz'     : 'htmlcourse_quiz
 
 // ── STATE ────────────────────────────────────────────
 let editor          = null;
+let editorCss       = null;   // second editor for CSS course
+let activeEditorTab = 'html'; // 'html' | 'css'
 let currentLesson   = null;
 let previewDebounce = null;
 let quizAnswers     = {};   // { questionIndex: optionIndex }
@@ -26,8 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
     autoCloseTags: true, lineWrapping: false, indentUnit: 2, tabSize: 2,
     extraKeys: { Tab: (cm) => cm.replaceSelection('  ') },
   });
-
   editor.on('change', () => {
+    clearTimeout(previewDebounce);
+    previewDebounce = setTimeout(updatePreview, 500);
+  });
+
+  editorCss = CodeMirror.fromTextArea(document.getElementById('code-editor-css'), {
+    mode: 'css', theme: 'material-darker', lineNumbers: true,
+    lineWrapping: false, indentUnit: 2, tabSize: 2,
+    extraKeys: { Tab: (cm) => cm.replaceSelection('  ') },
+  });
+  editorCss.on('change', () => {
     clearTimeout(previewDebounce);
     previewDebounce = setTimeout(updatePreview, 500);
   });
@@ -50,8 +61,25 @@ function loadLesson(id) {
   updateProgressBar();
 
   const alreadyDone = completedLessons.includes(id);
-  editor.setValue(alreadyDone ? currentLesson.solution : currentLesson.starterCode);
+  const isSplit     = currentLesson.starterCss !== undefined;
+
+  // Show/hide CSS tab based on lesson type
+  const tabCss  = document.getElementById('tab-css');
+  const wrapCss = document.getElementById('wrap-css');
+  if (tabCss)  tabCss.style.display  = isSplit ? '' : 'none';
+  if (wrapCss) wrapCss.style.display = 'none';
+
+  if (isSplit) {
+    editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
+    editorCss.setValue(alreadyDone ? currentLesson.solutionCss : currentLesson.starterCss);
+    switchEditorTab('css'); // start on CSS tab for CSS lessons
+  } else {
+    editor.setValue(alreadyDone ? currentLesson.solution : currentLesson.starterCode);
+    switchEditorTab('html');
+  }
+
   editor.clearHistory();
+  editorCss.clearHistory();
 
   clearFeedback();
   updateNavButtons(id);
@@ -64,28 +92,45 @@ function loadLesson(id) {
     }
   }
 
-  setTimeout(() => { editor.refresh(); updatePreview(); }, 50);
+  setTimeout(() => { editor.refresh(); editorCss.refresh(); updatePreview(); }, 50);
 }
 
 // ── PREVIEW ───────────────────────────────────────────
 function updatePreview() {
-  const code   = editor ? editor.getValue() : '';
+  const html = editor ? editor.getValue() : '';
+  const css  = editorCss ? editorCss.getValue() : '';
+  // Inject CSS into <head> when using split mode
+  const combined = (css.trim() && !html.includes('<style>'))
+    ? html.replace('</head>', `<style>\n${css}\n</style>\n</head>`)
+    : html;
   const iframe = document.getElementById('preview-frame');
   try {
     const doc = iframe.contentDocument || iframe.contentWindow.document;
-    doc.open(); doc.write(code); doc.close();
-  } catch (e) { iframe.srcdoc = code; }
+    doc.open(); doc.write(combined); doc.close();
+  } catch (e) { iframe.srcdoc = combined; }
 }
 
 // ── EXERCISE VERIFICATION ─────────────────────────────
 function verifyCode() {
-  const code = editor.getValue().trim();
-  if (!code || code === currentLesson.starterCode) {
-    showToast('Escribe algo de código primero 😊', 'warn'); return;
+  const isSplit   = currentLesson.starterCss !== undefined;
+  const htmlCode  = editor.getValue().trim();
+  const cssCode   = editorCss ? editorCss.getValue().trim() : '';
+
+  // What gets checked: CSS string for split lessons, full HTML for HTML lessons
+  const checkCode = isSplit ? cssCode : htmlCode;
+
+  if (!checkCode || (!isSplit && checkCode === currentLesson.starterCode)) {
+    showToast('Escribí algo de código primero 😊', 'warn'); return;
   }
+
+  // Build combined HTML for element checks (DOMParser)
+  const fullHtml = (cssCode && !htmlCode.includes('<style>'))
+    ? htmlCode.replace('</head>', `<style>${cssCode}</style></head>`)
+    : htmlCode;
+
   const parser  = new DOMParser();
-  const doc     = parser.parseFromString(code, 'text/html');
-  const results = currentLesson.checks.map(check => runCheck(check, code, doc));
+  const doc     = parser.parseFromString(fullHtml, 'text/html');
+  const results = currentLesson.checks.map(check => runCheck(check, checkCode, doc));
 
   displayResults(results);
   if (results.every(r => r.passed)) markComplete();
@@ -288,13 +333,27 @@ function navigateTo(id) {
 }
 function resetCode() {
   if (confirm('¿Resetear el código al ejemplo inicial?')) {
-    editor.setValue(currentLesson.starterCode);
-    editor.clearHistory(); clearFeedback(); updatePreview();
+    const isSplit = currentLesson.starterCss !== undefined;
+    if (isSplit) {
+      editor.setValue(currentLesson.starterHtml);
+      editorCss.setValue(currentLesson.starterCss);
+    } else {
+      editor.setValue(currentLesson.starterCode);
+    }
+    editor.clearHistory(); editorCss.clearHistory();
+    clearFeedback(); updatePreview();
   }
 }
 function showSolution() {
   if (confirm('¿Ver la solución? Te recomendamos intentarlo primero.')) {
-    editor.setValue(currentLesson.solution); updatePreview();
+    const isSplit = currentLesson.starterCss !== undefined;
+    if (isSplit) {
+      editor.setValue(currentLesson.solutionHtml);
+      editorCss.setValue(currentLesson.solutionCss);
+    } else {
+      editor.setValue(currentLesson.solution);
+    }
+    updatePreview();
   }
 }
 function showToast(msg, type = 'info') {
@@ -303,6 +362,23 @@ function showToast(msg, type = 'info') {
   document.body.appendChild(t);
   setTimeout(() => t.classList.add('toast-visible'), 10);
   setTimeout(() => { t.classList.remove('toast-visible'); setTimeout(() => t.remove(), 300); }, 2500);
+}
+
+// ── EDITOR TAB SWITCHER ───────────────────────────────
+function switchEditorTab(tab) {
+  activeEditorTab = tab;
+  const wrapHtml = document.getElementById('wrap-html');
+  const wrapCss  = document.getElementById('wrap-css');
+  const tabHtml  = document.getElementById('tab-html');
+  const tabCss   = document.getElementById('tab-css');
+  if (wrapHtml) wrapHtml.style.display = tab === 'html' ? '' : 'none';
+  if (wrapCss)  wrapCss.style.display  = tab === 'css'  ? '' : 'none';
+  if (tabHtml)  tabHtml.classList.toggle('active', tab === 'html');
+  if (tabCss)   tabCss.classList.toggle('active',  tab === 'css');
+  setTimeout(() => {
+    if (tab === 'html' && editor)    editor.refresh();
+    if (tab === 'css'  && editorCss) editorCss.refresh();
+  }, 10);
 }
 
 // ── PANEL RESIZERS ────────────────────────────────────

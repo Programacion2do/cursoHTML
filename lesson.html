@@ -104,10 +104,14 @@
     <!-- CENTER: Code editor -->
     <section class="panel-editor">
       <div class="editor-topbar">
-        <div class="editor-tab">index.html</div>
+        <div class="editor-tab active" id="tab-html" onclick="switchEditorTab('html')">index.html</div>
+        <div class="editor-tab editor-tab-css" id="tab-css" onclick="switchEditorTab('css')" style="display:none">style.css</div>
       </div>
-      <div class="editor-wrap">
+      <div class="editor-wrap" id="wrap-html">
         <textarea id="code-editor"></textarea>
+      </div>
+      <div class="editor-wrap" id="wrap-css" style="display:none">
+        <textarea id="code-editor-css"></textarea>
       </div>
     </section>
 
@@ -129,6 +133,7 @@
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
   <script src="js/lessons.js"></script>
   <script src="js/css-lessons.js"></script>
