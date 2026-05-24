@@ -137,7 +137,7 @@ let activo  = true;            // boolean (verdadero/falso)
 let frutas  = ['🍎','🍌','🍊']; // array (lista)</code></pre>
 
       <h3>Template literals — combinar texto y variables</h3>
-      <p>Usás backticks <code>`...`</code> y <code>\${variable}</code> para mezclar texto con valores:</p>
+      <p>Usás backticks <code>\`...\`</code> y <code>\${variable}</code> para mezclar texto con valores:</p>
       <pre><code>let nombre = 'Sofía';
 let edad   = 17;
 let frase  = \`Me llamo \${nombre} y tengo \${edad} años.\`;
