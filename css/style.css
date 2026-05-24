@@ -587,6 +587,10 @@ code, pre {
 .editor-tab-css.active   { border-bottom-color: #38bdf8; color: #e0f2fe; }
 .editor-tab-css:hover    { color: #bae6fd; }
 
+.editor-tab-js::before   { background: #fbbf24; }
+.editor-tab-js.active    { border-bottom-color: #fbbf24; color: #fef3c7; }
+.editor-tab-js:hover     { color: #fde68a; }
+
 .editor-wrap {
   flex: 1;
   overflow: hidden;

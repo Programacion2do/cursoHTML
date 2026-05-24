@@ -21,6 +21,9 @@
     <button class="course-tab" data-course="css" onclick="switchCourse('css')">
       🎨 CSS
     </button>
+    <button class="course-tab" data-course="js" onclick="switchCourse('js')">
+      ⚡ JavaScript
+    </button>
   </nav>
 
   <main class="home-main">
@@ -33,6 +36,7 @@
 
   <script src="js/lessons.js"></script>
   <script src="js/css-lessons.js"></script>
+  <script src="js/js-lessons.js"></script>
   <script>
     const COURSES = {
       html: {
@@ -56,6 +60,17 @@
         totalTime:   '~1 hora',
         level:       'Principiante',
         link:        id => `lesson.html?course=css&id=${id}`,
+      },
+      js: {
+        lessons:     jsLessons,
+        progressKey: 'jscourse_progress',
+        quizKey:     'jscourse_quiz',
+        accent:      '#fbbf24',
+        label:       'JavaScript',
+        desc:        'Dale vida a tus páginas. Modificá el DOM, reaccioná a eventos y escribí lógica con variables, funciones y condicionales.',
+        totalTime:   '~1.5 horas',
+        level:       'Principiante',
+        link:        id => `lesson.html?course=js&id=${id}`,
       }
     };
 

@@ -1,11 +1,15 @@
 // ── COURSE DETECTION ─────────────────────────────────
 const _urlParams   = new URLSearchParams(window.location.search);
 const _course      = _urlParams.get('course') || 'html';
-const _lessons     = _course === 'css'
-  ? (typeof cssLessons !== 'undefined' ? cssLessons : [])
-  : lessons;
-const _progressKey = _course === 'css' ? 'csscourse_progress' : 'htmlcourse_progress';
-const _quizKey     = _course === 'css' ? 'csscourse_quiz'     : 'htmlcourse_quiz';
+const _lessons     = _course === 'css' ? (typeof cssLessons !== 'undefined' ? cssLessons : [])
+                   : _course === 'js'  ? (typeof jsLessons  !== 'undefined' ? jsLessons  : [])
+                   : lessons;
+const _progressKey = _course === 'css' ? 'csscourse_progress'
+                   : _course === 'js'  ? 'jscourse_progress'
+                   : 'htmlcourse_progress';
+const _quizKey     = _course === 'css' ? 'csscourse_quiz'
+                   : _course === 'js'  ? 'jscourse_quiz'
+                   : 'htmlcourse_quiz';
 
 // ── STATE ────────────────────────────────────────────
 let editor          = null;
@@ -58,25 +62,36 @@ function loadLesson(id) {
 
   // Update topbar logo to match the active course
   const logoSpan = document.querySelector('.topbar-logo span');
-  if (logoSpan) logoSpan.textContent = _course === 'css' ? 'CSS' : 'HTML';
+  if (logoSpan) logoSpan.textContent = _course === 'css' ? 'CSS' : _course === 'js' ? 'JS' : 'HTML';
   document.getElementById('theory-content').innerHTML        = currentLesson.theory;
   document.getElementById('instructions-text').textContent   = currentLesson.instructions;
 
   updateProgressBar();
 
   const alreadyDone = completedLessons.includes(id);
-  const isSplit     = currentLesson.starterCss !== undefined;
+  const isJs        = currentLesson.starterJs  !== undefined;
+  const isCss       = currentLesson.starterCss !== undefined;
+  const isSplit     = isJs || isCss;
 
-  // Show/hide CSS tab based on lesson type
+  // Show/hide secondary tab based on lesson type
   const tabCss  = document.getElementById('tab-css');
   const wrapCss = document.getElementById('wrap-css');
   if (tabCss)  tabCss.style.display  = isSplit ? '' : 'none';
   if (wrapCss) wrapCss.style.display = 'none';
 
   if (isSplit) {
-    editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
-    editorCss.setValue(alreadyDone ? currentLesson.solutionCss : currentLesson.starterCss);
-    switchEditorTab('css'); // start on CSS tab for CSS lessons
+    if (isJs) {
+      editorCss.setOption('mode', 'javascript');
+      if (tabCss) { tabCss.textContent = 'script.js'; tabCss.className = 'editor-tab editor-tab-js'; }
+      editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
+      editorCss.setValue(alreadyDone ? currentLesson.solutionJs  : currentLesson.starterJs);
+    } else {
+      editorCss.setOption('mode', 'css');
+      if (tabCss) { tabCss.textContent = 'style.css'; tabCss.className = 'editor-tab editor-tab-css'; }
+      editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
+      editorCss.setValue(alreadyDone ? currentLesson.solutionCss : currentLesson.starterCss);
+    }
+    switchEditorTab('css');
   } else {
     editor.setValue(alreadyDone ? currentLesson.solution : currentLesson.starterCode);
     switchEditorTab('html');
@@ -101,12 +116,21 @@ function loadLesson(id) {
 
 // ── PREVIEW ───────────────────────────────────────────
 function updatePreview() {
-  const html = editor ? editor.getValue() : '';
-  const css  = editorCss ? editorCss.getValue() : '';
-  // Inject CSS into <head> when using split mode
-  const combined = (css.trim() && !html.includes('<style>'))
-    ? html.replace('</head>', `<style>\n${css}\n</style>\n</head>`)
-    : html;
+  const html      = editor    ? editor.getValue()    : '';
+  const secondary = editorCss ? editorCss.getValue() : '';
+  const isJs      = currentLesson && currentLesson.starterJs !== undefined;
+  let combined;
+  if (isJs && secondary.trim()) {
+    // Inject JS before </body>
+    combined = html.includes('</body>')
+      ? html.replace('</body>', `<script>\n${secondary}\n<\/script>\n</body>`)
+      : html + `<script>\n${secondary}\n<\/script>`;
+  } else if (!isJs && secondary.trim() && !html.includes('<style>')) {
+    // Inject CSS into <head>
+    combined = html.replace('</head>', `<style>\n${secondary}\n</style>\n</head>`);
+  } else {
+    combined = html;
+  }
   const iframe = document.getElementById('preview-frame');
   try {
     const doc = iframe.contentDocument || iframe.contentWindow.document;
@@ -116,21 +140,28 @@ function updatePreview() {
 
 // ── EXERCISE VERIFICATION ─────────────────────────────
 function verifyCode() {
-  const isSplit   = currentLesson.starterCss !== undefined;
+  const isJs      = currentLesson.starterJs  !== undefined;
+  const isCss     = currentLesson.starterCss !== undefined;
+  const isSplit   = isJs || isCss;
   const htmlCode  = editor.getValue().trim();
-  const cssCode   = editorCss ? editorCss.getValue().trim() : '';
+  const secCode   = editorCss ? editorCss.getValue().trim() : '';
 
-  // What gets checked: CSS string for split lessons, full HTML for HTML lessons
-  const checkCode = isSplit ? cssCode : htmlCode;
+  // What gets checked: secondary code for split lessons, full HTML for HTML lessons
+  const checkCode = isSplit ? secCode : htmlCode;
 
   if (!checkCode || (!isSplit && checkCode === currentLesson.starterCode)) {
     showToast('Escribí algo de código primero 😊', 'warn'); return;
   }
 
   // Build combined HTML for element checks (DOMParser)
-  const fullHtml = (cssCode && !htmlCode.includes('<style>'))
-    ? htmlCode.replace('</head>', `<style>${cssCode}</style></head>`)
-    : htmlCode;
+  let fullHtml;
+  if (isJs && secCode) {
+    fullHtml = htmlCode.replace('</body>', `<script>${secCode}</script></body>`);
+  } else if (isCss && secCode && !htmlCode.includes('<style>')) {
+    fullHtml = htmlCode.replace('</head>', `<style>${secCode}</style></head>`);
+  } else {
+    fullHtml = htmlCode;
+  }
 
   const parser  = new DOMParser();
   const doc     = parser.parseFromString(fullHtml, 'text/html');
@@ -337,8 +368,12 @@ function navigateTo(id) {
 }
 function resetCode() {
   if (confirm('¿Resetear el código al ejemplo inicial?')) {
-    const isSplit = currentLesson.starterCss !== undefined;
-    if (isSplit) {
+    const isJs  = currentLesson.starterJs  !== undefined;
+    const isCss = currentLesson.starterCss !== undefined;
+    if (isJs) {
+      editor.setValue(currentLesson.starterHtml);
+      editorCss.setValue(currentLesson.starterJs);
+    } else if (isCss) {
       editor.setValue(currentLesson.starterHtml);
       editorCss.setValue(currentLesson.starterCss);
     } else {
@@ -350,8 +385,12 @@ function resetCode() {
 }
 function showSolution() {
   if (confirm('¿Ver la solución? Te recomendamos intentarlo primero.')) {
-    const isSplit = currentLesson.starterCss !== undefined;
-    if (isSplit) {
+    const isJs  = currentLesson.starterJs  !== undefined;
+    const isCss = currentLesson.starterCss !== undefined;
+    if (isJs) {
+      editor.setValue(currentLesson.solutionHtml);
+      editorCss.setValue(currentLesson.solutionJs);
+    } else if (isCss) {
       editor.setValue(currentLesson.solutionHtml);
       editorCss.setValue(currentLesson.solutionCss);
     } else {
