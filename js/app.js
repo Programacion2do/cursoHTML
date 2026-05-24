@@ -12,9 +12,10 @@ const _quizKey     = _course === 'css' ? 'csscourse_quiz'
                    : 'htmlcourse_quiz';
 
 // ── STATE ────────────────────────────────────────────
-let editor          = null;
-let editorCss       = null;   // second editor for CSS course
-let activeEditorTab = 'html'; // 'html' | 'css'
+let editor          = null;   // index.html  (xml mode)
+let editorCss       = null;   // style.css   (css mode)
+let editorJs        = null;   // script.js   (javascript mode)
+let activeEditorTab = 'html'; // 'html' | 'css' | 'js'
 let currentLesson   = null;
 let previewDebounce = null;
 let quizAnswers     = {};   // { questionIndex: optionIndex }
@@ -47,6 +48,16 @@ document.addEventListener('DOMContentLoaded', () => {
     previewDebounce = setTimeout(updatePreview, 500);
   });
 
+  editorJs = CodeMirror.fromTextArea(document.getElementById('code-editor-js'), {
+    mode: 'javascript', theme: 'material-darker', lineNumbers: true,
+    lineWrapping: false, indentUnit: 2, tabSize: 2,
+    extraKeys: { Tab: (cm) => cm.replaceSelection('  ') },
+  });
+  editorJs.on('change', () => {
+    clearTimeout(previewDebounce);
+    previewDebounce = setTimeout(updatePreview, 500);
+  });
+
   initResizers();
   loadLesson(lessonId);
 });
@@ -71,34 +82,40 @@ function loadLesson(id) {
   const alreadyDone = completedLessons.includes(id);
   const isJs        = currentLesson.starterJs  !== undefined;
   const isCss       = currentLesson.starterCss !== undefined;
-  const isSplit     = isJs || isCss;
 
-  // Show/hide secondary tab based on lesson type
-  const tabCss  = document.getElementById('tab-css');
+  // Show/hide tabs based on lesson type
+  const tabCss = document.getElementById('tab-css');
+  const tabJs  = document.getElementById('tab-js');
   const wrapCss = document.getElementById('wrap-css');
-  if (tabCss)  tabCss.style.display  = isSplit ? '' : 'none';
+  const wrapJs  = document.getElementById('wrap-js');
+  if (tabCss)  tabCss.style.display  = isCss ? '' : 'none';
+  if (tabJs)   tabJs.style.display   = isJs  ? '' : 'none';
   if (wrapCss) wrapCss.style.display = 'none';
+  if (wrapJs)  wrapJs.style.display  = 'none';
 
-  if (isSplit) {
-    if (isJs) {
-      editorCss.setOption('mode', 'javascript');
-      if (tabCss) { tabCss.textContent = 'script.js'; tabCss.className = 'editor-tab editor-tab-js'; }
-      editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
-      editorCss.setValue(alreadyDone ? currentLesson.solutionJs  : currentLesson.starterJs);
-    } else {
-      editorCss.setOption('mode', 'css');
-      if (tabCss) { tabCss.textContent = 'style.css'; tabCss.className = 'editor-tab editor-tab-css'; }
-      editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
-      editorCss.setValue(alreadyDone ? currentLesson.solutionCss : currentLesson.starterCss);
-    }
+  if (isJs) {
+    // JS lesson: 3 tabs (html readonly-ish, css readonly-ish, js editable)
+    editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
+    editorCss.setValue(alreadyDone ? (currentLesson.solutionCss || currentLesson.starterCss || '') : (currentLesson.starterCss || ''));
+    editorJs.setValue(alreadyDone ? currentLesson.solutionJs : currentLesson.starterJs);
+    switchEditorTab('js');
+  } else if (isCss) {
+    // CSS lesson: 2 tabs (html readonly-ish, css editable)
+    editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
+    editorCss.setValue(alreadyDone ? currentLesson.solutionCss : currentLesson.starterCss);
+    editorJs.setValue('');
     switchEditorTab('css');
   } else {
+    // HTML lesson: 1 tab
     editor.setValue(alreadyDone ? currentLesson.solution : currentLesson.starterCode);
+    editorCss.setValue('');
+    editorJs.setValue('');
     switchEditorTab('html');
   }
 
   editor.clearHistory();
   editorCss.clearHistory();
+  editorJs.clearHistory();
 
   clearFeedback();
   updateNavButtons(id);
@@ -111,25 +128,22 @@ function loadLesson(id) {
     }
   }
 
-  setTimeout(() => { editor.refresh(); editorCss.refresh(); updatePreview(); }, 50);
+  setTimeout(() => { editor.refresh(); editorCss.refresh(); editorJs.refresh(); updatePreview(); }, 50);
 }
 
 // ── PREVIEW ───────────────────────────────────────────
 function updatePreview() {
-  const html      = editor    ? editor.getValue()    : '';
-  const secondary = editorCss ? editorCss.getValue() : '';
-  const isJs      = currentLesson && currentLesson.starterJs !== undefined;
-  let combined;
-  if (isJs && secondary.trim()) {
-    // Inject JS before </body>
-    combined = html.includes('</body>')
-      ? html.replace('</body>', `<script>\n${secondary}\n<\/script>\n</body>`)
-      : html + `<script>\n${secondary}\n<\/script>`;
-  } else if (!isJs && secondary.trim() && !html.includes('<style>')) {
-    // Inject CSS into <head>
-    combined = html.replace('</head>', `<style>\n${secondary}\n</style>\n</head>`);
-  } else {
-    combined = html;
+  const html = editor    ? editor.getValue()    : '';
+  const css  = editorCss ? editorCss.getValue() : '';
+  const js   = editorJs  ? editorJs.getValue()  : '';
+  let combined = html;
+  if (css.trim() && !combined.includes('<style>')) {
+    combined = combined.replace('</head>', `<style>\n${css}\n</style>\n</head>`);
+  }
+  if (js.trim()) {
+    combined = combined.includes('</body>')
+      ? combined.replace('</body>', `<script>\n${js}\n<\/script>\n</body>`)
+      : combined + `<script>\n${js}\n<\/script>`;
   }
   const iframe = document.getElementById('preview-frame');
   try {
@@ -140,27 +154,26 @@ function updatePreview() {
 
 // ── EXERCISE VERIFICATION ─────────────────────────────
 function verifyCode() {
-  const isJs      = currentLesson.starterJs  !== undefined;
-  const isCss     = currentLesson.starterCss !== undefined;
-  const isSplit   = isJs || isCss;
-  const htmlCode  = editor.getValue().trim();
-  const secCode   = editorCss ? editorCss.getValue().trim() : '';
+  const isJs     = currentLesson.starterJs  !== undefined;
+  const isCss    = currentLesson.starterCss !== undefined;
+  const htmlCode = editor.getValue().trim();
+  const cssCode  = editorCss ? editorCss.getValue().trim() : '';
+  const jsCode   = editorJs  ? editorJs.getValue().trim()  : '';
 
-  // What gets checked: secondary code for split lessons, full HTML for HTML lessons
-  const checkCode = isSplit ? secCode : htmlCode;
+  // What gets checked depends on lesson type
+  const checkCode = isJs ? jsCode : isCss ? cssCode : htmlCode;
 
-  if (!checkCode || (!isSplit && checkCode === currentLesson.starterCode)) {
+  if (!checkCode || (!isJs && !isCss && checkCode === currentLesson.starterCode)) {
     showToast('Escribí algo de código primero 😊', 'warn'); return;
   }
 
   // Build combined HTML for element checks (DOMParser)
-  let fullHtml;
-  if (isJs && secCode) {
-    fullHtml = htmlCode.replace('</body>', `<script>${secCode}</script></body>`);
-  } else if (isCss && secCode && !htmlCode.includes('<style>')) {
-    fullHtml = htmlCode.replace('</head>', `<style>${secCode}</style></head>`);
-  } else {
-    fullHtml = htmlCode;
+  let fullHtml = htmlCode;
+  if (cssCode && !htmlCode.includes('<style>')) {
+    fullHtml = fullHtml.replace('</head>', `<style>${cssCode}</style></head>`);
+  }
+  if (jsCode) {
+    fullHtml = fullHtml.replace('</body>', `<script>${jsCode}<\/script></body>`);
   }
 
   const parser  = new DOMParser();
@@ -372,14 +385,18 @@ function resetCode() {
     const isCss = currentLesson.starterCss !== undefined;
     if (isJs) {
       editor.setValue(currentLesson.starterHtml);
-      editorCss.setValue(currentLesson.starterJs);
+      editorCss.setValue(currentLesson.starterCss || '');
+      editorJs.setValue(currentLesson.starterJs);
     } else if (isCss) {
       editor.setValue(currentLesson.starterHtml);
       editorCss.setValue(currentLesson.starterCss);
+      editorJs.setValue('');
     } else {
       editor.setValue(currentLesson.starterCode);
+      editorCss.setValue('');
+      editorJs.setValue('');
     }
-    editor.clearHistory(); editorCss.clearHistory();
+    editor.clearHistory(); editorCss.clearHistory(); editorJs.clearHistory();
     clearFeedback(); updatePreview();
   }
 }
@@ -389,12 +406,16 @@ function showSolution() {
     const isCss = currentLesson.starterCss !== undefined;
     if (isJs) {
       editor.setValue(currentLesson.solutionHtml);
-      editorCss.setValue(currentLesson.solutionJs);
+      editorCss.setValue(currentLesson.solutionCss || currentLesson.starterCss || '');
+      editorJs.setValue(currentLesson.solutionJs);
     } else if (isCss) {
       editor.setValue(currentLesson.solutionHtml);
       editorCss.setValue(currentLesson.solutionCss);
+      editorJs.setValue('');
     } else {
       editor.setValue(currentLesson.solution);
+      editorCss.setValue('');
+      editorJs.setValue('');
     }
     updatePreview();
   }
@@ -412,15 +433,20 @@ function switchEditorTab(tab) {
   activeEditorTab = tab;
   const wrapHtml = document.getElementById('wrap-html');
   const wrapCss  = document.getElementById('wrap-css');
+  const wrapJs   = document.getElementById('wrap-js');
   const tabHtml  = document.getElementById('tab-html');
   const tabCss   = document.getElementById('tab-css');
+  const tabJs    = document.getElementById('tab-js');
   if (wrapHtml) wrapHtml.style.display = tab === 'html' ? '' : 'none';
   if (wrapCss)  wrapCss.style.display  = tab === 'css'  ? '' : 'none';
+  if (wrapJs)   wrapJs.style.display   = tab === 'js'   ? '' : 'none';
   if (tabHtml)  tabHtml.classList.toggle('active', tab === 'html');
   if (tabCss)   tabCss.classList.toggle('active',  tab === 'css');
+  if (tabJs)    tabJs.classList.toggle('active',   tab === 'js');
   setTimeout(() => {
     if (tab === 'html' && editor)    editor.refresh();
     if (tab === 'css'  && editorCss) editorCss.refresh();
+    if (tab === 'js'   && editorJs)  editorJs.refresh();
   }, 10);
 }
 

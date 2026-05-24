@@ -33,12 +33,6 @@ document.getElementById('caja').style.backgroundColor = '#1a1a2e';</code></pre>
 <html>
   <head>
     <title>Mi primera app JS ⚡</title>
-    <style>
-      body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      h1   { color: #9f67ff; }
-      #mensaje { color: #94a3b8; font-size: 1.1rem; }
-      #estado  { display: inline-block; padding: 4px 14px; border-radius: 20px; background: #1c1c35; color: #64748b; }
-    </style>
   </head>
   <body>
     <h1 id="titulo">Hola, mundo</h1>
@@ -46,6 +40,10 @@ document.getElementById('caja').style.backgroundColor = '#1a1a2e';</code></pre>
     <p id="estado">Estado: apagado</p>
   </body>
 </html>`,
+    starterCss: `body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
+h1   { color: #9f67ff; }
+#mensaje { color: #94a3b8; font-size: 1.1rem; }
+#estado  { display: inline-block; padding: 4px 14px; border-radius: 20px; background: #1c1c35; color: #64748b; }`,
     starterJs: `// ⚡ Escribí tu JavaScript acá
 
 // Podés acceder a un elemento por su id:
@@ -62,12 +60,6 @@ document.getElementById('caja').style.backgroundColor = '#1a1a2e';</code></pre>
 <html>
   <head>
     <title>Mi primera app JS ⚡</title>
-    <style>
-      body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      h1   { color: #9f67ff; }
-      #mensaje { color: #94a3b8; font-size: 1.1rem; }
-      #estado  { display: inline-block; padding: 4px 14px; border-radius: 20px; background: #1c1c35; color: #64748b; }
-    </style>
   </head>
   <body>
     <h1 id="titulo">Hola, mundo</h1>
@@ -151,11 +143,6 @@ document.getElementById('total').textContent = \`Total: $\${precio * 1.21}\`;</c
 <html>
   <head>
     <title>Mi perfil 📦</title>
-    <style>
-      body     { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      #saludo  { font-size: 1.2rem; color: #a78bfa; background: #1e1e2e; padding: 16px 20px; border-radius: 10px; margin: 20px 0; }
-      #extra   { color: #94a3b8; }
-    </style>
   </head>
   <body>
     <h1>Mi perfil 📦</h1>
@@ -163,6 +150,9 @@ document.getElementById('total').textContent = \`Total: $\${precio * 1.21}\`;</c
     <p id="extra"></p>
   </body>
 </html>`,
+    starterCss: `body     { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
+#saludo  { font-size: 1.2rem; color: #a78bfa; background: #1e1e2e; padding: 16px 20px; border-radius: 10px; margin: 20px 0; }
+#extra   { color: #94a3b8; }`,
     starterJs: `// 📦 Variables y datos
 
 // 1. Declarar una variable con let para tu nombre:
@@ -179,11 +169,6 @@ const materia = '';
 <html>
   <head>
     <title>Mi perfil 📦</title>
-    <style>
-      body     { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      #saludo  { font-size: 1.2rem; color: #a78bfa; background: #1e1e2e; padding: 16px 20px; border-radius: 10px; margin: 20px 0; }
-      #extra   { color: #94a3b8; }
-    </style>
   </head>
   <body>
     <h1>Mi perfil 📦</h1>
@@ -277,11 +262,6 @@ if (nota >= 6) {
 <html>
   <head>
     <title>Clima hoy 🌤️</title>
-    <style>
-      body    { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      #clima  { font-size: 1.4rem; font-weight: bold; margin: 20px 0; padding: 16px; border-radius: 8px; background: #1e1e2e; }
-      #detalle { color: #94a3b8; }
-    </style>
   </head>
   <body>
     <h1>🌤️ ¿Qué tiempo hace?</h1>
@@ -289,6 +269,9 @@ if (nota >= 6) {
     <p id="detalle"></p>
   </body>
 </html>`,
+    starterCss: `body    { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
+#clima  { font-size: 1.4rem; font-weight: bold; margin: 20px 0; padding: 16px; border-radius: 8px; background: #1e1e2e; }
+#detalle { color: #94a3b8; }`,
     starterJs: `// 🔀 Condicionales if / else
 
 // Cambiá este número para probar los tres casos:
@@ -304,11 +287,6 @@ let temperatura = 35;
 <html>
   <head>
     <title>Clima hoy 🌤️</title>
-    <style>
-      body    { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      #clima  { font-size: 1.4rem; font-weight: bold; margin: 20px 0; padding: 16px; border-radius: 8px; background: #1e1e2e; }
-      #detalle { color: #94a3b8; }
-    </style>
   </head>
   <body>
     <h1>🌤️ ¿Qué tiempo hace?</h1>
@@ -398,11 +376,6 @@ document.getElementById('prom').textContent = prom;</code></pre>
 <html>
   <head>
     <title>Calculadora de notas 🧮</title>
-    <style>
-      body       { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      #resultado { font-size: 2rem; font-weight: bold; color: #a78bfa; margin: 16px 0; }
-      #estado    { font-size: 1.1rem; padding: 8px 16px; border-radius: 20px; display: inline-block; background: #1e1e2e; }
-    </style>
   </head>
   <body>
     <h1>🧮 Calculadora de notas</h1>
@@ -411,6 +384,9 @@ document.getElementById('prom').textContent = prom;</code></pre>
     <p id="estado">Estado: ?</p>
   </body>
 </html>`,
+    starterCss: `body       { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
+#resultado { font-size: 2rem; font-weight: bold; color: #a78bfa; margin: 16px 0; }
+#estado    { font-size: 1.1rem; padding: 8px 16px; border-radius: 20px; display: inline-block; background: #1e1e2e; }`,
     starterJs: `// 🧩 Funciones
 
 // 1. Definí la función calcularPromedio con tres parámetros:
@@ -431,11 +407,6 @@ let promedio = calcularPromedio(8, 7, 9);
 <html>
   <head>
     <title>Calculadora de notas 🧮</title>
-    <style>
-      body       { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      #resultado { font-size: 2rem; font-weight: bold; color: #a78bfa; margin: 16px 0; }
-      #estado    { font-size: 1.1rem; padding: 8px 16px; border-radius: 20px; display: inline-block; background: #1e1e2e; }
-    </style>
   </head>
   <body>
     <h1>🧮 Calculadora de notas</h1>
@@ -520,13 +491,6 @@ document.querySelector('#caja').innerHTML = '&lt;strong&gt;Negrita&lt;/strong&gt
 <html>
   <head>
     <title>Mi lista 🌐</title>
-    <style>
-      body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      h2   { color: #a78bfa; }
-      ul   { padding-left: 20px; }
-      li   { padding: 4px 0; font-size: 1rem; }
-      #info { background: #1e1e2e; padding: 14px; border-radius: 8px; margin-top: 20px; color: #94a3b8; }
-    </style>
   </head>
   <body>
     <h2>Mis series favoritas</h2>
@@ -539,6 +503,11 @@ document.querySelector('#caja').innerHTML = '&lt;strong&gt;Negrita&lt;/strong&gt
     <div id="info">Información adicional aquí...</div>
   </body>
 </html>`,
+    starterCss: `body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
+h2   { color: #a78bfa; }
+ul   { padding-left: 20px; }
+li   { padding: 4px 0; font-size: 1rem; }
+#info { background: #1e1e2e; padding: 14px; border-radius: 8px; margin-top: 20px; color: #94a3b8; }`,
     starterJs: `// 🌐 Manipulando el DOM
 
 // 1. Usá querySelector para seleccionar el h2 y cambiar su textContent:
@@ -553,13 +522,6 @@ document.querySelector('#caja').innerHTML = '&lt;strong&gt;Negrita&lt;/strong&gt
 <html>
   <head>
     <title>Mi lista 🌐</title>
-    <style>
-      body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; }
-      h2   { color: #a78bfa; }
-      ul   { padding-left: 20px; }
-      li   { padding: 4px 0; font-size: 1rem; }
-      #info { background: #1e1e2e; padding: 14px; border-radius: 8px; margin-top: 20px; color: #94a3b8; }
-    </style>
   </head>
   <body>
     <h2>Mis series favoritas</h2>
@@ -647,13 +609,6 @@ boton.addEventListener('click', function() {
 <html>
   <head>
     <title>Interactividad 🖱️</title>
-    <style>
-      body          { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; text-align: center; }
-      #btn-cambiar  { background: #7c3aed; color: white; border: none; padding: 12px 28px; border-radius: 8px; font-size: 1rem; cursor: pointer; margin: 20px 0; transition: background 0.2s; }
-      #btn-cambiar:hover { background: #9f67ff; }
-      #mensaje      { font-size: 1.4rem; padding: 20px; border-radius: 10px; background: #1e1e2e; min-height: 60px; }
-      #contador     { color: #64748b; margin-top: 10px; }
-    </style>
   </head>
   <body>
     <h1>🖱️ Hacé clic</h1>
@@ -662,6 +617,11 @@ boton.addEventListener('click', function() {
     <p id="contador">Clics: 0</p>
   </body>
 </html>`,
+    starterCss: `body          { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; text-align: center; }
+#btn-cambiar  { background: #7c3aed; color: white; border: none; padding: 12px 28px; border-radius: 8px; font-size: 1rem; cursor: pointer; margin: 20px 0; transition: background 0.2s; }
+#btn-cambiar:hover { background: #9f67ff; }
+#mensaje      { font-size: 1.4rem; padding: 20px; border-radius: 10px; background: #1e1e2e; min-height: 60px; }
+#contador     { color: #64748b; margin-top: 10px; }`,
     starterJs: `// 🖱️ Eventos
 
 // Variable para contar clics (declarada FUERA del evento):
@@ -687,13 +647,6 @@ boton.addEventListener('click', function() {
 <html>
   <head>
     <title>Interactividad 🖱️</title>
-    <style>
-      body          { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding: 30px; text-align: center; }
-      #btn-cambiar  { background: #7c3aed; color: white; border: none; padding: 12px 28px; border-radius: 8px; font-size: 1rem; cursor: pointer; margin: 20px 0; transition: background 0.2s; }
-      #btn-cambiar:hover { background: #9f67ff; }
-      #mensaje      { font-size: 1.4rem; padding: 20px; border-radius: 10px; background: #1e1e2e; min-height: 60px; }
-      #contador     { color: #64748b; margin-top: 10px; }
-    </style>
   </head>
   <body>
     <h1>🖱️ Hacé clic</h1>
