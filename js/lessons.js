@@ -698,4 +698,163 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       }
     ]
   },
+
+  {
+    id: 10,
+    chapter: 4,
+    chapterTitle: "Capítulo 4: Formularios",
+    title: "Formularios completos",
+    duration: "15 min",
+    icon: "🎮",
+    theory: `
+      <h3>El contenedor invisible: <code>&lt;div&gt;</code></h3>
+      <p>El <code>&lt;div&gt;</code> es una caja invisible que agrupa elementos relacionados. No tiene estilo propio, pero es clave para organizar la página:</p>
+      <pre><code>&lt;div&gt;
+  &lt;h2&gt;Sección de datos&lt;/h2&gt;
+  &lt;p&gt;Todo esto va junto.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+      <h3><code>&lt;label&gt;</code> — la etiqueta inteligente</h3>
+      <p>Conecta un texto con su input usando <code>for</code> e <code>id</code>. Al hacer clic en el label, el input se activa:</p>
+      <pre><code>&lt;label for="usuario"&gt;Nombre de usuario:&lt;/label&gt;
+&lt;input type="text" id="usuario" name="usuario"&gt;</code></pre>
+
+      <h3>Menú desplegable: <code>&lt;select&gt;</code></h3>
+      <pre><code>&lt;select name="plataforma"&gt;
+  &lt;option value="pc"&gt;PC&lt;/option&gt;
+  &lt;option value="ps5"&gt;PlayStation 5&lt;/option&gt;
+  &lt;option value="xbox"&gt;Xbox&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+      <h3>Elegir uno: <code>type="radio"</code></h3>
+      <p>Los radio con el mismo <code>name</code> forman un grupo — solo se puede elegir uno:</p>
+      <pre><code>&lt;input type="radio" name="nivel" value="amateur" id="am"&gt;
+&lt;label for="am"&gt;Amateur&lt;/label&gt;
+
+&lt;input type="radio" name="nivel" value="pro" id="pro"&gt;
+&lt;label for="pro"&gt;Pro&lt;/label&gt;</code></pre>
+
+      <h3>Elegir varios: <code>type="checkbox"</code></h3>
+      <pre><code>&lt;input type="checkbox" name="terminos" id="terms"&gt;
+&lt;label for="terms"&gt;Acepto los términos&lt;/label&gt;</code></pre>
+
+      <h3>⚠️ El atributo <code>name</code> — el más importante</h3>
+      <p>Sin <code>name</code>, el servidor <strong>no recibe el dato</strong>. En Java, cada campo se lee así:</p>
+      <pre><code>// En el Servlet:
+String usuario = request.getParameter("usuario");
+String plataforma = request.getParameter("plataforma");</code></pre>
+      <p>El valor entre comillas de <code>getParameter</code> debe coincidir exactamente con el <code>name</code> del input.</p>
+
+      <h3>Enviar el formulario: <code>action</code> y <code>method</code></h3>
+      <pre><code>&lt;form action="/procesar" method="post"&gt;
+  ...
+&lt;/form&gt;</code></pre>
+      <ul>
+        <li><code>action</code> — URL del servlet que procesa el formulario</li>
+        <li><code>method="get"</code> — datos visibles en la URL (búsquedas)</li>
+        <li><code>method="post"</code> — datos ocultos (contraseñas, formularios)</li>
+      </ul>
+    `,
+    instructions: "Creá el formulario de inscripción para un torneo de gaming. Debe tener: un <div> que agrupe el formulario, campos con <label> y name, un <select> con 3 plataformas, dos <input type=\"radio\"> para elegir categoría (Amateur/Pro), un <input type=\"checkbox\"> para aceptar las reglas, y el <form> debe tener action y method.",
+    starterCode: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Torneo Gaming 🎮</title>
+  </head>
+  <body>
+    <h1>Inscripción al Torneo</h1>
+
+    <!-- 🎮 Armá el formulario completo
+         Acordate: cada input NECESITA un atributo name
+         para que el servidor pueda leer los datos -->
+
+    <form action="/inscribir" method="post">
+
+      <!-- 1. Un <div> que agrupe los campos -->
+      <!-- 2. <label> + <input type="text"> para el nombre (con name="nombre") -->
+      <!-- 3. <label> + <input type="email"> para el email (con name="email") -->
+      <!-- 4. <label> + <select name="plataforma"> con 3 opciones -->
+      <!-- 5. Dos <input type="radio" name="categoria"> (Amateur / Pro) con sus <label> -->
+      <!-- 6. <input type="checkbox" name="reglas"> + <label> para aceptar reglas -->
+      <!-- 7. <button type="submit"> -->
+
+    </form>
+  </body>
+</html>`,
+    solution: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Torneo Gaming 🎮</title>
+  </head>
+  <body>
+    <h1>Inscripción al Torneo</h1>
+
+    <form action="/inscribir" method="post">
+
+      <div>
+        <label for="nombre">Nombre de jugador:</label><br>
+        <input type="text" id="nombre" name="nombre" placeholder="Tu apodo gamer"><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="tu@email.com"><br><br>
+
+        <label for="plataforma">Plataforma:</label><br>
+        <select id="plataforma" name="plataforma">
+          <option value="pc">PC</option>
+          <option value="ps5">PlayStation 5</option>
+          <option value="xbox">Xbox Series X</option>
+          <option value="switch">Nintendo Switch</option>
+        </select><br><br>
+
+        <p>Categoría:</p>
+        <input type="radio" id="amateur" name="categoria" value="amateur">
+        <label for="amateur">Amateur</label>
+        <br>
+        <input type="radio" id="pro" name="categoria" value="pro">
+        <label for="pro">Pro</label><br><br>
+
+        <input type="checkbox" id="reglas" name="reglas" value="acepto">
+        <label for="reglas">Acepto las reglas del torneo</label><br><br>
+
+        <button type="submit">¡Inscribirme al torneo! 🎮</button>
+      </div>
+
+    </form>
+  </body>
+</html>`,
+    checks: [
+      { type: 'element',    selector: 'div',                    message: 'Usá un <div> para agrupar los campos del formulario',   hint: '<div>...</div> alrededor de todos los campos' },
+      { type: 'element',    selector: 'label[for]',             message: 'Usá <label for="id"> para cada campo',                 hint: '<label for="nombre">Nombre:</label>' },
+      { type: 'element',    selector: 'select',                 message: 'Agregá un menú desplegable <select>',                  hint: '<select name="plataforma"><option>...</option></select>' },
+      { type: 'minCount',   selector: 'option',     count: 3,   message: 'El <select> necesita al menos 3 opciones <option>',    hint: '<option value="pc">PC</option>' },
+      { type: 'element',    selector: 'input[type="radio"]',    message: 'Agregá al menos un <input type="radio">',              hint: '<input type="radio" name="categoria" value="amateur">' },
+      { type: 'element',    selector: 'input[type="checkbox"]', message: 'Agregá un <input type="checkbox">',                    hint: '<input type="checkbox" name="reglas">' },
+      { type: 'elementWithAttr', selector: 'input', attr: 'name', message: 'Los inputs deben tener el atributo name (¡lo lee el servidor!)', hint: 'Agregá name="nombredelcampo" a cada input' },
+      { type: 'elementWithAttr', selector: 'form',  attr: 'method', message: 'El <form> necesita el atributo method (get o post)', hint: '<form action="/ruta" method="post">' },
+    ],
+    quiz: [
+      {
+        question: '¿Para qué sirve el atributo <code>name</code> en los inputs de un formulario?',
+        options: [
+          'Para darle estilo visual al campo',
+          'Para identificar el campo cuando el servidor procesa el formulario',
+          'Es lo mismo que el atributo id',
+          'Para mostrar texto de ayuda dentro del campo'
+        ],
+        correct: 1,
+        explanation: '¡Correcto! name es el más importante: cuando el formulario se envía, el servidor recibe los datos como nombre=valor. En Java: request.getParameter("nombre"). Sin name, el servlet no puede leer ese campo.'
+      },
+      {
+        question: '¿Cuál es la diferencia entre <code>method="get"</code> y <code>method="post"</code>?',
+        options: [
+          'No hay diferencia, son intercambiables',
+          'get es más rápido, post es más lento',
+          'get muestra los datos en la URL, post los envía ocultos',
+          'post solo funciona con Java'
+        ],
+        correct: 2,
+        explanation: '¡Correcto! Con get los datos aparecen en la URL (?nombre=Juan&email=...) — útil para búsquedas. Con post van ocultos en el cuerpo de la petición — obligatorio para contraseñas y datos sensibles.'
+      }
+    ]
+  },
 ];
