@@ -55,6 +55,10 @@ function loadLesson(id) {
   document.getElementById('lesson-title').textContent        = currentLesson.title;
   document.getElementById('chapter-badge').textContent       = currentLesson.chapterTitle;
   document.getElementById('lesson-number').textContent       = `Lección ${id} de ${_lessons.length}`;
+
+  // Update topbar logo to match the active course
+  const logoSpan = document.querySelector('.topbar-logo span');
+  if (logoSpan) logoSpan.textContent = _course === 'css' ? 'CSS' : 'HTML';
   document.getElementById('theory-content').innerHTML        = currentLesson.theory;
   document.getElementById('instructions-text').textContent   = currentLesson.instructions;
 
