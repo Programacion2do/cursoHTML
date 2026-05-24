@@ -541,30 +541,48 @@ code, pre {
 .editor-topbar {
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
-  padding: 0 14px;
+  padding: 0;
   height: 38px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: stretch;
   flex-shrink: 0;
 }
-.editor-tab-css.active { color: #38bdf8; border-bottom-color: #38bdf8 !important; }
-.editor-tab-css:not(.active):hover { color: #7dd3fc; }
 
 .editor-tab {
   font-size: 0.8rem;
-  color: var(--text2);
+  font-weight: 500;
+  color: var(--text3);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
+  padding: 0 18px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  border-right: 1px solid var(--border);
+  transition: color 0.15s, border-bottom-color 0.15s, background 0.15s;
+  user-select: none;
+  white-space: nowrap;
+}
+.editor-tab:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.04);
+}
+.editor-tab.active {
+  color: var(--text);
+  border-bottom-color: var(--accent2);
+  background: var(--bg3);
 }
 .editor-tab::before {
   content: '';
-  width: 10px; height: 10px;
-  background: var(--accent2);
+  width: 9px; height: 9px;
   border-radius: 50%;
-  opacity: 0.7;
+  background: var(--accent2);
+  opacity: 0.6;
+  flex-shrink: 0;
 }
+.editor-tab-css::before  { background: #38bdf8; }
+.editor-tab-css.active   { border-bottom-color: #38bdf8; color: #e0f2fe; }
+.editor-tab-css:hover    { color: #bae6fd; }
 
 .editor-wrap {
   flex: 1;
