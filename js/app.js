@@ -1,11 +1,20 @@
+// ── COURSE DETECTION ─────────────────────────────────
+const _urlParams   = new URLSearchParams(window.location.search);
+const _course      = _urlParams.get('course') || 'html';
+const _lessons     = _course === 'css'
+  ? (typeof cssLessons !== 'undefined' ? cssLessons : [])
+  : lessons;
+const _progressKey = _course === 'css' ? 'csscourse_progress' : 'htmlcourse_progress';
+const _quizKey     = _course === 'css' ? 'csscourse_quiz'     : 'htmlcourse_quiz';
+
 // ── STATE ────────────────────────────────────────────
 let editor          = null;
 let currentLesson   = null;
 let previewDebounce = null;
 let quizAnswers     = {};   // { questionIndex: optionIndex }
 
-let completedLessons = JSON.parse(localStorage.getItem('htmlcourse_progress') || '[]');
-let completedQuizzes = JSON.parse(localStorage.getItem('htmlcourse_quiz')     || '[]');
+let completedLessons = JSON.parse(localStorage.getItem(_progressKey) || '[]');
+let completedQuizzes = JSON.parse(localStorage.getItem(_quizKey)     || '[]');
 
 // ── BOOT ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,12 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── LESSON LOADING ────────────────────────────────────
 function loadLesson(id) {
-  currentLesson = lessons.find(l => l.id === id);
+  currentLesson = _lessons.find(l => l.id === id);
   if (!currentLesson) return;
 
   document.getElementById('lesson-title').textContent        = currentLesson.title;
   document.getElementById('chapter-badge').textContent       = currentLesson.chapterTitle;
-  document.getElementById('lesson-number').textContent       = `Lección ${id} de ${lessons.length}`;
+  document.getElementById('lesson-number').textContent       = `Lección ${id} de ${_lessons.length}`;
   document.getElementById('theory-content').innerHTML        = currentLesson.theory;
   document.getElementById('instructions-text').textContent   = currentLesson.instructions;
 
@@ -120,7 +129,7 @@ function markComplete() {
   const id = currentLesson.id;
   if (!completedLessons.includes(id)) {
     completedLessons.push(id);
-    localStorage.setItem('htmlcourse_progress', JSON.stringify(completedLessons));
+    localStorage.setItem(_progressKey, JSON.stringify(completedLessons));
   }
   document.getElementById('success-banner').style.display = 'flex';
   updateProgressBar();
@@ -197,7 +206,7 @@ function completeQuiz() {
   const id = currentLesson.id;
   if (!completedQuizzes.includes(id)) {
     completedQuizzes.push(id);
-    localStorage.setItem('htmlcourse_quiz', JSON.stringify(completedQuizzes));
+    localStorage.setItem(_quizKey, JSON.stringify(completedQuizzes));
   }
   document.getElementById('quiz-done-banner').style.display = 'flex';
   enableNext();
@@ -242,9 +251,9 @@ function enableNext() {
 }
 
 function updateProgressBar() {
-  const pct = Math.round((completedLessons.length / lessons.length) * 100);
+  const pct = Math.round((completedLessons.length / _lessons.length) * 100);
   document.getElementById('progress-bar').style.width  = pct + '%';
-  document.getElementById('progress-text').textContent = `${completedLessons.length}/${lessons.length}`;
+  document.getElementById('progress-text').textContent = `${completedLessons.length}/${_lessons.length}`;
 }
 
 function clearFeedback() {
@@ -265,14 +274,18 @@ function updateNavButtons(id) {
     prevBtn.onclick  = () => navigateTo(id - 1);
   }
   if (nextBtn) {
-    const isLast         = id >= lessons.length;
+    const isLast         = id >= _lessons.length;
     nextBtn.textContent  = isLast ? '🏁 Finalizar' : 'Siguiente →';
     nextBtn.onclick      = () => isLast ? (window.location.href = 'index.html') : navigateTo(id + 1);
     if (completedQuizzes.includes(id)) nextBtn.classList.add('btn-next-active');
   }
 }
 
-function navigateTo(id) { window.location.href = `lesson.html?id=${id}`; }
+function navigateTo(id) {
+  window.location.href = _course === 'html'
+    ? `lesson.html?id=${id}`
+    : `lesson.html?course=${_course}&id=${id}`;
+}
 function resetCode() {
   if (confirm('¿Resetear el código al ejemplo inicial?')) {
     editor.setValue(currentLesson.starterCode);

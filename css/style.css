@@ -41,6 +41,39 @@ code, pre {
 }
 
 /* ── COURSE HOME ─────────────────────────────────────── */
+
+/* Course tab navigation */
+.course-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 40px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+
+.course-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text3);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+}
+.course-tab:hover { color: var(--text); }
+.course-tab.active {
+  color: var(--accent2);
+  border-bottom-color: var(--accent2);
+}
+
 .home-header {
   background: linear-gradient(135deg, #1a0a3a 0%, #0f0f1a 60%);
   border-bottom: 1px solid var(--border);
