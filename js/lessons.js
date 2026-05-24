@@ -611,7 +611,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
   {
     id: 9,
     chapter: 4,
-    chapterTitle: "Capítulo 4: Formularios",
+    chapterTitle: "Capítulo 4: Formularios básicos",
     title: "Formulario de fan club",
     duration: "12 min",
     icon: "📬",
@@ -701,159 +701,510 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   {
     id: 10,
-    chapter: 4,
-    chapterTitle: "Capítulo 4: Formularios",
-    title: "Formularios completos",
-    duration: "15 min",
-    icon: "🎮",
+    chapter: 5,
+    chapterTitle: "Capítulo 5: Formularios avanzados",
+    title: "El <div>: la caja invisible",
+    duration: "7 min",
+    icon: "📦",
     theory: `
-      <h3>El contenedor invisible: <code>&lt;div&gt;</code></h3>
-      <p>El <code>&lt;div&gt;</code> es una caja invisible que agrupa elementos relacionados. No tiene estilo propio, pero es clave para organizar la página:</p>
+      <h3>¿Qué es un <code>&lt;div&gt;</code>?</h3>
+      <p>Un <code>&lt;div&gt;</code> es una caja invisible que agrupa elementos. Por sí solo no se ve nada — no tiene borde, no tiene color. Su función es <strong>organizar el contenido</strong>.</p>
+      <p>Pensalo como una carpeta: no se ve, pero mantiene todo ordenado adentro.</p>
       <pre><code>&lt;div&gt;
-  &lt;h2&gt;Sección de datos&lt;/h2&gt;
-  &lt;p&gt;Todo esto va junto.&lt;/p&gt;
+  &lt;h2&gt;Mis juegos favoritos&lt;/h2&gt;
+  &lt;p&gt;Todo este contenido está agrupado.&lt;/p&gt;
 &lt;/div&gt;</code></pre>
 
-      <h3><code>&lt;label&gt;</code> — la etiqueta inteligente</h3>
-      <p>Conecta un texto con su input usando <code>for</code> e <code>id</code>. Al hacer clic en el label, el input se activa:</p>
-      <pre><code>&lt;label for="usuario"&gt;Nombre de usuario:&lt;/label&gt;
-&lt;input type="text" id="usuario" name="usuario"&gt;</code></pre>
+      <h3>¿Por qué usarlo?</h3>
+      <p>Cuando trabajás con CSS (el lenguaje de estilos), necesitás agrupar elementos para aplicarles el mismo estilo a todos juntos. El <code>&lt;div&gt;</code> te lo permite:</p>
+      <pre><code>&lt;!-- Sin div: no podés mover o estilizar todo junto --&gt;
+&lt;h2&gt;Perfil&lt;/h2&gt;
+&lt;p&gt;Usuario: xXWolfXx&lt;/p&gt;
+&lt;p&gt;Nivel: 42&lt;/p&gt;
 
-      <h3>Menú desplegable: <code>&lt;select&gt;</code></h3>
-      <pre><code>&lt;select name="plataforma"&gt;
-  &lt;option value="pc"&gt;PC&lt;/option&gt;
-  &lt;option value="ps5"&gt;PlayStation 5&lt;/option&gt;
-  &lt;option value="xbox"&gt;Xbox&lt;/option&gt;
-&lt;/select&gt;</code></pre>
+&lt;!-- Con div: todo el bloque se mueve y estiliza junto --&gt;
+&lt;div&gt;
+  &lt;h2&gt;Perfil&lt;/h2&gt;
+  &lt;p&gt;Usuario: xXWolfXx&lt;/p&gt;
+  &lt;p&gt;Nivel: 42&lt;/p&gt;
+&lt;/div&gt;</code></pre>
 
-      <h3>Elegir uno: <code>type="radio"</code></h3>
-      <p>Los radio con el mismo <code>name</code> forman un grupo — solo se puede elegir uno:</p>
-      <pre><code>&lt;input type="radio" name="nivel" value="amateur" id="am"&gt;
-&lt;label for="am"&gt;Amateur&lt;/label&gt;
+      <h3>Podés anidar divs</h3>
+      <p>Un <code>&lt;div&gt;</code> puede estar adentro de otro <code>&lt;div&gt;</code>. Es normal y muy común:</p>
+      <pre><code>&lt;div&gt;                       &lt;!-- contenedor general --&gt;
+  &lt;div&gt;                     &lt;!-- sección izquierda --&gt;
+    &lt;h2&gt;Stats&lt;/h2&gt;
+    &lt;p&gt;Victorias: 120&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div&gt;                     &lt;!-- sección derecha --&gt;
+    &lt;h2&gt;Logros&lt;/h2&gt;
+    &lt;p&gt;🏆 MVP del mes&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
 
-&lt;input type="radio" name="nivel" value="pro" id="pro"&gt;
-&lt;label for="pro"&gt;Pro&lt;/label&gt;</code></pre>
-
-      <h3>Elegir varios: <code>type="checkbox"</code></h3>
-      <pre><code>&lt;input type="checkbox" name="terminos" id="terms"&gt;
-&lt;label for="terms"&gt;Acepto los términos&lt;/label&gt;</code></pre>
-
-      <h3>⚠️ El atributo <code>name</code> — el más importante</h3>
-      <p>Sin <code>name</code>, el servidor <strong>no recibe el dato</strong>. En Java, cada campo se lee así:</p>
-      <pre><code>// En el Servlet:
-String usuario = request.getParameter("usuario");
-String plataforma = request.getParameter("plataforma");</code></pre>
-      <p>El valor entre comillas de <code>getParameter</code> debe coincidir exactamente con el <code>name</code> del input.</p>
-
-      <h3>Enviar el formulario: <code>action</code> y <code>method</code></h3>
-      <pre><code>&lt;form action="/procesar" method="post"&gt;
-  ...
-&lt;/form&gt;</code></pre>
+      <h3><code>&lt;div&gt;</code> vs etiquetas semánticas</h3>
+      <p>Ya aprendiste <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>. ¿Cuándo usar <code>&lt;div&gt;</code>?</p>
       <ul>
-        <li><code>action</code> — URL del servlet que procesa el formulario</li>
-        <li><code>method="get"</code> — datos visibles en la URL (búsquedas)</li>
-        <li><code>method="post"</code> — datos ocultos (contraseñas, formularios)</li>
+        <li>Usá <code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, etc. cuando el bloque tiene un <strong>significado real</strong></li>
+        <li>Usá <code>&lt;div&gt;</code> cuando solo necesitás <strong>agrupar cosas sin significado especial</strong></li>
       </ul>
     `,
-    instructions: "Creá el formulario de inscripción para un torneo de gaming. Debe tener: un <div> que agrupe el formulario, campos con <label> y name, un <select> con 3 plataformas, dos <input type=\"radio\"> para elegir categoría (Amateur/Pro), un <input type=\"checkbox\"> para aceptar las reglas, y el <form> debe tener action y method.",
+    instructions: "Organizá la página de perfil de un gamer usando divs. La página debe tener 3 secciones separadas cada una en su propio <div>: una para los datos del jugador (nombre, nivel, país), una para la lista de juegos favoritos, y una para los logros desbloqueados (al menos 2 logros como párrafos).",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
-    <title>Torneo Gaming 🎮</title>
+    <title>Perfil Gamer 🎮</title>
   </head>
   <body>
-    <h1>Inscripción al Torneo</h1>
+    <h1>🎮 Perfil del jugador</h1>
 
-    <!-- 🎮 Armá el formulario completo
-         Acordate: cada input NECESITA un atributo name
-         para que el servidor pueda leer los datos -->
+    <!-- Usá 3 div para separar las secciones:
+         1. Datos del jugador (nombre, nivel, país)
+         2. Juegos favoritos (una lista)
+         3. Logros desbloqueados (párrafos) -->
 
-    <form action="/inscribir" method="post">
+  </body>
+</html>`,
+    solution: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Perfil Gamer 🎮</title>
+  </head>
+  <body>
+    <h1>🎮 Perfil del jugador</h1>
 
-      <!-- 1. Un <div> que agrupe los campos -->
-      <!-- 2. <label> + <input type="text"> para el nombre (con name="nombre") -->
-      <!-- 3. <label> + <input type="email"> para el email (con name="email") -->
-      <!-- 4. <label> + <select name="plataforma"> con 3 opciones -->
-      <!-- 5. Dos <input type="radio" name="categoria"> (Amateur / Pro) con sus <label> -->
-      <!-- 6. <input type="checkbox" name="reglas"> + <label> para aceptar reglas -->
-      <!-- 7. <button type="submit"> -->
+    <div>
+      <h2>Datos del jugador</h2>
+      <p>Nombre: xXNightWolfXx</p>
+      <p>Nivel: 87</p>
+      <p>País: Argentina 🇦🇷</p>
+    </div>
 
+    <div>
+      <h2>Juegos favoritos</h2>
+      <ul>
+        <li>Minecraft</li>
+        <li>Fortnite</li>
+        <li>Valorant</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Logros</h2>
+      <p>🏆 500 victorias en modo batalla</p>
+      <p>⭐ Clasificado en el top 100 del servidor</p>
+    </div>
+  </body>
+</html>`,
+    checks: [
+      { type: 'minCount',        selector: 'div',    count: 3, message: 'Usá al menos 3 <div> para separar las secciones',          hint: 'Cada sección (datos, juegos, logros) en su propio <div>' },
+      { type: 'elementWithText', selector: 'h1',               message: 'Necesitás un <h1> para el título de la página',             hint: '<h1>Perfil del jugador</h1>' },
+      { type: 'minCount',        selector: 'h2',     count: 3, message: 'Cada <div> necesita un <h2> como título de sección',         hint: '<h2>Datos del jugador</h2>' },
+      { type: 'element',         selector: 'ul li, ol li',     message: 'Agregá una lista de juegos favoritos',                      hint: '<ul><li>Minecraft</li>...</ul>' },
+    ],
+    quiz: [
+      {
+        question: '¿Qué muestra un <code>&lt;div&gt;</code> vacío en la pantalla?',
+        options: ['Un recuadro con borde gris', 'Nada — es completamente invisible', 'Un espacio en blanco del tamaño de la pantalla', 'Un mensaje de error'],
+        correct: 1,
+        explanation: '¡Correcto! Un &lt;div&gt; sin estilos CSS es completamente invisible. Su función es organizar el HTML, no agregar apariencia. El diseño viene después, con CSS.'
+      },
+      {
+        question: '¿Cuándo conviene usar <code>&lt;div&gt;</code> en vez de <code>&lt;section&gt;</code>?',
+        options: ['Siempre, div reemplaza a todos', 'Cuando el bloque no tiene un significado especial y solo agrupa elementos', 'Div es para imágenes, section para texto', 'Nunca, section es siempre mejor'],
+        correct: 1,
+        explanation: '¡Correcto! Usá &lt;section&gt; cuando el bloque representa una sección real del contenido. Usá &lt;div&gt; cuando solo necesitás una caja genérica para agrupar sin significado semántico.'
+      }
+    ]
+  },
+
+  {
+    id: 11,
+    chapter: 5,
+    chapterTitle: "Capítulo 5: Formularios avanzados",
+    title: "Menús desplegables con <select>",
+    duration: "9 min",
+    icon: "📋",
+    theory: `
+      <h3>¿Qué es <code>&lt;select&gt;</code>?</h3>
+      <p>Es un menú desplegable — el usuario hace clic y aparece una lista de opciones para elegir una:</p>
+      <pre><code>&lt;select name="pais"&gt;
+  &lt;option value="ar"&gt;Argentina&lt;/option&gt;
+  &lt;option value="mx"&gt;México&lt;/option&gt;
+  &lt;option value="co"&gt;Colombia&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+
+      <h3>Las partes del menú</h3>
+      <ul>
+        <li><code>&lt;select&gt;</code> — el contenedor del menú. Tiene el atributo <code>name</code> (necesario para que el servidor reciba el dato)</li>
+        <li><code>&lt;option&gt;</code> — cada opción dentro del menú</li>
+        <li><code>value</code> — el valor que se envía al servidor (puede ser diferente al texto visible)</li>
+      </ul>
+
+      <h3>Texto visible vs valor real</h3>
+      <p>Lo que está entre las etiquetas <code>&lt;option&gt;</code> es lo que <em>ve</em> el usuario. El atributo <code>value</code> es lo que recibe el servidor:</p>
+      <pre><code>&lt;option value="ar"&gt;Argentina&lt;/option&gt;
+&lt;!-- El usuario ve: "Argentina" --&gt;
+&lt;!-- El servidor recibe: "ar"   --&gt;</code></pre>
+
+      <h3>Conectarlo con su label</h3>
+      <p>Para buena accesibilidad, usá <code>&lt;label for&gt;</code> junto con el <code>id</code> del select. Al hacer clic en el label, el menú se activa:</p>
+      <pre><code>&lt;label for="pais"&gt;Elegí tu país:&lt;/label&gt;
+&lt;select id="pais" name="pais"&gt;
+  &lt;option value="ar"&gt;Argentina&lt;/option&gt;
+  &lt;option value="mx"&gt;México&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+      <p>El <code>for</code> del label y el <code>id</code> del select tienen que tener el mismo valor.</p>
+    `,
+    instructions: "Creá un formulario de creación de personaje RPG con 3 menús desplegables: uno para la raza del personaje (Humano, Elfo, Enano, Orco), uno para la clase (Guerrero, Mago, Arquero, Ladrón), y uno para la dificultad (Fácil, Normal, Difícil, Legendario). Cada select debe tener su label y su atributo name.",
+    starterCode: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Crear personaje ⚔️</title>
+  </head>
+  <body>
+    <h1>⚔️ Creá tu personaje</h1>
+    <form>
+
+      <!-- 1. label + select para la raza (name="raza") -->
+      <!-- Opciones: Humano, Elfo, Enano, Orco -->
+
+      <!-- 2. label + select para la clase (name="clase") -->
+      <!-- Opciones: Guerrero, Mago, Arquero, Ladrón -->
+
+      <!-- 3. label + select para la dificultad (name="dificultad") -->
+      <!-- Opciones: Fácil, Normal, Difícil, Legendario -->
+
+      <button type="submit">¡Comenzar aventura! ⚔️</button>
     </form>
   </body>
 </html>`,
     solution: `<!DOCTYPE html>
 <html>
   <head>
-    <title>Torneo Gaming 🎮</title>
+    <title>Crear personaje ⚔️</title>
   </head>
   <body>
-    <h1>Inscripción al Torneo</h1>
+    <h1>⚔️ Creá tu personaje</h1>
+    <form>
 
-    <form action="/inscribir" method="post">
+      <label for="raza">Raza:</label><br>
+      <select id="raza" name="raza">
+        <option value="humano">Humano</option>
+        <option value="elfo">Elfo</option>
+        <option value="enano">Enano</option>
+        <option value="orco">Orco</option>
+      </select><br><br>
 
-      <div>
-        <label for="nombre">Nombre de jugador:</label><br>
-        <input type="text" id="nombre" name="nombre" placeholder="Tu apodo gamer"><br><br>
+      <label for="clase">Clase:</label><br>
+      <select id="clase" name="clase">
+        <option value="guerrero">Guerrero</option>
+        <option value="mago">Mago</option>
+        <option value="arquero">Arquero</option>
+        <option value="ladron">Ladrón</option>
+      </select><br><br>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" placeholder="tu@email.com"><br><br>
+      <label for="dificultad">Dificultad:</label><br>
+      <select id="dificultad" name="dificultad">
+        <option value="facil">Fácil</option>
+        <option value="normal">Normal</option>
+        <option value="dificil">Difícil</option>
+        <option value="legendario">Legendario</option>
+      </select><br><br>
 
-        <label for="plataforma">Plataforma:</label><br>
-        <select id="plataforma" name="plataforma">
-          <option value="pc">PC</option>
-          <option value="ps5">PlayStation 5</option>
-          <option value="xbox">Xbox Series X</option>
-          <option value="switch">Nintendo Switch</option>
-        </select><br><br>
+      <button type="submit">¡Comenzar aventura! ⚔️</button>
+    </form>
+  </body>
+</html>`,
+    checks: [
+      { type: 'minCount',        selector: 'select',    count: 3, message: 'Necesitás 3 menús <select> (raza, clase, dificultad)',  hint: '<select name="raza">...</select>' },
+      { type: 'minCount',        selector: 'option',    count: 8, message: 'Cada select necesita al menos 3 opciones <option>',     hint: '<option value="elfo">Elfo</option>' },
+      { type: 'elementWithAttr', selector: 'select',    attr: 'name', message: 'Los <select> necesitan el atributo name',          hint: '<select name="raza">' },
+      { type: 'element',         selector: 'label[for]',              message: 'Usá <label for="id"> para cada select',            hint: '<label for="raza">Raza:</label>' },
+    ],
+    quiz: [
+      {
+        question: '¿Qué valor recibe el servidor cuando el usuario elige una <code>&lt;option&gt;</code>?',
+        options: ['El texto visible entre las etiquetas option', 'El atributo value de la option elegida', 'El atributo name del select', 'El id del select'],
+        correct: 1,
+        explanation: '¡Correcto! El servidor recibe el value — no el texto visible. Ej: &lt;option value="ar"&gt;Argentina&lt;/option&gt; → el servidor recibe "ar", aunque el usuario haya visto "Argentina".'
+      },
+      {
+        question: '¿En qué etiqueta va el atributo <code>name</code> del menú desplegable?',
+        options: ['En cada &lt;option&gt; individualmente', 'En el &lt;label&gt;', 'En el &lt;select&gt;', 'En el &lt;form&gt;'],
+        correct: 2,
+        explanation: '¡Correcto! El name va en el &lt;select&gt;, no en las opciones. El select representa el campo completo — las opciones son solo sus posibles valores.'
+      }
+    ]
+  },
 
-        <p>Categoría:</p>
-        <input type="radio" id="amateur" name="categoria" value="amateur">
-        <label for="amateur">Amateur</label>
-        <br>
-        <input type="radio" id="pro" name="categoria" value="pro">
-        <label for="pro">Pro</label><br><br>
+  {
+    id: 12,
+    chapter: 5,
+    chapterTitle: "Capítulo 5: Formularios avanzados",
+    title: "Radio y checkbox: elegir opciones",
+    duration: "10 min",
+    icon: "✅",
+    theory: `
+      <h3><code>type="radio"</code> — elegir UNO de varios</h3>
+      <p>Los radio buttons se usan cuando el usuario puede elegir <strong>solo una opción</strong> de un grupo. El truco está en que todos compartan el mismo <code>name</code>:</p>
+      <pre><code>&lt;p&gt;¿Cuál es tu consola?&lt;/p&gt;
 
-        <input type="checkbox" id="reglas" name="reglas" value="acepto">
-        <label for="reglas">Acepto las reglas del torneo</label><br><br>
+&lt;input type="radio" id="ps5" name="consola" value="ps5"&gt;
+&lt;label for="ps5"&gt;PlayStation 5&lt;/label&gt;
 
-        <button type="submit">¡Inscribirme al torneo! 🎮</button>
-      </div>
+&lt;input type="radio" id="xbox" name="consola" value="xbox"&gt;
+&lt;label for="xbox"&gt;Xbox Series X&lt;/label&gt;
+
+&lt;input type="radio" id="switch" name="consola" value="switch"&gt;
+&lt;label for="switch"&gt;Nintendo Switch&lt;/label&gt;</code></pre>
+      <p>Al elegir uno, los demás se desmarcan solos — porque todos comparten <code>name="consola"</code>. El navegador entiende que son del mismo grupo.</p>
+
+      <h3><code>type="checkbox"</code> — elegir VARIOS</h3>
+      <p>Los checkboxes se usan cuando el usuario puede marcar <strong>múltiples opciones</strong> a la vez:</p>
+      <pre><code>&lt;p&gt;Géneros que te gustan:&lt;/p&gt;
+
+&lt;input type="checkbox" id="rpg" name="genero_rpg" value="rpg"&gt;
+&lt;label for="rpg"&gt;RPG&lt;/label&gt;
+
+&lt;input type="checkbox" id="fps" name="genero_fps" value="fps"&gt;
+&lt;label for="fps"&gt;FPS&lt;/label&gt;
+
+&lt;input type="checkbox" id="deportes" name="genero_deportes" value="deportes"&gt;
+&lt;label for="deportes"&gt;Deportes&lt;/label&gt;</code></pre>
+      <p>Cada checkbox tiene su propio <code>name</code> distinto — así el servidor puede saber exactamente cuáles se marcaron.</p>
+
+      <h3>¿Cuándo usar cuál?</h3>
+      <ul>
+        <li><strong>Radio</strong>: "¿Cuál es tu consola favorita?" → solo una respuesta posible</li>
+        <li><strong>Checkbox</strong>: "¿Qué géneros te gustan?" → pueden ser varios a la vez</li>
+        <li>Siempre conectá cada input con su <code>&lt;label&gt;</code> usando <code>for</code> e <code>id</code> iguales</li>
+      </ul>
+    `,
+    instructions: "Creá un formulario de encuesta gamer con dos secciones: (1) un grupo de radio buttons para elegir el estilo de juego preferido — Competitivo, Casual o Cooperativo (un solo name para los tres), y (2) al menos 3 checkboxes para marcar los géneros favoritos — RPG, FPS, Estrategia, Deportes, Aventura (cada uno con su propio name). Cada input debe tener su label con for.",
+    starterCode: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Encuesta Gamer 🎮</title>
+  </head>
+  <body>
+    <h1>🎮 ¿Qué tipo de gamer sos?</h1>
+
+    <form>
+      <h2>¿Cómo preferís jugar?</h2>
+      <!-- Tres radio buttons con name="estilo"
+           Opciones: Competitivo, Casual, Cooperativo
+           Tip: los tres deben tener EL MISMO name para que
+           solo se pueda elegir uno -->
+
+      <h2>¿Qué géneros te gustan? (podés elegir varios)</h2>
+      <!-- Checkboxes: RPG, FPS, Estrategia, Deportes, Aventura
+           Tip: cada uno con su propio name diferente -->
+
+      <button type="submit">Enviar encuesta 🎯</button>
+    </form>
+  </body>
+</html>`,
+    solution: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Encuesta Gamer 🎮</title>
+  </head>
+  <body>
+    <h1>🎮 ¿Qué tipo de gamer sos?</h1>
+
+    <form>
+      <h2>¿Cómo preferís jugar?</h2>
+      <input type="radio" id="competitivo" name="estilo" value="competitivo">
+      <label for="competitivo">Competitivo</label><br>
+
+      <input type="radio" id="casual" name="estilo" value="casual">
+      <label for="casual">Casual</label><br>
+
+      <input type="radio" id="cooperativo" name="estilo" value="cooperativo">
+      <label for="cooperativo">Cooperativo</label><br><br>
+
+      <h2>¿Qué géneros te gustan?</h2>
+      <input type="checkbox" id="rpg" name="genero_rpg" value="rpg">
+      <label for="rpg">RPG</label><br>
+
+      <input type="checkbox" id="fps" name="genero_fps" value="fps">
+      <label for="fps">FPS</label><br>
+
+      <input type="checkbox" id="estrategia" name="genero_estrategia" value="estrategia">
+      <label for="estrategia">Estrategia</label><br>
+
+      <input type="checkbox" id="deportes" name="genero_deportes" value="deportes">
+      <label for="deportes">Deportes</label><br>
+
+      <input type="checkbox" id="aventura" name="genero_aventura" value="aventura">
+      <label for="aventura">Aventura</label><br><br>
+
+      <button type="submit">Enviar encuesta 🎯</button>
+    </form>
+  </body>
+</html>`,
+    checks: [
+      { type: 'minCount', selector: 'input[type="radio"]',    count: 3, message: 'Agregá 3 radio buttons para el estilo de juego',   hint: '<input type="radio" name="estilo" value="competitivo">' },
+      { type: 'custom',   test: (code) => { const m = code.match(/name="estilo"/gi); return m && m.length >= 3; },
+                                                                         message: 'Los 3 radio deben compartir el mismo name="estilo"', hint: 'Todos los radio del grupo tienen que tener name="estilo"' },
+      { type: 'minCount', selector: 'input[type="checkbox"]', count: 3, message: 'Agregá al menos 3 checkboxes de géneros',           hint: '<input type="checkbox" name="genero_rpg" value="rpg">' },
+      { type: 'element',  selector: 'label[for]',                        message: 'Cada input necesita su <label for="id">',           hint: '<label for="rpg">RPG</label>' },
+    ],
+    quiz: [
+      {
+        question: '¿Por qué los <code>type="radio"</code> de un mismo grupo deben tener el mismo <code>name</code>?',
+        options: ['Para que tengan el mismo color', 'Para que el navegador sepa que son del mismo grupo y solo permita elegir uno', 'Para que el label funcione correctamente', 'Es solo una convención, no es obligatorio'],
+        correct: 1,
+        explanation: '¡Correcto! El name agrupa los radio buttons. El navegador automáticamente solo permite marcar uno por grupo. Si tuvieran nombres distintos, podrías marcar todos a la vez.'
+      },
+      {
+        question: '¿Cuál es la principal diferencia entre <code>radio</code> y <code>checkbox</code>?',
+        options: ['Radio es circular, checkbox es cuadrado', 'Radio permite elegir solo una opción; checkbox permite elegir varias', 'Checkbox solo funciona en formularios con method="post"', 'No hay diferencia práctica'],
+        correct: 1,
+        explanation: '¡Correcto! Radio = elegí uno (como sintonizar una radio: una sola estación). Checkbox = elegí varios (como una lista de compras: marcás lo que querás).'
+      }
+    ]
+  },
+
+  {
+    id: 13,
+    chapter: 5,
+    chapterTitle: "Capítulo 5: Formularios avanzados",
+    title: "Cómo llegan los datos al servidor",
+    duration: "12 min",
+    icon: "🚀",
+    theory: `
+      <h3>El atributo <code>name</code> — el más importante de los formularios</h3>
+      <p>Cuando un formulario se envía, el servidor recibe los datos como pares <strong>nombre=valor</strong>. El <code>name</code> del input define ese "nombre". Sin él, el dato <strong>no llega al servidor</strong>:</p>
+      <pre><code>&lt;!-- CON name: el servidor recibe el dato --&gt;
+&lt;input type="text" name="usuario" value="xXWolfXx"&gt;
+&lt;!-- El servidor recibe: usuario=xXWolfXx ✓ --&gt;
+
+&lt;!-- SIN name: el servidor no recibe nada --&gt;
+&lt;input type="text" value="xXWolfXx"&gt;
+&lt;!-- El servidor recibe: (nada) ✗ --&gt;</code></pre>
+
+      <h3>En Java: <code>request.getParameter()</code></h3>
+      <p>En un Servlet de Java, los datos del formulario se leen así:</p>
+      <pre><code>// El texto entre comillas DEBE ser igual
+// al atributo name del input en HTML
+
+String usuario  = request.getParameter("usuario");
+String email    = request.getParameter("email");
+String categoria = request.getParameter("categoria");</code></pre>
+      <p>Si el input tiene <code>name="usuario"</code>, en Java escribís <code>getParameter("usuario")</code>. ¡Exactamente el mismo texto!</p>
+
+      <h3><code>action</code> — a dónde va el formulario</h3>
+      <p>El atributo <code>action</code> indica la URL del servidor (el Servlet) que va a procesar los datos cuando el usuario aprete Enviar:</p>
+      <pre><code>&lt;form action="/InscripcionServlet" method="post"&gt;</code></pre>
+
+      <h3><code>method</code> — cómo viajan los datos</h3>
+      <ul>
+        <li><code>method="get"</code> — los datos van en la URL: <code>?usuario=Wolf&amp;email=wolf@mail.com</code>. Son visibles. Bueno para búsquedas.</li>
+        <li><code>method="post"</code> — los datos van ocultos. Nadie los ve en la URL. <strong>Siempre usá post para datos privados</strong> (contraseñas, información personal).</li>
+      </ul>
+      <pre><code>&lt;!-- Con get: datos visibles en la URL --&gt;
+&lt;form action="/buscar" method="get"&gt;
+  &lt;input type="text" name="q"&gt;
+  &lt;button&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;
+&lt;!-- URL resultante: /buscar?q=fortnite --&gt;
+
+&lt;!-- Con post: datos ocultos --&gt;
+&lt;form action="/login" method="post"&gt;
+  &lt;input type="password" name="clave"&gt;
+&lt;/form&gt;
+&lt;!-- La clave NO aparece en la URL ✓ --&gt;</code></pre>
+    `,
+    instructions: "Armá el formulario completo de inscripción a un torneo de esports. El <form> debe tener action='/inscripcion' y method='post'. Necesita: campo de nombre (name='nombre'), campo de email (name='email'), un <select> de categoría con su name, 2 radio buttons con el mismo name='modalidad', 1 checkbox con name, y un botón de envío. ¡Revisá que TODOS los inputs tengan name!",
+    starterCode: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Torneo de Esports 🏆</title>
+  </head>
+  <body>
+    <h1>🏆 Torneo de Esports</h1>
+    <h2>Formulario de inscripción</h2>
+
+    <!-- Recordatorio:
+         - El form necesita action y method
+         - TODOS los inputs necesitan name
+         - El name en HTML = lo que escribe el Servlet en Java -->
+
+    <form>
+      <!-- Campo nombre (type="text", name="nombre") -->
+
+      <!-- Campo email (type="email", name="email") -->
+
+      <!-- Select de categoría: Amateur, Semi-pro, Pro (name="categoria") -->
+
+      <!-- Radio buttons: Individual / Por equipos (name="modalidad") -->
+
+      <!-- Checkbox: Acepto las bases (name="acepto") -->
+
+      <!-- Botón de envío -->
+    </form>
+  </body>
+</html>`,
+    solution: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Torneo de Esports 🏆</title>
+  </head>
+  <body>
+    <h1>🏆 Torneo de Esports</h1>
+    <h2>Formulario de inscripción</h2>
+
+    <form action="/inscripcion" method="post">
+
+      <label for="nombre">Nombre del jugador:</label><br>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu apodo gamer"><br><br>
+
+      <label for="email">Email:</label><br>
+      <input type="email" id="email" name="email" placeholder="tu@email.com"><br><br>
+
+      <label for="categoria">Categoría:</label><br>
+      <select id="categoria" name="categoria">
+        <option value="amateur">Amateur</option>
+        <option value="semipro">Semi-pro</option>
+        <option value="pro">Pro</option>
+      </select><br><br>
+
+      <p>Modalidad:</p>
+      <input type="radio" id="individual" name="modalidad" value="individual">
+      <label for="individual">Individual</label><br>
+      <input type="radio" id="equipo" name="modalidad" value="equipo">
+      <label for="equipo">Por equipos</label><br><br>
+
+      <input type="checkbox" id="acepto" name="acepto" value="si">
+      <label for="acepto">Acepto las bases del torneo</label><br><br>
+
+      <button type="submit">¡Inscribirme! 🏆</button>
 
     </form>
   </body>
 </html>`,
     checks: [
-      { type: 'element',    selector: 'div',                    message: 'Usá un <div> para agrupar los campos del formulario',   hint: '<div>...</div> alrededor de todos los campos' },
-      { type: 'element',    selector: 'label[for]',             message: 'Usá <label for="id"> para cada campo',                 hint: '<label for="nombre">Nombre:</label>' },
-      { type: 'element',    selector: 'select',                 message: 'Agregá un menú desplegable <select>',                  hint: '<select name="plataforma"><option>...</option></select>' },
-      { type: 'minCount',   selector: 'option',     count: 3,   message: 'El <select> necesita al menos 3 opciones <option>',    hint: '<option value="pc">PC</option>' },
-      { type: 'element',    selector: 'input[type="radio"]',    message: 'Agregá al menos un <input type="radio">',              hint: '<input type="radio" name="categoria" value="amateur">' },
-      { type: 'element',    selector: 'input[type="checkbox"]', message: 'Agregá un <input type="checkbox">',                    hint: '<input type="checkbox" name="reglas">' },
-      { type: 'elementWithAttr', selector: 'input', attr: 'name', message: 'Los inputs deben tener el atributo name (¡lo lee el servidor!)', hint: 'Agregá name="nombredelcampo" a cada input' },
-      { type: 'elementWithAttr', selector: 'form',  attr: 'method', message: 'El <form> necesita el atributo method (get o post)', hint: '<form action="/ruta" method="post">' },
+      { type: 'elementWithAttr', selector: 'form',  attr: 'action', message: 'El <form> necesita el atributo action (la URL del servidor)',    hint: '<form action="/inscripcion" method="post">' },
+      { type: 'elementWithAttr', selector: 'form',  attr: 'method', message: 'El <form> necesita el atributo method (post o get)',             hint: '<form action="/inscripcion" method="post">' },
+      { type: 'elementWithAttr', selector: 'input[type="text"], input[type="email"]', attr: 'name', message: 'Los campos de texto necesitan el atributo name', hint: '<input type="text" name="nombre">' },
+      { type: 'elementWithAttr', selector: 'select', attr: 'name',  message: 'El <select> de categoría necesita el atributo name',             hint: '<select name="categoria">' },
+      { type: 'element',         selector: 'input[type="radio"]',   message: 'Agregá los radio buttons de modalidad',                          hint: '<input type="radio" name="modalidad" value="individual">' },
+      { type: 'element',         selector: 'input[type="checkbox"]', message: 'Agregá el checkbox para aceptar las bases',                     hint: '<input type="checkbox" name="acepto">' },
     ],
     quiz: [
       {
-        question: '¿Para qué sirve el atributo <code>name</code> en los inputs de un formulario?',
-        options: [
-          'Para darle estilo visual al campo',
-          'Para identificar el campo cuando el servidor procesa el formulario',
-          'Es lo mismo que el atributo id',
-          'Para mostrar texto de ayuda dentro del campo'
-        ],
+        question: '¿Qué método deberías usar para enviar una contraseña en un formulario?',
+        options: ['get, es más rápido', 'post, los datos van ocultos y no aparecen en la URL', 'Cualquiera, no hay diferencia de seguridad', 'get, porque es el método predeterminado'],
         correct: 1,
-        explanation: '¡Correcto! name es el más importante: cuando el formulario se envía, el servidor recibe los datos como nombre=valor. En Java: request.getParameter("nombre"). Sin name, el servlet no puede leer ese campo.'
+        explanation: '¡Correcto! Con post los datos viajan ocultos. Con get la contraseña aparecería en la URL (?clave=mi_clave123) — visible para cualquiera que vea la pantalla, el historial o las capturas de pantalla.'
       },
       {
-        question: '¿Cuál es la diferencia entre <code>method="get"</code> y <code>method="post"</code>?',
-        options: [
-          'No hay diferencia, son intercambiables',
-          'get es más rápido, post es más lento',
-          'get muestra los datos en la URL, post los envía ocultos',
-          'post solo funciona con Java'
-        ],
+        question: 'En Java, ¿cómo leés el valor de un input con <code>name="email"</code>?',
+        options: ['request.getValue("email")', 'request.getInput("email")', 'request.getParameter("email")', 'request.getName("email")'],
         correct: 2,
-        explanation: '¡Correcto! Con get los datos aparecen en la URL (?nombre=Juan&email=...) — útil para búsquedas. Con post van ocultos en el cuerpo de la petición — obligatorio para contraseñas y datos sensibles.'
+        explanation: '¡Correcto! request.getParameter("email") lee el campo cuyo name en HTML es "email". El texto entre comillas DEBE coincidir exactamente con el atributo name del input.'
       }
     ]
   },
