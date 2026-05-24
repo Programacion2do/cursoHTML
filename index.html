@@ -74,7 +74,9 @@
       }
     };
 
+    // Validate stored course — fall back to 'html' if lessons didn't load
     let activeCourse = localStorage.getItem('lastCourse') || 'html';
+    if (!COURSES[activeCourse] || !COURSES[activeCourse].lessons) activeCourse = 'html';
 
     function switchCourse(course) {
       activeCourse = course;
@@ -82,11 +84,24 @@
       document.querySelectorAll('.course-tab').forEach(t =>
         t.classList.toggle('active', t.dataset.course === course)
       );
-      renderCourse(course);
+      try {
+        renderCourse(course);
+      } catch(e) {
+        console.error('renderCourse error:', e);
+        document.getElementById('course-hero').innerHTML =
+          '<p style="color:#94a3b8;padding:30px;text-align:center">⚠️ Error al cargar el curso. Recargá la página con Ctrl+Shift+R.</p>';
+        document.getElementById('chapters-container').innerHTML = '';
+      }
     }
 
     function renderCourse(course) {
-      const cfg       = COURSES[course];
+      const cfg = COURSES[course];
+      if (!cfg || !cfg.lessons || !cfg.lessons.length) {
+        document.getElementById('course-hero').innerHTML =
+          '<p style="color:#94a3b8;padding:30px;text-align:center">⏳ Cargando lecciones... Recargá con Ctrl+Shift+R si esto persiste.</p>';
+        document.getElementById('chapters-container').innerHTML = '';
+        return;
+      }
       const completed = JSON.parse(localStorage.getItem(cfg.progressKey) || '[]');
       const quizDone  = JSON.parse(localStorage.getItem(cfg.quizKey)     || '[]');
       const pct       = Math.round((completed.length / cfg.lessons.length) * 100);
