@@ -631,7 +631,8 @@ code, pre {
 .preview-dot-g { background: #10b981; }
 .preview-topbar span { font-size: 0.78rem; color: var(--text3); margin-left: 4px; }
 
-#preview-frame {
+#preview-frame,
+#ch-preview-frame {
   flex: 1;
   border: none;
   background: white;
