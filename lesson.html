@@ -171,9 +171,51 @@
         </div>
         <div class="diploma-actions">
           <button class="btn-diploma-action btn-diploma-dl"      onclick="downloadDiploma()">⬇️ Descargar diploma</button>
+          <button class="btn-diploma-action btn-diploma-submit"  onclick="openSubmitModal()">📤 Entregar al docente</button>
           <button class="btn-diploma-action btn-diploma-opinion" onclick="openFeedback()">💬 Dejar mi opinión</button>
           <button class="btn-diploma-action btn-diploma-home"    onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMISSION MODAL -->
+  <div id="submit-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeSubmitModal()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeSubmitModal()" title="Cerrar">✕</button>
+
+      <!-- Form -->
+      <div id="submit-form-wrap">
+        <div class="submit-title">📤 Entregar trabajo al docente</div>
+        <p class="submit-sub">Tu código de cada ejercicio completado se incluirá en la entrega.</p>
+
+        <div id="sub-summary"></div>
+
+        <form onsubmit="handleSubmit(event)" style="margin-top:18px">
+          <div style="display:flex;gap:12px;margin-bottom:0">
+            <input class="diploma-input" id="sub-nombre"   type="text"  placeholder="Tu nombre"   required style="flex:1">
+            <input class="diploma-input" id="sub-apellido" type="text"  placeholder="Tu apellido" required style="flex:1">
+          </div>
+          <input class="diploma-input" id="sub-email" type="email" placeholder="Tu email" required>
+
+          <div class="sub-btn-row">
+            <button type="submit" class="diploma-submit sub-btn-send" id="sub-send-btn">
+              📧 Enviar por email
+            </button>
+            <button type="button" class="diploma-submit sub-btn-json" onclick="downloadSubmissionJSON()">
+              ⬇️ Descargar JSON
+            </button>
+          </div>
+          <p class="sub-hint">El archivo JSON contiene todo tu código y puede enviárselo al docente por cualquier medio.</p>
+        </form>
+      </div>
+
+      <!-- Thank you -->
+      <div id="submit-thanks" class="feedback-thanks" style="display:none">
+        <div class="ft-emoji">✅</div>
+        <h3>¡Entrega enviada!</h3>
+        <p>El docente recibirá tu código para revisarlo. ¡Buen trabajo!</p>
+        <button onclick="closeSubmitModal()" style="margin-top:22px;padding:11px 28px;border-radius:10px;border:1px solid var(--border2);background:var(--bg3);color:#a78bfa;cursor:pointer;font-family:inherit;font-size:0.9rem;">Cerrar</button>
       </div>
     </div>
   </div>

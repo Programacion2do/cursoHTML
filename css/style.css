@@ -964,6 +964,48 @@ code, pre {
 .teacher-btn-alt:hover { background: var(--bg2); opacity: 1; }
 .teacher-note { color: var(--text3); font-size: 0.76rem; margin: 12px 0 0; }
 
+/* ── PLAYGROUND LINK (index.html header) ────────────── */
+.pg-nav-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-left: auto; padding: 7px 16px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg3); color: var(--text2);
+  font-size: 0.83rem; font-weight: 500; text-decoration: none;
+  transition: all 0.18s; white-space: nowrap;
+}
+.pg-nav-link:hover { border-color: var(--accent); color: var(--accent2); background: rgba(124,58,237,0.08); text-decoration: none; }
+
+/* ── DIPLOMA SUBMIT BUTTON ───────────────────────────── */
+.btn-diploma-submit { background: var(--bg3); color: #34d399; border: 1px solid rgba(52,211,153,0.4); }
+.btn-diploma-submit:hover { background: rgba(52,211,153,0.08); }
+
+/* ── SUBMISSION MODAL ────────────────────────────────── */
+.submit-title { color: #a78bfa; font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 6px; }
+.submit-sub   { color: var(--text3); font-size: 0.88rem; text-align: center; margin-bottom: 18px; }
+
+.sub-summary-box {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 18px; margin-bottom: 4px;
+}
+.sub-sum-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.85rem; padding: 4px 0; color: var(--text2);
+}
+.sub-sum-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+.sub-sum-row span  { color: var(--text3); }
+.sub-sum-row strong { color: var(--text); font-weight: 600; }
+
+.sub-btn-row { display: flex; gap: 10px; margin-top: 14px; }
+.sub-btn-send { flex: 1; background: linear-gradient(135deg, #7c3aed, #a78bfa) !important; }
+.sub-btn-json {
+  flex: 1;
+  background: var(--bg3) !important;
+  color: var(--accent2) !important;
+  border: 1px solid var(--border2) !important;
+}
+.sub-btn-json:hover { background: var(--bg2) !important; }
+.sub-hint { font-size: 0.76rem; color: var(--text3); text-align: center; margin-top: 10px; line-height: 1.5; }
+
 /* ── RESPONSIVE ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .lesson-body { flex-direction: column; }

@@ -224,6 +224,20 @@ function markComplete() {
     completedLessons.push(id);
     localStorage.setItem(_progressKey, JSON.stringify(completedLessons));
   }
+
+  // Save student's code snapshot for this lesson
+  try {
+    const snap = {
+      lessonId:    id,
+      lessonTitle: currentLesson.title,
+      html: editor    ? editor.getValue()    : '',
+      css:  editorCss ? editorCss.getValue() : '',
+      js:   editorJs  ? editorJs.getValue()  : '',
+      date: new Date().toISOString(),
+    };
+    localStorage.setItem(_progressKey + '_code_' + id, JSON.stringify(snap));
+  } catch(e) {}
+
   document.getElementById('success-banner').style.display = 'flex';
   updateProgressBar();
 
@@ -603,4 +617,140 @@ function closeFeedbackModal() {
   document.getElementById('feedback-modal').style.display = 'none';
   _feedbackRating = 0;
   document.querySelectorAll('.feedback-star').forEach(s => s.classList.remove('active'));
+}
+
+// ── SUBMISSION ────────────────────────────────────────
+// Para recibir entregas por email configurá EmailJS (gratis en emailjs.com):
+//   1. Creá una cuenta en https://emailjs.com
+//   2. Añadí un Email Service (Gmail, Outlook, etc.)
+//   3. Creá un Email Template con las variables: {{nombre}}, {{apellido}}, {{email}},
+//      {{curso}}, {{progreso}}, {{fecha}}, {{contenido}}
+//   4. Copiá los IDs y pegálos acá:
+const _EMAILJS_SERVICE  = '';   // ej: 'service_abc123'
+const _EMAILJS_TEMPLATE = '';   // ej: 'template_xyz789'
+const _EMAILJS_PUBLIC   = '';   // ej: 'abCdEfGhIjKlMnOp'
+
+function openSubmitModal() {
+  const modal = document.getElementById('submit-modal');
+  if (!modal) return;
+
+  // Reset panels
+  document.getElementById('submit-form-wrap').style.display = 'block';
+  document.getElementById('submit-thanks').style.display    = 'none';
+
+  // Pre-fill name from diploma if available
+  const n = document.getElementById('diploma-nombre');
+  const a = document.getElementById('diploma-apellido');
+  if (n && n.value) { const el = document.getElementById('sub-nombre');   if (el) el.value = n.value; }
+  if (a && a.value) { const el = document.getElementById('sub-apellido'); if (el) el.value = a.value; }
+
+  // If no EmailJS configured, hide email send button
+  const sendBtn = document.getElementById('sub-send-btn');
+  if (sendBtn) sendBtn.style.display = _EMAILJS_SERVICE ? '' : 'none';
+
+  // Build progress summary
+  _renderSubmitSummary();
+  modal.style.display = 'flex';
+}
+
+function closeSubmitModal() {
+  const m = document.getElementById('submit-modal');
+  if (m) m.style.display = 'none';
+}
+
+function _renderSubmitSummary() {
+  const el = document.getElementById('sub-summary');
+  if (!el) return;
+  const labels = { html: 'HTML', css: 'CSS', js: 'JavaScript' };
+  const done   = completedQuizzes.length;
+  const total  = _lessons.length;
+  const pct    = Math.round((done / total) * 100);
+  el.innerHTML =
+    '<div class="sub-summary-box">' +
+    '<div class="sub-sum-row"><span>Curso:</span><strong>' + (labels[_course] || _course) + '</strong></div>' +
+    '<div class="sub-sum-row"><span>Progreso:</span><strong>' + done + ' / ' + total + ' lecciones (' + pct + '%)</strong></div>' +
+    '<div class="sub-sum-row"><span>Código guardado:</span><strong>' + done + ' ejercicios</strong></div>' +
+    '</div>';
+}
+
+function _collectSubmissionData(nombre, apellido, email) {
+  const labels  = { html: 'HTML', css: 'CSS', js: 'JavaScript' };
+  const lecciones = _lessons.map(l => {
+    const raw  = localStorage.getItem(_progressKey + '_code_' + l.id);
+    const snap = raw ? JSON.parse(raw) : null;
+    return {
+      id:        l.id,
+      titulo:    l.title,
+      completada: completedQuizzes.includes(l.id),
+      codigo:    snap ? { html: snap.html, css: snap.css, js: snap.js } : null,
+      fecha:     snap ? snap.date : null,
+    };
+  });
+  return {
+    alumno:   { nombre, apellido, email },
+    curso:    labels[_course] || _course,
+    progreso: completedQuizzes.length + '/' + _lessons.length,
+    fecha:    new Date().toISOString(),
+    lecciones,
+  };
+}
+
+function downloadSubmissionJSON() {
+  const nombre   = (document.getElementById('sub-nombre')?.value   || 'alumno').trim();
+  const apellido = (document.getElementById('sub-apellido')?.value || '').trim();
+  const email    = (document.getElementById('sub-email')?.value    || '').trim();
+  const data     = _collectSubmissionData(nombre, apellido, email);
+  const json     = JSON.stringify(data, null, 2);
+  const blob     = new Blob([json], { type: 'application/json' });
+  const url      = URL.createObjectURL(blob);
+  const link     = document.createElement('a');
+  link.href      = url;
+  link.download  = 'entrega-' + _course + '-' + (nombre + '-' + apellido).toLowerCase().replace(/\s+/g, '-') + '.json';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const nombre   = document.getElementById('sub-nombre').value.trim();
+  const apellido = document.getElementById('sub-apellido').value.trim();
+  const email    = document.getElementById('sub-email').value.trim();
+
+  // If no EmailJS configured, just download
+  if (!_EMAILJS_SERVICE) { downloadSubmissionJSON(); return; }
+
+  const btn  = document.getElementById('sub-send-btn');
+  const orig = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = 'Enviando...'; btn.disabled = true; }
+
+  const data = _collectSubmissionData(nombre, apellido, email);
+
+  try {
+    // Lazy-load EmailJS SDK
+    if (typeof emailjs === 'undefined') {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+      emailjs.init(_EMAILJS_PUBLIC);
+    }
+    const labels = { html: 'HTML', css: 'CSS', js: 'JavaScript' };
+    await emailjs.send(_EMAILJS_SERVICE, _EMAILJS_TEMPLATE, {
+      nombre, apellido, email,
+      curso:     labels[_course] || _course,
+      progreso:  data.progreso,
+      fecha:     new Date().toLocaleDateString('es-AR'),
+      contenido: JSON.stringify(data.lecciones, null, 2).substring(0, 18000),
+    });
+    document.getElementById('submit-form-wrap').style.display = 'none';
+    document.getElementById('submit-thanks').style.display    = 'block';
+  } catch(err) {
+    console.error('EmailJS error:', err);
+    alert('No se pudo enviar por email. Descargando el archivo JSON como alternativa...');
+    downloadSubmissionJSON();
+  } finally {
+    if (btn) { btn.textContent = orig; btn.disabled = false; }
+  }
 }

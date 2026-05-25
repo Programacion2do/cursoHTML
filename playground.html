@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground — Aprende a Programar</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ── PLAYGROUND LAYOUT ───────────────────────────── */
+    .pg-body { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+    .pg-topbar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .pg-logo {
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text); text-decoration: none; flex-shrink: 0;
+    }
+    .pg-logo span { color: var(--accent2); }
+    .pg-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
+    .pg-badge {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--accent2);
+      background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 20px; padding: 3px 10px; flex-shrink: 0;
+    }
+    .pg-title-input {
+      background: transparent; border: 1px solid transparent;
+      border-radius: 6px; color: var(--text); font-family: inherit;
+      font-size: 0.92rem; font-weight: 500; padding: 5px 10px;
+      outline: none; min-width: 140px; max-width: 260px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .pg-title-input:hover { border-color: var(--border); }
+    .pg-title-input:focus { border-color: var(--accent); background: var(--bg3); }
+    .pg-title-input::placeholder { color: var(--text3); }
+
+    .pg-actions { display: flex; gap: 6px; margin-left: auto; align-items: center; }
+    .pg-btn {
+      padding: 6px 13px; border-radius: 7px; font-size: 0.81rem;
+      font-weight: 500; cursor: pointer; border: 1px solid var(--border);
+      background: var(--bg3); color: var(--text2); font-family: inherit;
+      transition: all 0.15s; display: flex; align-items: center; gap: 5px;
+      white-space: nowrap;
+    }
+    .pg-btn:hover { border-color: var(--border2); color: var(--text); background: var(--bg2); }
+    .pg-btn-primary {
+      background: var(--accent); border-color: var(--accent); color: white;
+    }
+    .pg-btn-primary:hover { background: var(--accent2); border-color: var(--accent2); color: white; }
+
+    /* Content area */
+    .pg-content { display: flex; flex: 1; overflow: hidden; }
+
+    .pg-editor-panel {
+      width: 50%; flex-shrink: 0;
+      display: flex; flex-direction: column;
+      border-right: 1px solid var(--border);
+    }
+    .pg-preview-panel {
+      flex: 1; display: flex; flex-direction: column; overflow: hidden;
+    }
+    .pg-preview-bar {
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 0 14px; height: 38px;
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .pg-preview-bar > span:last-child {
+      font-size: 0.78rem; color: var(--text3); margin-left: 4px;
+    }
+    #pg-preview-frame { flex: 1; border: none; background: white; width: 100%; }
+
+    /* Projects dropdown */
+    .pg-projects-wrap { position: relative; }
+    .pg-projects-menu {
+      position: absolute; top: calc(100% + 6px); right: 0;
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 10px; min-width: 230px; max-height: 340px;
+      overflow-y: auto; z-index: 200;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+    }
+    .pg-proj-header {
+      padding: 9px 14px; font-size: 0.72rem; color: var(--text3);
+      border-bottom: 1px solid var(--border);
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+      position: sticky; top: 0; background: var(--bg2); z-index: 1;
+    }
+    .pg-proj-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 14px; cursor: pointer; transition: background 0.12s;
+    }
+    .pg-proj-item:hover { background: var(--bg3); }
+    .pg-proj-name {
+      flex: 1; font-size: 0.85rem; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .pg-proj-date { font-size: 0.72rem; color: var(--text3); white-space: nowrap; flex-shrink: 0; }
+    .pg-proj-del {
+      background: none; border: none; color: var(--text3);
+      cursor: pointer; padding: 2px 6px; border-radius: 4px;
+      font-size: 0.78rem; transition: all 0.12s; flex-shrink: 0;
+    }
+    .pg-proj-del:hover { color: var(--red); background: var(--red-bg); }
+    .pg-proj-empty {
+      padding: 22px 14px; color: var(--text3);
+      font-size: 0.83rem; text-align: center;
+    }
+
+    /* Resizer */
+    .pg-resizer {
+      width: 5px; flex-shrink: 0; background: var(--border);
+      cursor: col-resize; transition: background 0.15s; z-index: 5;
+    }
+    .pg-resizer::after { content: ''; position: absolute; inset: 0 -3px; }
+    .pg-resizer:hover, .pg-resizer.is-dragging { background: var(--accent); }
+
+    /* Floating toast */
+    .pg-toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--green); color: white;
+      border-radius: 8px; padding: 10px 22px;
+      font-size: 0.87rem; font-weight: 500;
+      opacity: 0; transition: opacity 0.25s, transform 0.25s;
+      z-index: 9999; pointer-events: none; white-space: nowrap;
+    }
+    .pg-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body class="pg-body">
+
+  <!-- TOP BAR -->
+  <header class="pg-topbar">
+    <a href="index.html" class="pg-logo">&lt;<span>CODE</span>&gt;</a>
+    <div class="pg-sep"></div>
+    <span class="pg-badge">Playground</span>
+    <div class="pg-sep"></div>
+    <input type="text" class="pg-title-input" id="pg-title"
+           placeholder="Sin título" value="Mi proyecto" maxlength="50">
+
+    <div class="pg-actions">
+      <button class="pg-btn" onclick="pgNew()" title="Nuevo proyecto">🗒 Nuevo</button>
+      <button class="pg-btn" onclick="pgSave()" title="Guardar en este navegador">💾 Guardar</button>
+      <div class="pg-projects-wrap" id="pg-projects-wrap">
+        <button class="pg-btn" onclick="pgToggleMenu()" title="Ver proyectos guardados">
+          📂 Mis proyectos
+        </button>
+        <div class="pg-projects-menu" id="pg-proj-menu" style="display:none"></div>
+      </div>
+      <button class="pg-btn pg-btn-primary" onclick="pgShare()" title="Copiar enlace compartible">
+        🔗 Compartir
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="pg-content">
+
+    <!-- EDITOR -->
+    <section class="pg-editor-panel" id="pg-editor-panel">
+      <div class="editor-topbar">
+        <div class="editor-tab active"        id="pg-tab-html" onclick="pgSwitchTab('html')">index.html</div>
+        <div class="editor-tab editor-tab-css" id="pg-tab-css"  onclick="pgSwitchTab('css')">style.css</div>
+        <div class="editor-tab editor-tab-js"  id="pg-tab-js"   onclick="pgSwitchTab('js')">script.js</div>
+      </div>
+      <div class="editor-wrap" id="pg-wrap-html"><textarea id="pg-ed-html"></textarea></div>
+      <div class="editor-wrap" id="pg-wrap-css"  style="display:none"><textarea id="pg-ed-css"></textarea></div>
+      <div class="editor-wrap" id="pg-wrap-js"   style="display:none"><textarea id="pg-ed-js"></textarea></div>
+    </section>
+
+    <div class="pg-resizer" id="pg-resizer"></div>
+
+    <!-- PREVIEW -->
+    <section class="pg-preview-panel">
+      <div class="pg-preview-bar">
+        <span class="preview-dot preview-dot-r"></span>
+        <span class="preview-dot preview-dot-y"></span>
+        <span class="preview-dot preview-dot-g"></span>
+        <span>Vista previa en vivo</span>
+      </div>
+      <iframe id="pg-preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+    </section>
+
+  </div>
+
+  <!-- TOAST -->
+  <div class="pg-toast" id="pg-toast"></div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
+
+  <script>
+    // ── EDITORS ─────────────────────────────────────────
+    const pgHtmlEd = CodeMirror.fromTextArea(document.getElementById('pg-ed-html'), {
+      mode: 'xml', theme: 'material-darker', lineNumbers: true,
+      autoCloseTags: true, lineWrapping: false, indentUnit: 2, tabSize: 2,
+      extraKeys: { Tab: cm => cm.replaceSelection('  ') },
+    });
+    const pgCssEd = CodeMirror.fromTextArea(document.getElementById('pg-ed-css'), {
+      mode: 'css', theme: 'material-darker', lineNumbers: true,
+      lineWrapping: false, indentUnit: 2, tabSize: 2,
+      extraKeys: { Tab: cm => cm.replaceSelection('  ') },
+    });
+    const pgJsEd = CodeMirror.fromTextArea(document.getElementById('pg-ed-js'), {
+      mode: 'javascript', theme: 'material-darker', lineNumbers: true,
+      lineWrapping: false, indentUnit: 2, tabSize: 2,
+      extraKeys: { Tab: cm => cm.replaceSelection('  ') },
+    });
+
+    let pgDebounce = null;
+    function schedulePreview() {
+      clearTimeout(pgDebounce);
+      pgDebounce = setTimeout(pgUpdatePreview, 500);
+    }
+    pgHtmlEd.on('change', schedulePreview);
+    pgCssEd.on('change', schedulePreview);
+    pgJsEd.on('change', schedulePreview);
+
+    // ── PREVIEW ─────────────────────────────────────────
+    function pgUpdatePreview() {
+      const html = pgHtmlEd.getValue();
+      const css  = pgCssEd.getValue().trim();
+      const js   = pgJsEd.getValue().trim();
+      let combined = html;
+      if (css && !combined.includes('<style>')) {
+        combined = combined.replace('</head>', '<style>\n' + css + '\n</style>\n</head>');
+        if (!combined.includes('<style>')) combined = '<style>\n' + css + '\n</style>\n' + combined;
+      }
+      if (js) {
+        var tag = '<' + 'script>'; var endTag = '<' + '/script>';
+        combined = combined.includes('</body>')
+          ? combined.replace('</body>', tag + '\n' + js + '\n' + endTag + '\n</body>')
+          : combined + tag + '\n' + js + '\n' + endTag;
+      }
+      const iframe = document.getElementById('pg-preview-frame');
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        doc.open(); doc.write(combined); doc.close();
+      } catch(e) { iframe.srcdoc = combined; }
+    }
+
+    // ── TAB SWITCHING ───────────────────────────────────
+    function pgSwitchTab(tab) {
+      ['html','css','js'].forEach(t => {
+        document.getElementById('pg-wrap-' + t).style.display = t === tab ? '' : 'none';
+        document.getElementById('pg-tab-'  + t).classList.toggle('active', t === tab);
+      });
+      setTimeout(() => {
+        if (tab === 'html') pgHtmlEd.refresh();
+        if (tab === 'css')  pgCssEd.refresh();
+        if (tab === 'js')   pgJsEd.refresh();
+      }, 10);
+    }
+
+    // ── STORAGE ─────────────────────────────────────────
+    const PG_KEY  = 'playground_projects';
+    const PG_LAST = 'playground_last';
+
+    function pgGetProjects() { return JSON.parse(localStorage.getItem(PG_KEY) || '[]'); }
+    function pgSaveProjects(list) { localStorage.setItem(PG_KEY, JSON.stringify(list)); }
+
+    function pgGetCurrent() {
+      return {
+        name: document.getElementById('pg-title').value.trim() || 'Sin título',
+        html: pgHtmlEd.getValue(),
+        css:  pgCssEd.getValue(),
+        js:   pgJsEd.getValue(),
+        date: new Date().toISOString(),
+      };
+    }
+
+    function pgLoadData(p) {
+      document.getElementById('pg-title').value = p.name || 'Sin título';
+      pgHtmlEd.setValue(p.html || '');
+      pgCssEd.setValue(p.css   || '');
+      pgJsEd.setValue(p.js     || '');
+      pgHtmlEd.clearHistory(); pgCssEd.clearHistory(); pgJsEd.clearHistory();
+      pgUpdatePreview();
+    }
+
+    // ── ACTIONS ─────────────────────────────────────────
+    const BLANK_HTML = '<!DOCTYPE html>\n<html lang="es">\n<head>\n  <meta charset="UTF-8">\n  <title>Mi página</title>\n</head>\n<body>\n\n</body>\n</html>';
+
+    function pgNew() {
+      if (!confirm('¿Empezar un proyecto nuevo? Guardá antes si no querés perder los cambios.')) return;
+      document.getElementById('pg-title').value = 'Mi proyecto';
+      pgHtmlEd.setValue(BLANK_HTML);
+      pgCssEd.setValue('');
+      pgJsEd.setValue('');
+      pgHtmlEd.clearHistory(); pgCssEd.clearHistory(); pgJsEd.clearHistory();
+      pgUpdatePreview();
+    }
+
+    function pgSave() {
+      const proj = pgGetCurrent();
+      const list = pgGetProjects();
+      const idx  = list.findIndex(p => p.name === proj.name);
+      if (idx >= 0) list[idx] = proj; else list.unshift(proj);
+      pgSaveProjects(list.slice(0, 20));  // keep max 20
+      localStorage.setItem(PG_LAST, JSON.stringify(proj));
+      pgShowToast('✓ Guardado: ' + proj.name, 'var(--green)');
+    }
+
+    function pgShare() {
+      const data = { html: pgHtmlEd.getValue(), css: pgCssEd.getValue(), js: pgJsEd.getValue() };
+      try {
+        const enc = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+        const url = location.origin + location.pathname + '#' + enc;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(() => pgShowToast('🔗 Enlace copiado al portapapeles', 'var(--accent)'));
+        } else {
+          prompt('Copiá este enlace para compartir tu proyecto:', url);
+        }
+      } catch(e) {
+        alert('El código es muy largo para compartir por URL. Guardalo y compartí el archivo JSON.');
+      }
+    }
+
+    // ── PROJECTS MENU ───────────────────────────────────
+    function pgToggleMenu() {
+      const menu = document.getElementById('pg-proj-menu');
+      if (menu.style.display === 'none') {
+        pgRenderMenu();
+        menu.style.display = 'block';
+        setTimeout(() => document.addEventListener('click', pgCloseMenuOutside), 0);
+      } else {
+        menu.style.display = 'none';
+      }
+    }
+    function pgCloseMenuOutside(e) {
+      if (!document.getElementById('pg-projects-wrap').contains(e.target)) {
+        document.getElementById('pg-proj-menu').style.display = 'none';
+        document.removeEventListener('click', pgCloseMenuOutside);
+      }
+    }
+    function pgRenderMenu() {
+      const menu = document.getElementById('pg-proj-menu');
+      const list = pgGetProjects();
+      if (!list.length) {
+        menu.innerHTML = '<div class="pg-proj-header">Mis proyectos</div>'
+          + '<div class="pg-proj-empty">Todavía no guardaste ningún proyecto.<br>Usá 💾 Guardar para empezar.</div>';
+        return;
+      }
+      menu.innerHTML = '<div class="pg-proj-header">Mis proyectos (' + list.length + ')</div>'
+        + list.map((p, i) => {
+            const d = new Date(p.date).toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit', year:'2-digit' });
+            return '<div class="pg-proj-item" onclick="pgOpenProject(' + i + ')">'
+              + '<span class="pg-proj-name">' + esc(p.name) + '</span>'
+              + '<span class="pg-proj-date">' + d + '</span>'
+              + '<button class="pg-proj-del" onclick="pgDeleteProject(event,' + i + ')" title="Eliminar">✕</button>'
+              + '</div>';
+          }).join('');
+    }
+    function pgOpenProject(i) {
+      const p = pgGetProjects()[i];
+      if (p) {
+        pgLoadData(p);
+        document.getElementById('pg-proj-menu').style.display = 'none';
+        document.removeEventListener('click', pgCloseMenuOutside);
+      }
+    }
+    function pgDeleteProject(e, i) {
+      e.stopPropagation();
+      const list = pgGetProjects();
+      if (!list[i] || !confirm('¿Eliminar "' + list[i].name + '"?')) return;
+      list.splice(i, 1);
+      pgSaveProjects(list);
+      pgRenderMenu();
+    }
+
+    // ── RESIZER ─────────────────────────────────────────
+    (function initResizer() {
+      const resizer = document.getElementById('pg-resizer');
+      const panel   = document.getElementById('pg-editor-panel');
+      resizer.addEventListener('mousedown', e => {
+        e.preventDefault();
+        const startX = e.clientX, startW = panel.getBoundingClientRect().width;
+        resizer.classList.add('is-dragging');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+        document.getElementById('pg-preview-frame').style.pointerEvents = 'none';
+        const onMove = e => {
+          const w = Math.max(200, Math.min(window.innerWidth - 200, startW + e.clientX - startX));
+          panel.style.width = w + 'px';
+        };
+        const onUp = () => {
+          resizer.classList.remove('is-dragging');
+          document.body.style.cursor = '';
+          document.body.style.userSelect = '';
+          document.getElementById('pg-preview-frame').style.pointerEvents = '';
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+          pgHtmlEd.refresh(); pgCssEd.refresh(); pgJsEd.refresh();
+        };
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+      resizer.addEventListener('dblclick', () => {
+        panel.style.width = '50%';
+        pgHtmlEd.refresh(); pgCssEd.refresh(); pgJsEd.refresh();
+      });
+    })();
+
+    // ── TOAST ───────────────────────────────────────────
+    let pgToastTimer = null;
+    function pgShowToast(msg, color) {
+      const t = document.getElementById('pg-toast');
+      t.textContent = msg;
+      t.style.background = color || 'var(--green)';
+      t.classList.add('show');
+      clearTimeout(pgToastTimer);
+      pgToastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    function esc(s) {
+      return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // ── INIT ────────────────────────────────────────────
+    (function init() {
+      // 1. Restore from shared URL hash
+      if (location.hash.length > 1) {
+        try {
+          const data = JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(1)))));
+          pgLoadData({ name: 'Proyecto compartido', ...data });
+          history.replaceState(null, '', location.pathname);
+          pgShowToast('✓ Proyecto cargado desde enlace compartido', 'var(--accent)');
+          return;
+        } catch(e) {}
+      }
+      // 2. Restore last session
+      const last = localStorage.getItem(PG_LAST);
+      if (last) {
+        try { pgLoadData(JSON.parse(last)); return; } catch(e) {}
+      }
+      // 3. Starter template
+      pgHtmlEd.setValue('<!DOCTYPE html>\n<html lang="es">\n<head>\n  <meta charset="UTF-8">\n  <title>Mi página</title>\n</head>\n<body>\n  <h1>¡Hola mundo!</h1>\n  <p>Editá este código para experimentar libremente.</p>\n</body>\n</html>');
+      pgUpdatePreview();
+    })();
+
+    // Auto-save last session every 30 seconds
+    setInterval(() => {
+      localStorage.setItem(PG_LAST, JSON.stringify(pgGetCurrent()));
+    }, 30000);
+  </script>
+</body>
+</html>
