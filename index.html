@@ -252,15 +252,21 @@
       }
     }
 
+    // Encode HTML as base64 data URI — handles Unicode (é, á, etc.)
+    function _toDataURI(html) {
+      try { return 'data:text/html;charset=utf-8;base64,' + btoa(unescape(encodeURIComponent(html))); }
+      catch(e) { return 'data:text/html;charset=utf-8,' + encodeURIComponent(html); }
+    }
+
     function exportSolutionsPDF() {
       const cfg    = COURSES[activeCourse];
       const label  = cfg.label;
       const date   = new Date().toLocaleDateString('es-AR', { year:'numeric', month:'long', day:'numeric' });
 
-      // Collect preview HTML for each lesson (set via JS to avoid attribute escaping)
-      const previews = cfg.lessons.map(l => _buildPreview(l));
-
       const blocks = cfg.lessons.map((l, idx) => {
+        // ── Preview: base64 data URI so </script> never appears in the generated doc ──
+        const previewSrc = _toDataURI(_buildPreview(l));
+
         // ── Solution code block ──
         let code = '';
         if (l.starterJs !== undefined) {
@@ -298,7 +304,7 @@
           <div class="sec preview-sec">
             <div class="sl">👁️ Vista previa</div>
             <div class="pf-wrap">
-              <iframe id="pf${idx}" class="pf" sandbox="allow-scripts allow-same-origin"></iframe>
+              <iframe class="pf" src="${previewSrc}" sandbox="allow-scripts"></iframe>
             </div>
           </div>
         </div>`;
@@ -361,13 +367,7 @@
   <p class="meta">Generado el ${date} · Solo para uso docente 🔐</p>
   ${blocks}
   <script>
-    // Set iframe srcdoc from JS array (avoids HTML attribute escaping issues)
-    var previews = ${JSON.stringify(previews)};
-    previews.forEach(function(html, i) {
-      var f = document.getElementById('pf' + i);
-      if (f) f.srcdoc = html;
-    });
-    // Print after all iframes have loaded
+    // Wait for all preview iframes to load, then open print dialog
     var frames  = Array.from(document.querySelectorAll('.pf'));
     var pending = frames.length;
     function tryPrint() { pending--; if (pending <= 0) setTimeout(function(){ window.print(); }, 400); }
