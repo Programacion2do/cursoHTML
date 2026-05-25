@@ -264,7 +264,7 @@
       const date   = new Date().toLocaleDateString('es-AR', { year:'numeric', month:'long', day:'numeric' });
 
       const blocks = cfg.lessons.map((l, idx) => {
-        // ── Preview: base64 data URI so </script> never appears in the generated doc ──
+        // ── Preview: base64 data URI so close-script tags never break the generated doc ──
         const previewSrc = _toDataURI(_buildPreview(l));
 
         // ── Solution code block ──
