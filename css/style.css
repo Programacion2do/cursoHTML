@@ -964,6 +964,18 @@ code, pre {
 .teacher-btn-alt:hover { background: var(--bg2); opacity: 1; }
 .teacher-note { color: var(--text3); font-size: 0.76rem; margin: 12px 0 0; }
 
+/* ── SITE FOOTER ─────────────────────────────────────── */
+.site-footer {
+  text-align: center;
+  padding: 18px 24px;
+  font-size: 0.78rem;
+  color: var(--text3);
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+  margin-top: 24px;
+}
+.site-footer strong { color: var(--text2); font-weight: 600; }
+
 /* ── PLAYGROUND LINK (index.html header) ────────────── */
 .pg-nav-link {
   display: inline-flex; align-items: center; gap: 6px;
