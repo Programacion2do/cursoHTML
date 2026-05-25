@@ -297,7 +297,9 @@
 
           <div class="sec preview-sec">
             <div class="sl">👁️ Vista previa</div>
-            <iframe id="pf${idx}" class="pf" sandbox="allow-scripts allow-same-origin"></iframe>
+            <div class="pf-wrap">
+              <iframe id="pf${idx}" class="pf" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
           </div>
         </div>`;
       }).join('');
@@ -306,31 +308,33 @@
       win.document.write(`<!DOCTYPE html>
 <html lang="es"><head>
   <meta charset="UTF-8">
+  <meta name="color-scheme" content="light">
   <title>Curso de ${label} — Material Completo</title>
   <style>
     *    { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; max-width: 980px; margin: 0 auto; padding: 30px 20px; color: #1e293b; font-size: 13px; line-height: 1.6; }
+    html { background: #ffffff; }
+    body { background: #ffffff; color: #1e293b; font-family: Arial, sans-serif; max-width: 980px; margin: 0 auto; padding: 30px 20px; font-size: 13px; line-height: 1.6; }
     h1   { color: #7c3aed; border-bottom: 3px solid #7c3aed; padding-bottom: 10px; margin-bottom: 5px; font-size: 1.5rem; }
     .meta { color: #94a3b8; font-size: 0.76rem; margin-bottom: 36px; }
 
     /* Lesson card */
-    .lb  { margin-bottom: 52px; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
+    .lb  { background: #ffffff; margin-bottom: 52px; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
     .lh  { background: #f5f3ff; color: #6d28d9; font-weight: bold; padding: 13px 18px; font-size: 1rem; border-bottom: 1px solid #ddd6fe; display: flex; justify-content: space-between; align-items: center; }
     .dur { font-weight: normal; font-size: 0.75rem; color: #94a3b8; }
 
     /* Sections */
-    .sec { padding: 16px 18px; border-bottom: 1px solid #e2e8f0; }
+    .sec { background: #ffffff; padding: 16px 18px; border-bottom: 1px solid #e2e8f0; }
     .sec:last-child { border-bottom: none; }
     .sl  { font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 10px; }
 
-    /* Theory */
+    /* Theory — override any inherited dark styles */
+    .theory      { color: #1e293b; }
     .theory h3   { color: #6d28d9; font-size: 0.9rem; margin: 12px 0 5px; }
     .theory p    { color: #334155; margin: 5px 0; font-size: 0.85rem; }
     .theory ul   { padding-left: 18px; margin: 5px 0; }
     .theory li   { color: #334155; font-size: 0.85rem; margin: 2px 0; }
-    .theory pre  { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 13px; margin: 8px 0; overflow-x: auto; }
-    .theory code { font-family: 'Courier New', monospace; font-size: 0.77rem; color: #0f172a; }
-    .theory pre code { background: none; }
+    .theory pre  { background: #f1f5f9 !important; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 13px; margin: 8px 0; overflow-x: auto; }
+    .theory code { font-family: 'Courier New', monospace; font-size: 0.77rem; color: #0f172a !important; background: none !important; }
     .theory strong { color: #1e293b; }
 
     /* Mission */
@@ -338,15 +342,17 @@
 
     /* Code files */
     .fl  { display: inline-block; font-family: monospace; font-size: 0.72rem; background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; border-radius: 4px 4px 0 0; padding: 3px 10px; margin-top: 10px; margin-bottom: -1px; }
-    pre  { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0 6px 6px 6px; padding: 11px 13px; font-size: 0.73rem; font-family: 'Courier New', monospace; line-height: 1.55; overflow-x: auto; white-space: pre-wrap; word-break: break-all; color: #0f172a; margin-bottom: 2px; }
+    pre  { background: #f8fafc !important; color: #0f172a !important; border: 1px solid #e2e8f0; border-radius: 0 6px 6px 6px; padding: 11px 13px; font-size: 0.73rem; font-family: 'Courier New', monospace; line-height: 1.55; overflow-x: auto; white-space: pre-wrap; word-break: break-all; margin-bottom: 2px; }
 
-    /* Preview */
-    .pf  { width: 100%; height: 300px; border: 1px solid #e2e8f0; border-radius: 6px; background: white; display: block; margin-top: 4px; }
+    /* Preview — iframe scaled to 60% so more page content is visible */
+    .pf-wrap { position: relative; width: 100%; height: 380px; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 6px; margin-top: 4px; background: #ffffff; }
+    .pf      { position: absolute; top: 0; left: 0; width: 167%; height: 633px; border: none; background: #ffffff; display: block; transform: scale(0.6); transform-origin: top left; }
 
     @media print {
-      body { max-width: 100%; font-size: 11px; padding: 12px; }
-      .lb  { page-break-inside: avoid; margin-bottom: 36px; }
-      .pf  { height: 260px; }
+      body     { max-width: 100%; font-size: 11px; padding: 12px; }
+      .lb      { page-break-inside: avoid; margin-bottom: 36px; }
+      .pf-wrap { height: 320px; }
+      .pf      { height: 533px; }
       .preview-sec { page-break-inside: avoid; }
     }
   </style>
