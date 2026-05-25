@@ -58,17 +58,6 @@ python -m http.server 8000
 
 ---
 
-## 👩‍🏫 Panel docente
-
-Permite exportar el material completo de cada curso a PDF (teoría, misión, solución y vista previa de cada lección) y ver las opiniones de los alumnos.
-
-**Cómo acceder:**
-- Teclado: `Ctrl + Shift + Y` desde la página de inicio
-- URL: agregar `#docente` al final de la URL (`index.html#docente`)
-- Contraseña por defecto: `DOCENTE2026` *(cambiable en `index.html`)*
-
----
-
 ## 📤 Sistema de entregas
 
 Cuando un alumno completa un curso y descarga su diploma, puede entregar su trabajo al docente:
