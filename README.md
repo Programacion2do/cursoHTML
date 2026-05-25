@@ -15,6 +15,7 @@ Plataforma de aprendizaje interactiva para enseñar HTML, CSS y JavaScript desde
 - **Diploma descargable** al finalizar cada curso (PNG via html2canvas)
 - **Formulario de opinión** con puntaje de estrellas, guardado en localStorage
 - **Playground libre** — editor sin restricciones para experimentar, con guardado de proyectos y enlaces para compartir
+- **Sistema de desafíos** — 9 desafíos (3 por curso) con puntos XP y 5 niveles (🌱→🔭→💻→🚀→🏆)
 - **Panel docente** con exportación a PDF del material completo (teoría + misión + solución + vista previa)
 - **Sistema de entrega** — los alumnos pueden enviar su código al docente por email o descargarlo como JSON
 - Progreso guardado en `localStorage` (sin cuenta, sin servidor)
@@ -25,16 +26,19 @@ Plataforma de aprendizaje interactiva para enseñar HTML, CSS y JavaScript desde
 
 ```
 html-course/
-├── index.html          # Página de inicio — selección de cursos
+├── index.html          # Página de inicio — selección de cursos + desafíos + XP
 ├── lesson.html         # Página de lección — editor + quiz + diploma
+├── challenge.html      # Página de desafío — editor + verificación + celebración XP
 ├── playground.html     # Editor libre (HTML/CSS/JS)
 ├── css/
 │   └── style.css       # Estilos globales
 └── js/
-    ├── app.js          # Lógica principal (editor, verificación, quiz, diploma...)
+    ├── app.js          # Lógica de lecciones (editor, verificación, quiz, diploma...)
+    ├── challenge-app.js# Lógica de desafíos (editor, verificación, XP, confetti...)
     ├── lessons.js      # Contenido del curso de HTML
     ├── css-lessons.js  # Contenido del curso de CSS
-    └── js-lessons.js   # Contenido del curso de JavaScript
+    ├── js-lessons.js   # Contenido del curso de JavaScript
+    └── challenges.js   # Contenido de los 9 desafíos + helpers de XP
 ```
 
 ---
@@ -55,6 +59,32 @@ O con Python:
 ```bash
 python -m http.server 8000
 ```
+
+---
+
+## ⚡ Sistema de desafíos
+
+Cada curso tiene 3 desafíos de dificultad creciente, accesibles desde la página de inicio debajo de las lecciones.
+
+| | Fácil · 50 XP | Medio · 100 XP | Difícil · 200 XP |
+|---|---|---|---|
+| HTML | Mi carta de presentación | Menú de restaurante | Formulario de registro |
+| CSS | Tarjeta de perfil | Navbar con Flexbox | Galería con Grid |
+| JS | Contador interactivo | Lista de tareas | Calculadora |
+
+**Niveles de XP:**
+
+| XP | Nivel |
+|---|---|
+| 0 | 🌱 Principiante |
+| 100 | 🔭 Explorador |
+| 300 | 💻 Desarrollador |
+| 600 | 🚀 Experto |
+| 1000 | 🏆 Maestro |
+
+Al completar un desafío aparece una celebración animada con confetti y el XP ganado. El progreso total se muestra como barra en el hero de cada curso.
+
+**Agregar desafíos:** editá `js/challenges.js` siguiendo la misma estructura. Cada desafío soporta los mismos tipos de check que las lecciones (ver tabla más abajo).
 
 ---
 
