@@ -121,6 +121,7 @@
     .pg-resizer {
       width: 5px; flex-shrink: 0; background: var(--border);
       cursor: col-resize; transition: background 0.15s; z-index: 5;
+      position: relative;
     }
     .pg-resizer::after { content: ''; position: absolute; inset: 0 -3px; }
     .pg-resizer:hover, .pg-resizer.is-dragging { background: var(--accent); }
