@@ -225,54 +225,140 @@
       return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    function exportSolutionsPDF() {
-      const cfg   = COURSES[activeCourse];
-      const label = cfg.label;
+    function _buildPreview(l) {
+      if (l.starterJs !== undefined) {
+        let h = l.solutionHtml || '';
+        const css = l.solutionCss || l.starterCss || '';
+        const js  = l.solutionJs  || '';
+        if (css) h = h.replace('</head>', '<style>' + css + '</style></head>');
+        if (js)  h = h.replace('</body>', '<script>' + js + '<\/script></body>');
+        return h;
+      } else if (l.starterCss !== undefined) {
+        let h = l.solutionHtml || '';
+        const css = l.solutionCss || '';
+        if (css) h = h.replace('</head>', '<style>' + css + '</style></head>');
+        return h;
+      } else {
+        return l.solution || '';
+      }
+    }
 
-      const blocks = cfg.lessons.map(l => {
+    function exportSolutionsPDF() {
+      const cfg    = COURSES[activeCourse];
+      const label  = cfg.label;
+      const date   = new Date().toLocaleDateString('es-AR', { year:'numeric', month:'long', day:'numeric' });
+
+      // Collect preview HTML for each lesson (set via JS to avoid attribute escaping)
+      const previews = cfg.lessons.map(l => _buildPreview(l));
+
+      const blocks = cfg.lessons.map((l, idx) => {
+        // ── Solution code block ──
         let code = '';
         if (l.starterJs !== undefined) {
-          code = `
-            <h4>📄 HTML</h4><pre>${_esc(l.solutionHtml)}</pre>
-            <h4>🎨 CSS</h4><pre>${_esc(l.solutionCss || l.starterCss || '')}</pre>
-            <h4>⚡ JavaScript</h4><pre>${_esc(l.solutionJs)}</pre>`;
+          code = `<div class="fl">⚡ script.js</div><pre>${_esc(l.solutionJs)}</pre>
+                  <div class="fl">📄 index.html</div><pre>${_esc(l.solutionHtml)}</pre>
+                  <div class="fl">🎨 style.css</div><pre>${_esc(l.solutionCss || l.starterCss || '')}</pre>`;
         } else if (l.starterCss !== undefined) {
-          code = `
-            <h4>📄 HTML</h4><pre>${_esc(l.solutionHtml)}</pre>
-            <h4>🎨 CSS</h4><pre>${_esc(l.solutionCss)}</pre>`;
+          code = `<div class="fl">🎨 style.css</div><pre>${_esc(l.solutionCss)}</pre>
+                  <div class="fl">📄 index.html</div><pre>${_esc(l.solutionHtml)}</pre>`;
         } else {
-          code = `<pre>${_esc(l.solution)}</pre>`;
+          code = `<div class="fl">📄 index.html</div><pre>${_esc(l.solution)}</pre>`;
         }
+
         return `<div class="lb">
-          <div class="lh">${l.icon} Lección ${l.id} — ${_esc(l.title)}</div>
-          <div class="lc">${code}</div>
+          <div class="lh">
+            <span>${l.icon} Lección ${l.id} — ${_esc(l.title)}</span>
+            <span class="dur">${l.duration}</span>
+          </div>
+
+          <div class="sec">
+            <div class="sl">📖 Teoría</div>
+            <div class="theory">${l.theory}</div>
+          </div>
+
+          <div class="sec">
+            <div class="sl">🎯 Misión</div>
+            <div class="mission">${_esc(l.instructions)}</div>
+          </div>
+
+          <div class="sec">
+            <div class="sl">✅ Solución</div>
+            ${code}
+          </div>
+
+          <div class="sec preview-sec">
+            <div class="sl">👁️ Vista previa</div>
+            <iframe id="pf${idx}" class="pf" sandbox="allow-scripts allow-same-origin"></iframe>
+          </div>
         </div>`;
       }).join('');
 
-      const date = new Date().toLocaleDateString('es-AR', { year:'numeric', month:'long', day:'numeric' });
-      const win  = window.open('', '_blank');
+      const win = window.open('', '_blank');
       win.document.write(`<!DOCTYPE html>
 <html lang="es"><head>
   <meta charset="UTF-8">
-  <title>Soluciones — ${label}</title>
+  <title>Curso de ${label} — Material Completo</title>
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 30px 24px; color: #1e293b; font-size: 14px; }
-    h1 { color: #7c3aed; border-bottom: 3px solid #7c3aed; padding-bottom: 10px; margin-bottom: 4px; }
-    .meta { color: #94a3b8; font-size: 0.82rem; margin-bottom: 32px; }
-    .lb { margin-bottom: 32px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; page-break-inside: avoid; }
-    .lh { background: #f5f3ff; color: #7c3aed; font-weight: bold; padding: 12px 18px; font-size: 1rem; border-bottom: 1px solid #e2e8f0; }
-    .lc { padding: 4px 0 12px; }
-    h4 { color: #475569; margin: 14px 18px 6px; font-size: 0.85rem; }
-    pre { background: #f8fafc; border: 1px solid #e2e8f0; margin: 0 18px 10px; padding: 14px 16px; border-radius: 6px; font-size: 0.78rem; line-height: 1.6; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
-    @media print { .lb { page-break-inside: avoid; } }
+    *    { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; max-width: 980px; margin: 0 auto; padding: 30px 20px; color: #1e293b; font-size: 13px; line-height: 1.6; }
+    h1   { color: #7c3aed; border-bottom: 3px solid #7c3aed; padding-bottom: 10px; margin-bottom: 5px; font-size: 1.5rem; }
+    .meta { color: #94a3b8; font-size: 0.76rem; margin-bottom: 36px; }
+
+    /* Lesson card */
+    .lb  { margin-bottom: 52px; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
+    .lh  { background: #f5f3ff; color: #6d28d9; font-weight: bold; padding: 13px 18px; font-size: 1rem; border-bottom: 1px solid #ddd6fe; display: flex; justify-content: space-between; align-items: center; }
+    .dur { font-weight: normal; font-size: 0.75rem; color: #94a3b8; }
+
+    /* Sections */
+    .sec { padding: 16px 18px; border-bottom: 1px solid #e2e8f0; }
+    .sec:last-child { border-bottom: none; }
+    .sl  { font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 10px; }
+
+    /* Theory */
+    .theory h3   { color: #6d28d9; font-size: 0.9rem; margin: 12px 0 5px; }
+    .theory p    { color: #334155; margin: 5px 0; font-size: 0.85rem; }
+    .theory ul   { padding-left: 18px; margin: 5px 0; }
+    .theory li   { color: #334155; font-size: 0.85rem; margin: 2px 0; }
+    .theory pre  { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 13px; margin: 8px 0; overflow-x: auto; }
+    .theory code { font-family: 'Courier New', monospace; font-size: 0.77rem; color: #0f172a; }
+    .theory pre code { background: none; }
+    .theory strong { color: #1e293b; }
+
+    /* Mission */
+    .mission { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 10px 14px; border-radius: 0 6px 6px 0; color: #92400e; font-size: 0.84rem; }
+
+    /* Code files */
+    .fl  { display: inline-block; font-family: monospace; font-size: 0.72rem; background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; border-radius: 4px 4px 0 0; padding: 3px 10px; margin-top: 10px; margin-bottom: -1px; }
+    pre  { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0 6px 6px 6px; padding: 11px 13px; font-size: 0.73rem; font-family: 'Courier New', monospace; line-height: 1.55; overflow-x: auto; white-space: pre-wrap; word-break: break-all; color: #0f172a; margin-bottom: 2px; }
+
+    /* Preview */
+    .pf  { width: 100%; height: 300px; border: 1px solid #e2e8f0; border-radius: 6px; background: white; display: block; margin-top: 4px; }
+
+    @media print {
+      body { max-width: 100%; font-size: 11px; padding: 12px; }
+      .lb  { page-break-inside: avoid; margin-bottom: 36px; }
+      .pf  { height: 260px; }
+      .preview-sec { page-break-inside: avoid; }
+    }
   </style>
-</head>
-<body>
-  <h1>📋 Soluciones — Curso de ${label}</h1>
+</head><body>
+  <h1>📋 Curso de ${label} — Material Completo</h1>
   <p class="meta">Generado el ${date} · Solo para uso docente 🔐</p>
   ${blocks}
-  <script>window.onload = () => window.print();<\/script>
+  <script>
+    // Set iframe srcdoc from JS array (avoids HTML attribute escaping issues)
+    var previews = ${JSON.stringify(previews)};
+    previews.forEach(function(html, i) {
+      var f = document.getElementById('pf' + i);
+      if (f) f.srcdoc = html;
+    });
+    // Print after all iframes have loaded
+    var frames  = Array.from(document.querySelectorAll('.pf'));
+    var pending = frames.length;
+    function tryPrint() { pending--; if (pending <= 0) setTimeout(function(){ window.print(); }, 400); }
+    if (!pending) { setTimeout(function(){ window.print(); }, 600); }
+    else { frames.forEach(function(f){ f.addEventListener('load', tryPrint); }); }
+  <\/script>
 </body></html>`);
       win.document.close();
     }
