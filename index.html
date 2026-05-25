@@ -194,7 +194,7 @@
       <button class="teacher-btn"     onclick="exportSolutionsPDF()">📄 Exportar soluciones (PDF)</button>
       <button class="teacher-btn teacher-btn-alt" onclick="viewFeedbackReport()">💬 Ver opiniones de alumnos</button>
     </div>
-    <p class="teacher-note">Panel activo para el curso seleccionado · Activar con Ctrl+Shift+T</p>
+    <p class="teacher-note">Panel activo para el curso seleccionado · Activar con Ctrl+Shift+Y o abriendo la URL con #docente al final</p>
   </div>
 
   <script>
@@ -202,24 +202,33 @@
     const _TEACHER_PASS = 'DOCENTE2026';  // ← cambiá esta contraseña
     let   _teacherActive = false;
 
+    function _activateTeacher() {
+      if (_teacherActive) {
+        document.getElementById('teacher-panel').style.display = 'block';
+        document.getElementById('teacher-panel').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      const pass = prompt('🔐 Contraseña de docente:');
+      if (pass === _TEACHER_PASS) {
+        _teacherActive = true;
+        history.replaceState(null, '', location.pathname); // limpiar hash
+        document.getElementById('teacher-panel').style.display = 'block';
+        document.getElementById('teacher-panel').scrollIntoView({ behavior: 'smooth' });
+      } else if (pass !== null) {
+        alert('Contraseña incorrecta.');
+      }
+    }
+
+    // Ctrl+Shift+Y  (Ctrl+Shift+T lo captura el browser para reabrir pestañas)
     document.addEventListener('keydown', e => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+      if (e.ctrlKey && e.shiftKey && e.key === 'Y') {
         e.preventDefault();
-        if (_teacherActive) {
-          document.getElementById('teacher-panel').style.display = 'block';
-          document.getElementById('teacher-panel').scrollIntoView({ behavior: 'smooth' });
-          return;
-        }
-        const pass = prompt('🔐 Contraseña de docente:');
-        if (pass === _TEACHER_PASS) {
-          _teacherActive = true;
-          document.getElementById('teacher-panel').style.display = 'block';
-          document.getElementById('teacher-panel').scrollIntoView({ behavior: 'smooth' });
-        } else if (pass !== null) {
-          alert('Contraseña incorrecta.');
-        }
+        _activateTeacher();
       }
     });
+
+    // Alternativa: abrir index.html#docente en la URL
+    if (location.hash === '#docente') _activateTeacher();
 
     function _esc(s) {
       return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
