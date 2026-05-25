@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafío — Aprende a Programar</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="lesson-page">
+
+  <!-- TOP BAR -->
+  <header class="lesson-topbar">
+    <a href="index.html" class="topbar-logo">
+      &lt;<span>CODE</span>&gt;
+    </a>
+    <div class="topbar-sep"></div>
+    <span class="topbar-chapter" id="ch-course-badge"></span>
+    <span class="topbar-sep"></span>
+    <span class="topbar-title" id="ch-title"></span>
+
+    <div class="topbar-progress" style="gap:8px">
+      <span id="ch-xp-badge" class="xp-topbar-badge"></span>
+      <span id="ch-diff-badge" class="diff-badge"></span>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <div class="lesson-body">
+
+    <!-- LEFT: challenge description -->
+    <aside class="panel-lesson" id="panel-lesson">
+      <div class="panel-lesson-scroll">
+        <div class="lesson-num-badge" id="ch-num-badge">Desafío</div>
+        <h2 id="ch-title-panel"></h2>
+
+        <p id="ch-description" style="font-size:0.88rem;color:var(--text2);margin-bottom:14px;line-height:1.6"></p>
+
+        <div class="divider"></div>
+
+        <div class="instructions-box">
+          <div class="instructions-label">🎯 Tu misión</div>
+          <div id="ch-instructions" style="font-size:0.87rem;color:var(--text);line-height:1.7"></div>
+        </div>
+
+        <!-- Success banner -->
+        <div id="ch-success-banner" style="display:none">
+          <span class="success-icon">✅</span>
+          <div class="success-text">
+            <strong>¡Desafío superado!</strong>
+            <span>¡Excelente trabajo!</span>
+          </div>
+        </div>
+
+        <!-- Checks -->
+        <div id="ch-checks-panel">
+          <div class="checks-title">Resultados</div>
+          <div id="ch-checks-list"></div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="panel-actions">
+        <button class="btn-verify" onclick="chVerify()">✓ Verificar código</button>
+        <div class="btn-row">
+          <button class="btn-sm" onclick="chReset()">↺ Resetear</button>
+          <button class="btn-sm" onclick="chSolution()">💡 Solución</button>
+        </div>
+        <div class="nav-row">
+          <button class="btn-nav" id="ch-btn-back" onclick="window.location.href='index.html'">← Volver</button>
+          <button class="btn-nav btn-next-active" id="ch-btn-next" style="display:none" onclick="chNextChallenge()">Siguiente →</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="resizer" id="resizer-left"></div>
+
+    <!-- CENTER: editor -->
+    <section class="panel-editor">
+      <div class="editor-topbar">
+        <div class="editor-tab active"        id="ch-tab-html" onclick="chSwitchTab('html')">index.html</div>
+        <div class="editor-tab editor-tab-css" id="ch-tab-css"  onclick="chSwitchTab('css')"  style="display:none">style.css</div>
+        <div class="editor-tab editor-tab-js"  id="ch-tab-js"   onclick="chSwitchTab('js')"   style="display:none">script.js</div>
+      </div>
+      <div class="editor-wrap" id="ch-wrap-html"><textarea id="ch-editor-html"></textarea></div>
+      <div class="editor-wrap" id="ch-wrap-css"  style="display:none"><textarea id="ch-editor-css"></textarea></div>
+      <div class="editor-wrap" id="ch-wrap-js"   style="display:none"><textarea id="ch-editor-js"></textarea></div>
+    </section>
+
+    <div class="resizer" id="resizer-right"></div>
+
+    <!-- RIGHT: preview -->
+    <section class="panel-preview" id="panel-preview">
+      <div class="preview-topbar">
+        <span class="preview-dot preview-dot-r"></span>
+        <span class="preview-dot preview-dot-y"></span>
+        <span class="preview-dot preview-dot-g"></span>
+        <span>Vista previa</span>
+      </div>
+      <iframe id="ch-preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+    </section>
+
+  </div>
+
+  <!-- XP CELEBRATION OVERLAY -->
+  <div id="xp-overlay" style="display:none">
+    <div class="xp-overlay-bg"></div>
+    <div class="xp-card">
+      <div class="xp-confetti" id="xp-confetti"></div>
+      <div class="xp-icon" id="xp-icon">🏆</div>
+      <div class="xp-title">¡Desafío completado!</div>
+      <div class="xp-subtitle" id="xp-subtitle"></div>
+      <div class="xp-amount" id="xp-amount">+50 XP</div>
+      <div class="xp-level-row" id="xp-level-row"></div>
+      <div class="xp-actions">
+        <button class="xp-btn xp-btn-next"  id="xp-btn-next"  onclick="chNextFromOverlay()">Siguiente desafío →</button>
+        <button class="xp-btn xp-btn-home"  onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
+  <script src="js/challenges.js"></script>
+  <script src="js/challenge-app.js"></script>
+</body>
+</html>

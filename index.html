@@ -38,6 +38,7 @@
   <script src="js/lessons.js"></script>
   <script src="js/css-lessons.js"></script>
   <script src="js/js-lessons.js"></script>
+  <script src="js/challenges.js"></script>
   <script>
     const COURSES = {
       html: {
@@ -135,6 +136,18 @@
       heroBtn.textContent = btnLabel;
       document.getElementById('course-hero').appendChild(heroBtn);
 
+      // XP bar
+      const totalXp = getTotalXp();
+      const level   = getXpLevel(totalXp);
+      const xpPct   = level.next ? Math.min(100, Math.round((totalXp / level.next) * 100)) : 100;
+      const xpBar   = document.createElement('div');
+      xpBar.className = 'xp-hero-bar';
+      xpBar.innerHTML =
+        '<span class="xp-hero-label">' + level.icon + ' ' + level.label + '</span>' +
+        '<div class="xp-bar-track"><div class="xp-bar-fill" style="width:' + xpPct + '%"></div></div>' +
+        '<span class="xp-bar-right">' + totalXp + (level.next ? '/' + level.next : '') + ' XP</span>';
+      document.getElementById('course-hero').appendChild(xpBar);
+
       // ── Chapters ─────────────────────────────────────
       const chapters = {};
       cfg.lessons.forEach(l => {
@@ -144,6 +157,48 @@
 
       const container = document.getElementById('chapters-container');
       container.innerHTML = '';
+
+      // ── Challenges section ────────────────────────
+      const chList  = (typeof CHALLENGES !== 'undefined' && CHALLENGES[course]) ? CHALLENGES[course] : [];
+      if (chList.length) {
+        const doneCh  = getCompletedChallenges(course);
+        const earnedXp = chList.reduce((s, c) => s + (doneCh.includes(c.id) ? c.xp : 0), 0);
+        const totalCh  = chList.reduce((s, c) => s + c.xp, 0);
+
+        const chSection = document.createElement('div');
+        chSection.style.marginBottom = '40px';
+
+        const diffLabels = { easy: 'Fácil', medium: 'Medio', hard: 'Difícil' };
+
+        chSection.innerHTML =
+          '<div class="challenges-header">' +
+            '<div class="challenges-title">⚡ Desafíos</div>' +
+            '<div style="display:flex;gap:8px;align-items:center">' +
+              '<span class="xp-level-chip">' + doneCh.length + '/' + chList.length + ' completados</span>' +
+              '<span class="xp-pill">🏆 ' + earnedXp + ' / ' + totalCh + ' XP</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="challenges-grid">' +
+            chList.map(ch => {
+              const isDone = doneCh.includes(ch.id);
+              return '<a href="challenge.html?course=' + course + '&id=' + ch.id + '" ' +
+                'class="challenge-card diff-' + ch.difficulty + (isDone ? ' ch-completed' : '') + '">' +
+                  '<div class="ch-card-top">' +
+                    '<span class="ch-card-icon">' + ch.icon + '</span>' +
+                    '<div class="ch-card-check">' + (isDone ? '✓' : '') + '</div>' +
+                  '</div>' +
+                  '<div class="ch-card-title">' + ch.title + '</div>' +
+                  '<div class="ch-card-desc">'  + ch.description + '</div>' +
+                  '<div class="ch-card-footer">' +
+                    '<span class="ch-diff-badge ch-diff-' + ch.difficulty + '">' + (diffLabels[ch.difficulty] || ch.difficulty) + '</span>' +
+                    '<span class="ch-xp-badge">+' + ch.xp + ' XP</span>' +
+                  '</div>' +
+                '</a>';
+            }).join('') +
+          '</div>';
+
+        container.appendChild(chSection);
+      }
 
       Object.values(chapters).forEach(ch => {
         const group = document.createElement('div');
