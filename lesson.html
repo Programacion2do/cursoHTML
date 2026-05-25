@@ -134,7 +134,98 @@
 
   </div>
 
+  <!-- DIPLOMA MODAL -->
+  <div id="diploma-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeDiplomaModal()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeDiplomaModal()" title="Cerrar">✕</button>
+
+      <!-- Step 1: Name form -->
+      <div id="diploma-step-1">
+        <div class="diploma-form-title">🎓 ¡Felicitaciones!</div>
+        <p class="diploma-form-sub">Completaste el curso. Ingresá tu nombre y apellido para generar tu diploma.</p>
+        <form onsubmit="submitDiplomaForm(event)">
+          <input class="diploma-input" id="diploma-nombre"   type="text" placeholder="Tu nombre"   required autocomplete="given-name">
+          <input class="diploma-input" id="diploma-apellido" type="text" placeholder="Tu apellido" required autocomplete="family-name">
+          <button class="diploma-submit" type="submit">Generar mi diploma →</button>
+        </form>
+      </div>
+
+      <!-- Step 2: Diploma card -->
+      <div id="diploma-step-2" style="display:none">
+        <div id="diploma-card">
+          <div class="diploma-logo" id="diploma-icon">🎓</div>
+          <div class="diploma-brand-name">Aprende a Programar</div>
+          <div class="diploma-cert-title">✦ Certificado de Finalización ✦</div>
+          <div class="diploma-certifies">Se certifica con orgullo que:</div>
+          <div class="diploma-student-name" id="diploma-name">Nombre Apellido</div>
+          <div class="diploma-divider"></div>
+          <div class="diploma-completed-text">ha completado satisfactoriamente el curso de</div>
+          <div class="diploma-course-label" id="diploma-course">Programación</div>
+          <div class="diploma-footer-row">
+            <div>
+              <div class="diploma-date-text" id="diploma-date"></div>
+              <div class="diploma-sig">Programación 2.0</div>
+            </div>
+            <div class="diploma-seal">🎖️</div>
+          </div>
+        </div>
+        <div class="diploma-actions">
+          <button class="btn-diploma-action btn-diploma-dl"      onclick="downloadDiploma()">⬇️ Descargar diploma</button>
+          <button class="btn-diploma-action btn-diploma-opinion" onclick="openFeedback()">💬 Dejar mi opinión</button>
+          <button class="btn-diploma-action btn-diploma-home"    onclick="window.location.href='index.html'">🏠 Volver al inicio</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK MODAL -->
+  <div id="feedback-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeFeedbackModal()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeFeedbackModal()" title="Cerrar">✕</button>
+
+      <!-- Form -->
+      <div id="feedback-form-wrap">
+        <div class="feedback-title">💬 Tu opinión nos importa</div>
+        <p class="feedback-sub">Ayudanos a mejorar el curso con tu experiencia</p>
+        <form onsubmit="submitFeedback(event)">
+          <div class="feedback-row feedback-group">
+            <input class="feedback-input" id="fb-nombre"   type="text" placeholder="Nombre"   required>
+            <input class="feedback-input" id="fb-apellido" type="text" placeholder="Apellido" required>
+          </div>
+          <div class="feedback-group">
+            <label class="feedback-label">¿Cómo calificarías el curso?</label>
+            <div class="feedback-stars" id="feedback-stars">
+              <span class="feedback-star" onclick="setRating(1)">★</span>
+              <span class="feedback-star" onclick="setRating(2)">★</span>
+              <span class="feedback-star" onclick="setRating(3)">★</span>
+              <span class="feedback-star" onclick="setRating(4)">★</span>
+              <span class="feedback-star" onclick="setRating(5)">★</span>
+            </div>
+          </div>
+          <div class="feedback-group">
+            <label class="feedback-label">¿Qué te pareció el curso?</label>
+            <textarea class="feedback-textarea" id="fb-opinion" placeholder="Contanos tu experiencia con el curso..." required></textarea>
+          </div>
+          <div class="feedback-group">
+            <label class="feedback-label">¿Qué le agregarías o quitarías?</label>
+            <textarea class="feedback-textarea" id="fb-sugerencias" placeholder="Sugerencias, ideas, comentarios..."></textarea>
+          </div>
+          <button class="feedback-submit" type="submit">Enviar opinión ✓</button>
+        </form>
+      </div>
+
+      <!-- Thank you screen -->
+      <div id="feedback-thanks" class="feedback-thanks" style="display:none">
+        <div class="ft-emoji">🙏</div>
+        <h3>¡Gracias por tu opinión!</h3>
+        <p>Tu feedback nos ayuda a mejorar el curso para futuros estudiantes.</p>
+        <button onclick="closeFeedbackModal()" style="margin-top:22px;padding:11px 28px;border-radius:10px;border:1px solid var(--border2);background:var(--bg3);color:#a78bfa;cursor:pointer;font-family:inherit;font-size:0.9rem;">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>

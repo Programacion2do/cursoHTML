@@ -340,7 +340,13 @@ function restoreCompletedQuiz() {
 // ── HELPERS ───────────────────────────────────────────
 function enableNext() {
   const btn = document.getElementById('btn-next');
-  if (btn) btn.classList.add('btn-next-active');
+  if (btn) {
+    btn.disabled  = false;
+    btn.title     = '';
+    btn.classList.add('btn-next-active');
+    const isLast  = currentLesson.id >= _lessons.length;
+    btn.onclick   = () => isLast ? showDiplomaModal() : navigateTo(currentLesson.id + 1);
+  }
 }
 
 function updateProgressBar() {
@@ -367,10 +373,15 @@ function updateNavButtons(id) {
     prevBtn.onclick  = () => navigateTo(id - 1);
   }
   if (nextBtn) {
-    const isLast         = id >= _lessons.length;
-    nextBtn.textContent  = isLast ? '🏁 Finalizar' : 'Siguiente →';
-    nextBtn.onclick      = () => isLast ? (window.location.href = 'index.html') : navigateTo(id + 1);
-    if (completedQuizzes.includes(id)) nextBtn.classList.add('btn-next-active');
+    const isLast      = id >= _lessons.length;
+    const isUnlocked  = completedQuizzes.includes(id);
+    nextBtn.textContent = isLast ? '🏁 Finalizar' : 'Siguiente →';
+    nextBtn.disabled    = !isUnlocked;
+    nextBtn.title       = isUnlocked ? '' : 'Completá el ejercicio y respondé el quiz para continuar';
+    nextBtn.classList.toggle('btn-next-active', isUnlocked);
+    nextBtn.onclick = isUnlocked
+      ? () => isLast ? showDiplomaModal() : navigateTo(id + 1)
+      : null;
   }
 }
 
@@ -491,4 +502,105 @@ function initResizers() {
 
   makeResizable(document.getElementById('resizer-left'),  leftPanel,  'left');
   makeResizable(document.getElementById('resizer-right'), rightPanel, 'right');
+}
+
+// ── DIPLOMA ───────────────────────────────────────────
+function showDiplomaModal() {
+  const modal = document.getElementById('diploma-modal');
+  if (!modal) { window.location.href = 'index.html'; return; }
+  document.getElementById('diploma-step-1').style.display = 'block';
+  document.getElementById('diploma-step-2').style.display = 'none';
+  document.getElementById('diploma-nombre').value   = '';
+  document.getElementById('diploma-apellido').value = '';
+  modal.style.display = 'flex';
+}
+
+function closeDiplomaModal() {
+  document.getElementById('diploma-modal').style.display = 'none';
+}
+
+function submitDiplomaForm(e) {
+  e.preventDefault();
+  const nombre   = document.getElementById('diploma-nombre').value.trim();
+  const apellido = document.getElementById('diploma-apellido').value.trim();
+  if (!nombre || !apellido) return;
+
+  const labels = { html: 'HTML', css: 'CSS', js: 'JavaScript' };
+  const icons  = { html: '🌐', css: '🎨', js: '⚡' };
+  const date   = new Date().toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  document.getElementById('diploma-icon').textContent   = icons[_course]  || '💻';
+  document.getElementById('diploma-name').textContent   = `${nombre} ${apellido}`;
+  document.getElementById('diploma-course').textContent = `Desarrollo ${labels[_course] || 'Web'}`;
+  document.getElementById('diploma-date').textContent   = `Emitido el ${date}`;
+
+  document.getElementById('diploma-step-1').style.display = 'none';
+  document.getElementById('diploma-step-2').style.display = 'block';
+}
+
+function downloadDiploma() {
+  const card = document.getElementById('diploma-card');
+  if (typeof html2canvas === 'undefined') {
+    window.print(); return;
+  }
+  const btn = document.querySelector('.btn-diploma-dl');
+  const orig = btn.textContent;
+  btn.textContent = 'Generando...'; btn.disabled = true;
+  html2canvas(card, { scale: 2, useCORS: true, backgroundColor: null }).then(canvas => {
+    const link    = document.createElement('a');
+    link.download = `diploma-${_course}.png`;
+    link.href     = canvas.toDataURL('image/png');
+    link.click();
+  }).catch(() => { window.print(); })
+    .finally(() => { btn.textContent = orig; btn.disabled = false; });
+}
+
+function openFeedback() {
+  closeDiplomaModal();
+  // Pre-fill name from diploma if available
+  const nombre   = document.getElementById('diploma-nombre') ? document.getElementById('diploma-nombre').value : '';
+  const apellido = document.getElementById('diploma-apellido') ? document.getElementById('diploma-apellido').value : '';
+  setTimeout(() => {
+    const modal = document.getElementById('feedback-modal');
+    if (!modal) return;
+    document.getElementById('feedback-form-wrap').style.display = 'block';
+    document.getElementById('feedback-thanks').style.display    = 'none';
+    if (nombre)   document.getElementById('fb-nombre').value   = nombre;
+    if (apellido) document.getElementById('fb-apellido').value = apellido;
+    modal.style.display = 'flex';
+  }, 180);
+}
+
+// ── FEEDBACK ──────────────────────────────────────────
+let _feedbackRating = 0;
+
+function setRating(r) {
+  _feedbackRating = r;
+  document.querySelectorAll('.feedback-star').forEach((s, i) => {
+    s.classList.toggle('active', i < r);
+  });
+}
+
+function submitFeedback(e) {
+  e.preventDefault();
+  const entry = {
+    curso:       _course,
+    nombre:      document.getElementById('fb-nombre').value.trim(),
+    apellido:    document.getElementById('fb-apellido').value.trim(),
+    rating:      _feedbackRating,
+    opinion:     document.getElementById('fb-opinion').value.trim(),
+    sugerencias: document.getElementById('fb-sugerencias').value.trim(),
+    fecha:       new Date().toISOString(),
+  };
+  const all = JSON.parse(localStorage.getItem('course_feedback') || '[]');
+  all.push(entry);
+  localStorage.setItem('course_feedback', JSON.stringify(all));
+  document.getElementById('feedback-form-wrap').style.display = 'none';
+  document.getElementById('feedback-thanks').style.display    = 'block';
+}
+
+function closeFeedbackModal() {
+  document.getElementById('feedback-modal').style.display = 'none';
+  _feedbackRating = 0;
+  document.querySelectorAll('.feedback-star').forEach(s => s.classList.remove('active'));
 }

@@ -519,6 +519,7 @@ code, pre {
 #btn-prev:disabled { opacity: 0.35; cursor: not-allowed; }
 
 #btn-next { background: var(--bg3); color: var(--text3); border-color: var(--border); }
+#btn-next:disabled { opacity: 0.35; cursor: not-allowed; }
 #btn-next.btn-next-active {
   background: var(--green-bg);
   border-color: var(--green);
@@ -790,6 +791,178 @@ code, pre {
   background: var(--accent);
 }
 
+
+/* ── MODALS ──────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.82);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2000; padding: 20px;
+}
+.modal-box {
+  background: #1a1a2e;
+  border: 1px solid #3b3b5c;
+  border-radius: 18px;
+  padding: 40px;
+  max-width: 720px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  position: relative;
+  animation: modalPop 0.22s ease;
+}
+@keyframes modalPop {
+  from { transform: scale(0.93); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+.modal-close {
+  position: absolute; top: 14px; right: 18px;
+  background: none; border: none;
+  color: var(--text3); font-size: 1.3rem;
+  cursor: pointer; padding: 4px 8px; border-radius: 6px;
+  transition: all 0.15s;
+}
+.modal-close:hover { color: var(--text); background: var(--bg3); }
+
+/* ── DIPLOMA FORM ────────────────────────────────────── */
+.diploma-form-title {
+  color: #a78bfa; font-size: 1.7rem; font-weight: bold;
+  text-align: center; margin-bottom: 8px;
+}
+.diploma-form-sub {
+  color: var(--text3); text-align: center;
+  margin-bottom: 28px; font-size: 0.95rem;
+}
+.diploma-input {
+  display: block; width: 100%; box-sizing: border-box;
+  background: var(--bg); border: 1.5px solid var(--border2);
+  color: var(--text); border-radius: 10px;
+  padding: 13px 16px; font-size: 1rem; font-family: inherit;
+  margin-bottom: 14px; outline: none; transition: border 0.2s;
+}
+.diploma-input:focus { border-color: var(--accent); }
+.diploma-submit {
+  width: 100%; padding: 14px; border-radius: 10px;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: white; font-size: 1rem; font-weight: bold;
+  border: none; cursor: pointer; transition: opacity 0.2s; font-family: inherit;
+}
+.diploma-submit:hover { opacity: 0.88; }
+
+/* ── DIPLOMA CARD ────────────────────────────────────── */
+#diploma-card {
+  background: linear-gradient(140deg, #0d0626 0%, #1a0a3c 55%, #0a0e24 100%);
+  border-radius: 14px;
+  padding: 48px 56px;
+  text-align: center;
+  position: relative;
+  border: 2px solid #7c3aed;
+  box-shadow: 0 0 50px rgba(124,58,237,0.25), inset 0 0 60px rgba(167,139,250,0.04);
+  margin-bottom: 20px;
+}
+#diploma-card::before {
+  content: '';
+  position: absolute; inset: 9px;
+  border: 1px solid rgba(167,139,250,0.2);
+  border-radius: 9px; pointer-events: none;
+}
+.diploma-logo       { font-size: 2.6rem; margin-bottom: 4px; }
+.diploma-brand-name { color: #a78bfa; font-size: 0.78rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 28px; }
+.diploma-cert-title {
+  color: #fbbf24; font-size: 1rem; letter-spacing: 5px;
+  text-transform: uppercase; font-weight: bold; margin-bottom: 22px;
+}
+.diploma-certifies  { color: #94a3b8; font-size: 0.9rem; margin-bottom: 10px; }
+.diploma-student-name {
+  color: #ffffff; font-size: 2.1rem; font-weight: bold;
+  font-family: Georgia, 'Times New Roman', serif; letter-spacing: 1px;
+  text-shadow: 0 0 28px rgba(167,139,250,0.55); margin: 10px 0 20px;
+}
+.diploma-divider {
+  width: 80px; height: 2px; margin: 20px auto;
+  background: linear-gradient(90deg, transparent, #7c3aed, transparent);
+}
+.diploma-completed-text { color: #94a3b8; font-size: 0.88rem; margin-bottom: 6px; }
+.diploma-course-label   { color: #a78bfa; font-size: 1.35rem; font-weight: bold; margin-bottom: 22px; }
+.diploma-footer-row {
+  display: flex; justify-content: space-between; align-items: flex-end; margin-top: 28px;
+}
+.diploma-date-text { color: #64748b; font-size: 0.8rem; text-align: left; }
+.diploma-sig       { color: #4b5563; font-size: 0.7rem; text-align: left; margin-top: 3px; }
+.diploma-seal      { font-size: 3rem; }
+
+/* Diploma action buttons */
+.diploma-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-diploma-action {
+  flex: 1; min-width: 130px; padding: 11px 16px; border-radius: 10px;
+  font-size: 0.88rem; font-weight: 600; cursor: pointer; border: none;
+  transition: all 0.18s; font-family: inherit;
+}
+.btn-diploma-dl      { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: white; }
+.btn-diploma-dl:hover { opacity: 0.88; }
+.btn-diploma-opinion { background: var(--bg3); color: #a78bfa; border: 1px solid var(--border2); }
+.btn-diploma-opinion:hover { background: var(--bg2); }
+.btn-diploma-home    { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); }
+.btn-diploma-home:hover { color: var(--text); border-color: var(--border2); }
+
+/* ── FEEDBACK FORM ───────────────────────────────────── */
+.feedback-title { color: #a78bfa; font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 6px; }
+.feedback-sub   { color: var(--text3); font-size: 0.88rem; text-align: center; margin-bottom: 24px; }
+.feedback-row   { display: flex; gap: 12px; }
+.feedback-group { margin-bottom: 16px; }
+.feedback-label { color: var(--text3); font-size: 0.82rem; margin-bottom: 7px; display: block; }
+.feedback-input, .feedback-textarea {
+  width: 100%; box-sizing: border-box;
+  background: var(--bg); border: 1.5px solid var(--border2);
+  color: var(--text); border-radius: 10px;
+  padding: 11px 15px; font-size: 0.93rem; font-family: inherit;
+  outline: none; transition: border 0.2s;
+}
+.feedback-input:focus, .feedback-textarea:focus { border-color: var(--accent); }
+.feedback-textarea { min-height: 88px; resize: vertical; }
+.feedback-stars { display: flex; gap: 6px; font-size: 1.6rem; cursor: default; }
+.feedback-star  { cursor: pointer; transition: transform 0.12s; opacity: 0.4; }
+.feedback-star:hover, .feedback-star.active { opacity: 1; transform: scale(1.15); }
+.feedback-submit {
+  width: 100%; padding: 13px; border-radius: 10px; margin-top: 4px;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: white; font-size: 0.97rem; font-weight: bold;
+  border: none; cursor: pointer; transition: opacity 0.2s; font-family: inherit;
+}
+.feedback-submit:hover { opacity: 0.88; }
+.feedback-thanks { text-align: center; padding: 36px 20px; }
+.feedback-thanks .ft-emoji { font-size: 3rem; margin-bottom: 14px; }
+.feedback-thanks h3 { color: #a78bfa; font-size: 1.35rem; margin-bottom: 8px; }
+.feedback-thanks p  { color: var(--text3); font-size: 0.9rem; }
+
+/* ── TEACHER PANEL (index.html) ─────────────────────── */
+.teacher-panel {
+  max-width: 900px; margin: 16px auto 0;
+  background: rgba(124,58,237,0.08);
+  border: 1px solid rgba(124,58,237,0.35);
+  border-radius: 12px; padding: 18px 22px;
+}
+.teacher-header {
+  display: flex; justify-content: space-between; align-items: center;
+  color: #a78bfa; font-weight: 600; font-size: 0.92rem; margin-bottom: 14px;
+}
+.teacher-header button {
+  background: none; border: none; color: var(--text3);
+  cursor: pointer; font-size: 1rem; padding: 3px 8px; border-radius: 6px;
+}
+.teacher-header button:hover { color: var(--text); background: var(--bg3); }
+.teacher-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.teacher-btn {
+  padding: 9px 18px; border-radius: 8px;
+  background: rgba(124,58,237,0.7); color: white;
+  border: none; cursor: pointer; font-size: 0.87rem; font-family: inherit;
+  transition: opacity 0.2s;
+}
+.teacher-btn:hover { opacity: 0.82; }
+.teacher-btn-alt {
+  background: var(--bg3); color: #a78bfa;
+  border: 1px solid rgba(124,58,237,0.4);
+}
+.teacher-btn-alt:hover { background: var(--bg2); opacity: 1; }
+.teacher-note { color: var(--text3); font-size: 0.76rem; margin: 12px 0 0; }
 
 /* ── RESPONSIVE ─────────────────────────────────────── */
 @media (max-width: 900px) {
