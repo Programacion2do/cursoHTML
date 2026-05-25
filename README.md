@@ -48,7 +48,7 @@ html-course/
 No requiere instalación ni servidor. Es HTML/CSS/JS puro, funciona directamente en el navegador.
 
 ### Opción 1 — Abrir directo
-Abrí `index.html` en cualquier navegador moderno.
+Abre `index.html` en cualquier navegador moderno.
 
 ### Opción 2 — Servidor local (recomendado para evitar restricciones CORS)
 ```powershell
@@ -84,7 +84,7 @@ Cada curso tiene 3 desafíos de dificultad creciente, accesibles desde la págin
 
 Al completar un desafío aparece una celebración animada con confetti y el XP ganado. El progreso total se muestra como barra en el hero de cada curso.
 
-**Agregar desafíos:** editá `js/challenges.js` siguiendo la misma estructura. Cada desafío soporta los mismos tipos de check que las lecciones (ver tabla más abajo).
+**Agregar desafíos:** edita `js/challenges.js` siguiendo la misma estructura. Cada desafío soporta los mismos tipos de check que las lecciones (ver tabla más abajo).
 
 ---
 
@@ -95,7 +95,7 @@ Cuando un alumno completa un curso y descarga su diploma, puede entregar su trab
 - **Descargar JSON** — genera un archivo con el código de cada ejercicio completado
 - **Enviar por email** — integración con [EmailJS](https://emailjs.com) (gratis hasta 200 emails/mes)
 
-Para activar el envío por email, editá `js/app.js` y completá:
+Para activar el envío por email, edita `js/app.js` y completa:
 ```js
 const _EMAILJS_SERVICE  = 'service_xxx';   // de emailjs.com
 const _EMAILJS_TEMPLATE = 'template_xxx';
@@ -145,7 +145,7 @@ Cada archivo de lecciones (`lessons.js`, `css-lessons.js`, `js-lessons.js`) expo
   starterCode:  `<!-- código inicial -->`,
   solution:     `<!-- código correcto -->`,
   checks: [
-    { type: 'element', selector: 'h1', message: 'Debe existir un <h1>', hint: 'Agregá una etiqueta h1' },
+    { type: 'element', selector: 'h1', message: 'Debe existir un <h1>', hint: 'Agrega una etiqueta h1' },
     { type: 'regex',   pattern:  'hola', message: 'El texto debe incluir "hola"' },
   ],
   quiz: [
