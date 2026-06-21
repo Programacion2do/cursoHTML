@@ -5,12 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aprende a programar — Cursos interactivos</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Tutorial modal ─────────────────────────── */
+    .tut-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .tut-modal {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      max-width: 480px; width: 100%;
+      padding: 36px 32px 28px;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+      animation: tut-in 0.22s ease;
+    }
+    @keyframes tut-in { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+    .tut-step-icon { font-size: 3.2rem; text-align: center; margin-bottom: 14px; line-height: 1; }
+    .tut-step-title {
+      font-size: 1.15rem; font-weight: 700; text-align: center;
+      color: var(--text); margin-bottom: 10px;
+    }
+    .tut-step-body {
+      font-size: 0.9rem; color: var(--text2); text-align: center;
+      line-height: 1.7; margin-bottom: 26px;
+    }
+    .tut-step-body strong { color: var(--accent2); font-weight: 600; }
+    .tut-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 22px; }
+    .tut-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border2); transition: background 0.2s, transform 0.2s;
+    }
+    .tut-dot.active { background: var(--accent); transform: scale(1.25); }
+    .tut-actions { display: flex; gap: 10px; justify-content: center; align-items: center; }
+    .tut-btn-prev {
+      padding: 9px 18px; border-radius: 8px;
+      border: 1px solid var(--border2); background: transparent;
+      color: var(--text2); font-size: 0.86rem; font-family: inherit;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .tut-btn-prev:hover { background: var(--bg3); }
+    .tut-btn-next {
+      padding: 9px 24px; border-radius: 8px;
+      background: var(--accent); color: white;
+      border: none; font-size: 0.88rem; font-weight: 600;
+      font-family: inherit; cursor: pointer; transition: background 0.15s;
+      min-width: 140px;
+    }
+    .tut-btn-next:hover { background: var(--accent2); }
+    .tut-close {
+      position: absolute; top: 12px; right: 14px;
+      background: none; border: none; color: var(--text3);
+      font-size: 1rem; cursor: pointer; padding: 4px 7px;
+      border-radius: 6px; transition: color 0.15s;
+    }
+    .tut-close:hover { color: var(--text2); }
+    /* Tutorial button in header */
+    .tut-help-btn {
+      background: none; border: 1px solid var(--border);
+      color: var(--text2); font-size: 0.82rem; cursor: pointer;
+      border-radius: 6px; padding: 5px 12px; font-family: inherit;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .tut-help-btn:hover { border-color: var(--accent); color: var(--accent); }
+    /* Progress menu */
+    .prog-wrap { position: relative; }
+    .prog-menu {
+      display: none; position: absolute; top: calc(100% + 6px); right: 0;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35); min-width: 200px; z-index: 200; overflow: hidden;
+    }
+    .prog-menu-item {
+      display: flex; align-items: center; gap: 8px;
+      width: 100%; padding: 10px 16px; background: none; border: none;
+      color: var(--text2); font-family: inherit; font-size: 0.88rem;
+      cursor: pointer; text-align: left; transition: background 0.15s;
+    }
+    .prog-menu-item:hover { background: var(--bg3); color: var(--text); }
+    .prog-menu-item + .prog-menu-item { border-top: 1px solid var(--border); }
+  </style>
 </head>
 <body>
 
   <header class="home-header">
     <div class="logo">&lt;<span>CODE</span>&gt;</div>
     <span style="color: var(--text3); font-size: 0.9rem;">Cursos interactivos para principiantes</span>
+    <button class="tut-help-btn" onclick="openTutorial()">❓ ¿Cómo funciona?</button>
+    <div class="prog-wrap" id="progress-menu-wrap">
+      <button class="tut-help-btn" onclick="toggleProgressMenu()">💾 Mi progreso</button>
+      <div class="prog-menu" id="progress-menu">
+        <button class="prog-menu-item" onclick="exportProgress()">⬇️ Exportar progreso</button>
+        <button class="prog-menu-item" onclick="document.getElementById('progress-import-file').click(); document.getElementById('progress-menu').style.display='none'">⬆️ Importar progreso</button>
+      </div>
+    </div>
+    <input type="file" id="progress-import-file" accept=".json" style="display:none" onchange="handleImportFile(event)">
     <a href="playground.html" class="pg-nav-link">🎮 Playground</a>
   </header>
 
@@ -40,6 +132,10 @@
   <script src="js/js-lessons.js"></script>
   <script src="js/challenges.js"></script>
   <script>
+    function _esc(s) {
+      return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
     const COURSES = {
       html: {
         lessons:     lessons,
@@ -77,7 +173,7 @@
     };
 
     // Validate stored course — fall back to 'html' if lessons didn't load
-    let activeCourse = localStorage.getItem('lastCourse') || 'html';
+    var activeCourse = localStorage.getItem('lastCourse') || 'html';
     if (!COURSES[activeCourse] || !COURSES[activeCourse].lessons) activeCourse = 'html';
 
     function switchCourse(course) {
@@ -221,7 +317,7 @@
             <div class="card-icon">${l.icon}</div>
             <div class="card-info">
               <div class="card-num">Lección ${l.id}</div>
-              <div class="card-title">${l.title}</div>
+              <div class="card-title">${_esc(l.title)}</div>
               <div class="card-duration">${l.duration}</div>
             </div>
             <div class="card-status">
@@ -238,6 +334,62 @@
 
     // Initial render
     switchCourse(activeCourse);
+
+    // ── PROGRESO: EXPORTAR / IMPORTAR ─────────────────────
+    const _PROGRESS_KEYS = [
+      'lastCourse',
+      'htmlcourse_progress', 'htmlcourse_quiz',
+      'csscourse_progress',  'csscourse_quiz',
+      'jscourse_progress',   'jscourse_quiz',
+      'htmlchallenges_done', 'csschallenges_done', 'jschallenges_done',
+    ];
+
+    function exportProgress() {
+      document.getElementById('progress-menu').style.display = 'none';
+      const data = {};
+      _PROGRESS_KEYS.forEach(k => { const v = localStorage.getItem(k); if (v !== null) data[k] = v; });
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.includes('_code_')) data[k] = localStorage.getItem(k);
+      }
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'progreso_' + new Date().toISOString().slice(0,10) + '.json';
+      a.click(); URL.revokeObjectURL(url);
+    }
+
+    function handleImportFile(e) {
+      const file = e.target.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        try {
+          const data = JSON.parse(ev.target.result);
+          Object.entries(data).forEach(([k, v]) => localStorage.setItem(k, v));
+          alert('✓ Progreso importado. La página se va a recargar.');
+          location.reload();
+        } catch { alert('El archivo no es válido.'); }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    function toggleProgressMenu() {
+      const menu = document.getElementById('progress-menu');
+      const open = menu.style.display !== 'none' && menu.style.display !== '';
+      if (open) {
+        menu.style.display = 'none';
+      } else {
+        menu.style.display = 'block';
+        setTimeout(() => document.addEventListener('click', _closeProgressOutside), 0);
+      }
+    }
+    function _closeProgressOutside(e) {
+      if (!document.getElementById('progress-menu-wrap').contains(e.target)) {
+        document.getElementById('progress-menu').style.display = 'none';
+        document.removeEventListener('click', _closeProgressOutside);
+      }
+    }
   </script>
 
   <!-- FOOTER -->
@@ -245,100 +397,121 @@
     Desarrollado por <strong>Elizabeth Izquierdo</strong> con asistencia de Claude &nbsp;|&nbsp; © 2026
   </footer>
 
-  <!-- TEACHER PANEL (hidden — Ctrl+Shift+T to activate) -->
+  <!-- TUTORIAL MODAL -->
+  <div class="tut-overlay" id="tut-overlay" style="display:none" onclick="if(event.target===this)closeTutorial()">
+    <div class="tut-modal">
+      <button class="tut-close" onclick="closeTutorial()" title="Cerrar">✕</button>
+      <div class="tut-step-icon" id="tut-icon"></div>
+      <div class="tut-step-title" id="tut-title"></div>
+      <div class="tut-step-body"  id="tut-body"></div>
+      <div class="tut-dots" id="tut-dots"></div>
+      <div class="tut-actions">
+        <button class="tut-btn-prev" id="tut-btn-prev" onclick="tutPrev()">← Anterior</button>
+        <button class="tut-btn-next" id="tut-btn-next" onclick="tutNext()">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
   <div id="teacher-panel" class="teacher-panel" style="display:none">
     <div class="teacher-header">
       <span>🔐 Panel docente</span>
       <button onclick="document.getElementById('teacher-panel').style.display='none'" title="Cerrar">✕</button>
     </div>
     <div class="teacher-actions">
-      <button class="teacher-btn"     onclick="exportSolutionsPDF()">📄 Exportar soluciones (PDF)</button>
-      <button class="teacher-btn teacher-btn-alt" onclick="viewFeedbackReport()">💬 Ver opiniones de alumnos</button>
+      <button class="teacher-btn"     onclick="_genDoc()">📄 Exportar soluciones (PDF)</button>
+      <button class="teacher-btn teacher-btn-alt" onclick="_showReport()">💬 Ver opiniones de alumnos</button>
     </div>
-    <p class="teacher-note">Panel activo para el curso seleccionado · Activar con Ctrl+Shift+Y o abriendo la URL con #docente al final</p>
+    <p class="teacher-note">Panel activo para el curso seleccionado</p>
   </div>
 
   <script>
-    // ── TEACHER MODE ──────────────────────────────────────
-    const _TEACHER_PASS = 'DOCENTE2026';  // ← cambiá esta contraseña
-    let   _teacherActive = false;
+    const _kh = '466550e50c5ddc8404e4f23c7a204e91fe6ed418cff30f513542e042090fdcc7';
+    let   _ua = false;
 
-    function _activateTeacher() {
-      if (_teacherActive) {
+    async function _unlock() {
+      if (_ua) {
         document.getElementById('teacher-panel').style.display = 'block';
         document.getElementById('teacher-panel').scrollIntoView({ behavior: 'smooth' });
         return;
       }
       const pass = prompt('🔐 Contraseña de docente:');
-      if (pass === _TEACHER_PASS) {
-        _teacherActive = true;
-        history.replaceState(null, '', location.pathname); // limpiar hash
+      if (pass === null) return;
+      const enc  = new TextEncoder().encode(pass);
+      const buf  = await crypto.subtle.digest('SHA-256', enc);
+      const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+      if (hash === _kh) {
+        _ua = true;
+        history.replaceState(null, '', location.pathname);
+        await new Promise((res, rej) => {
+          if (typeof _SD !== 'undefined') { res(); return; }
+          const s = document.createElement('script');
+          s.src = 'js/app-data.js'; s.onload = res; s.onerror = rej;
+          document.head.appendChild(s);
+        });
         document.getElementById('teacher-panel').style.display = 'block';
         document.getElementById('teacher-panel').scrollIntoView({ behavior: 'smooth' });
-      } else if (pass !== null) {
+      } else {
         alert('Contraseña incorrecta.');
       }
     }
 
-    // Ctrl+Shift+Y  (Ctrl+Shift+T lo captura el browser para reabrir pestañas)
     document.addEventListener('keydown', e => {
       if (e.ctrlKey && e.shiftKey && e.key === 'Y') {
         e.preventDefault();
-        _activateTeacher();
+        _unlock();
       }
     });
 
-    // Alternativa: abrir index.html#docente en la URL
-    if (location.hash === '#docente') _activateTeacher();
-
-    function _esc(s) {
-      return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
+    function _dec(s) { try { return decodeURIComponent(escape(atob(s || ''))); } catch(e) { return ''; } }
 
     function _buildPreview(l) {
+      const id = l.id;
       if (l.starterJs !== undefined) {
-        let h = l.solutionHtml || '';
-        const css = l.solutionCss || l.starterCss || '';
-        const js  = l.solutionJs  || '';
+        const d   = (_SD && _SD.js  && _SD.js[id])  || {};
+        let h     = _dec(d.h);
+        const css = _dec(d.c) || l.starterCss || '';
+        const js  = _dec(d.j);
         if (css) h = h.replace('</head>', '<style>' + css + '</style></head>');
         if (js)  h = h.replace('</body>', '<script>' + js + '<\/script></body>');
         return h;
       } else if (l.starterCss !== undefined) {
-        let h = l.solutionHtml || '';
-        const css = l.solutionCss || '';
+        const d   = (_SD && _SD.css && _SD.css[id]) || {};
+        let h     = _dec(d.h);
+        const css = _dec(d.c);
         if (css) h = h.replace('</head>', '<style>' + css + '</style></head>');
         return h;
       } else {
-        return l.solution || '';
+        const d = (_SD && _SD.html && _SD.html[id]) || {};
+        return _dec(d.s);
       }
     }
 
-    // Encode HTML as base64 data URI — handles Unicode (é, á, etc.)
     function _toDataURI(html) {
       try { return 'data:text/html;charset=utf-8;base64,' + btoa(unescape(encodeURIComponent(html))); }
       catch(e) { return 'data:text/html;charset=utf-8,' + encodeURIComponent(html); }
     }
 
-    function exportSolutionsPDF() {
+    function _genDoc() {
       const cfg    = COURSES[activeCourse];
       const label  = cfg.label;
       const date   = new Date().toLocaleDateString('es-AR', { year:'numeric', month:'long', day:'numeric' });
 
       const blocks = cfg.lessons.map((l, idx) => {
-        // ── Preview: base64 data URI so close-script tags never break the generated doc ──
         const previewSrc = _toDataURI(_buildPreview(l));
-
-        // ── Solution code block ──
+        const _id = l.id;
         let code = '';
         if (l.starterJs !== undefined) {
-          code = `<div class="fl">⚡ script.js</div><pre>${_esc(l.solutionJs)}</pre>
-                  <div class="fl">📄 index.html</div><pre>${_esc(l.solutionHtml)}</pre>
-                  <div class="fl">🎨 style.css</div><pre>${_esc(l.solutionCss || l.starterCss || '')}</pre>`;
+          const d = (_SD && _SD.js  && _SD.js[_id])  || {};
+          code = `<div class="fl">⚡ script.js</div><pre>${_esc(_dec(d.j))}</pre>
+                  <div class="fl">📄 index.html</div><pre>${_esc(_dec(d.h))}</pre>
+                  <div class="fl">🎨 style.css</div><pre>${_esc(_dec(d.c) || l.starterCss || '')}</pre>`;
         } else if (l.starterCss !== undefined) {
-          code = `<div class="fl">🎨 style.css</div><pre>${_esc(l.solutionCss)}</pre>
-                  <div class="fl">📄 index.html</div><pre>${_esc(l.solutionHtml)}</pre>`;
+          const d = (_SD && _SD.css && _SD.css[_id]) || {};
+          code = `<div class="fl">🎨 style.css</div><pre>${_esc(_dec(d.c))}</pre>
+                  <div class="fl">📄 index.html</div><pre>${_esc(_dec(d.h))}</pre>`;
         } else {
-          code = `<div class="fl">📄 index.html</div><pre>${_esc(l.solution)}</pre>`;
+          const d = (_SD && _SD.html && _SD.html[_id]) || {};
+          code = `<div class="fl">📄 index.html</div><pre>${_esc(_dec(d.s))}</pre>`;
         }
 
         return `<div class="lb">
@@ -439,7 +612,7 @@
       win.document.close();
     }
 
-    function viewFeedbackReport() {
+    function _showReport() {
       const all     = JSON.parse(localStorage.getItem('course_feedback') || '[]');
       const entries = all.filter(f => f.curso === activeCourse);
       const win     = window.open('', '_blank');
@@ -489,5 +662,76 @@
     }
   </script>
 
+  <script>
+    // ── TUTORIAL ──────────────────────────────────────────
+    const TUT_STEPS = [
+      {
+        icon:  '👋',
+        title: '¡Bienvenida a la plataforma!',
+        body:  'Acá vas a aprender a programar de forma interactiva.<br>Tenés <strong>lecciones</strong>, <strong>desafíos</strong> y un <strong>playground</strong> libre.<br>Este tutorial te explica cómo aprovecharla al máximo.',
+      },
+      {
+        icon:  '📚',
+        title: 'Empezá por las lecciones',
+        body:  'Las <strong>lecciones</strong> son tu punto de partida.<br>Cada una tiene teoría, un ejercicio práctico en el editor y un quiz de comprensión.<br>Completalas en orden — cada una construye sobre la anterior.',
+      },
+      {
+        icon:  '⚡',
+        title: 'Después, los desafíos',
+        body:  'Los <strong>desafíos</strong> son ejercicios más abiertos para poner a prueba lo aprendido.<br>No tienen teoría paso a paso — solo una consigna y tu código.<br>¡Intentá resolverlos sin ver la solución!',
+      },
+      {
+        icon:  '🎮',
+        title: 'El Playground es tuyo',
+        body:  'El <strong>Playground</strong> es un espacio libre para experimentar y crear sin restricciones.<br>Podés compartir tu código con un enlace para mostrárselo a tus compañeros o a tu docente.',
+      },
+      {
+        icon:  '💾',
+        title: 'Llevá tu progreso a cualquier lado',
+        body:  'Tu avance se guarda en este navegador, pero podés llevarlo a otra computadora.<br>Usá el botón <strong>💾 Mi progreso</strong> del inicio para <strong>exportar</strong> tu progreso como archivo, y <strong>importarlo</strong> en el otro equipo.<br>Así podés empezar en clase y seguir en casa sin perder nada.',
+      },
+    ];
+
+    let _tutStep = 0;
+
+    function openTutorial() {
+      _tutStep = 0;
+      _renderTut();
+      document.getElementById('tut-overlay').style.display = 'flex';
+    }
+
+    function closeTutorial() {
+      document.getElementById('tut-overlay').style.display = 'none';
+      localStorage.setItem('tutorial_seen', '1');
+    }
+
+    function tutNext() {
+      if (_tutStep < TUT_STEPS.length - 1) { _tutStep++; _renderTut(); }
+      else closeTutorial();
+    }
+
+    function tutPrev() {
+      if (_tutStep > 0) { _tutStep--; _renderTut(); }
+    }
+
+    function _renderTut() {
+      const s = TUT_STEPS[_tutStep];
+      document.getElementById('tut-icon').textContent  = s.icon;
+      document.getElementById('tut-title').textContent = s.title;
+      document.getElementById('tut-body').innerHTML    = s.body;
+      document.getElementById('tut-dots').innerHTML    = TUT_STEPS.map((_, i) =>
+        '<div class="tut-dot' + (i === _tutStep ? ' active' : '') + '"></div>'
+      ).join('');
+      const prev = document.getElementById('tut-btn-prev');
+      const next = document.getElementById('tut-btn-next');
+      prev.style.visibility = _tutStep === 0 ? 'hidden' : 'visible';
+      next.textContent = _tutStep === TUT_STEPS.length - 1 ? '¡Empezar! →' : 'Siguiente →';
+    }
+
+    // Show automatically on first visit
+    if (!localStorage.getItem('tutorial_seen')) {
+      setTimeout(openTutorial, 500);
+    }
+  </script>
 </body>
 </html>

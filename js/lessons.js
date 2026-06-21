@@ -1,4 +1,4 @@
-const lessons = [
+﻿const lessons = [
   {
     id: 1,
     chapter: 1,
@@ -27,18 +27,9 @@ const lessons = [
         <li><code>&lt;body&gt;</code> — todo lo que el usuario va a ver</li>
       </ul>
     `,
-    instructions: "Vas a crear la base de tu propia fan page. Armá la estructura completa: DOCTYPE, html, head con un title que diga el nombre de tu artista o serie favorita, y body.",
+    instructions: "Escribí la estructura base de una página HTML. Tiene que tener:\n• <!DOCTYPE html> al principio\n• <html> que envuelva todo\n• <head> con un <title> (el nombre de tu artista o serie favorita)\n• <body> vacío por ahora\n\nFijate en el ejemplo de la teoría — ¡es casi igual!",
     starterCode: `<!-- 🎤 ¡Hora de crear tu fan page!
      Empezá con la estructura básica de HTML -->`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Fan Page de Bad Bunny</title>
-  </head>
-  <body>
-
-  </body>
-</html>`,
     checks: [
       { type: 'regex',           pattern: '<!DOCTYPE\\s+html>',  message: 'Agregá <!DOCTYPE html> al inicio',          hint: 'Primera línea: <!DOCTYPE html>' },
       { type: 'element',         selector: 'html',               message: 'Necesitás el elemento <html>',              hint: 'Envolvé todo con <html>...</html>' },
@@ -50,13 +41,13 @@ const lessons = [
       {
         question: '¿Qué hace la declaración <code>&lt;!DOCTYPE html&gt;</code>?',
         options: ['Aplica estilos a la página', 'Le dice al navegador que el documento es HTML5', 'Define el título de la página', 'Crea el cuerpo del documento'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! &lt;!DOCTYPE html&gt; le avisa al navegador que el documento está escrito en HTML5. Sin esta declaración, el navegador puede interpretar el código de manera incorrecta.'
       },
       {
         question: '¿Dónde va el contenido visible de la página (texto, imágenes, etc.)?',
         options: ['Dentro de &lt;head&gt;', 'Dentro de &lt;title&gt;', 'Dentro de &lt;body&gt;', 'Dentro de &lt;html&gt;'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! El &lt;body&gt; contiene todo lo que el usuario puede ver en pantalla: texto, imágenes, links, videos, etc. El &lt;head&gt; es para información que no se muestra.'
       }
     ]
@@ -82,7 +73,7 @@ const lessons = [
         <li>Los títulos le dan <em>jerarquía</em> a tu contenido</li>
       </ul>
     `,
-    instructions: "Armá el perfil de un gamer o streamer famoso (o inventado por vos). Necesitás: un h1 con el nombre del gamer, un h2 que diga 'Juegos favoritos', y un h3 con el nombre del primer juego.",
+    instructions: "Armá el perfil de un gamer o streamer (famoso o inventado). Tiene que tener:\n• Un h1 con el nombre del gamer\n• Un h2 que diga 'Juegos favoritos'\n• Un h3 con el nombre del primer juego",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -94,20 +85,6 @@ const lessons = [
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Perfil Gamer</title>
-  </head>
-  <body>
-    <h1>xXNightWolfXx</h1>
-    <h2>Juegos favoritos</h2>
-    <h3>Minecraft</h3>
-    <h3>Fortnite</h3>
-    <h2>Datos del streamer</h2>
-    <h3>Plataforma: Twitch</h3>
-  </body>
-</html>`,
     checks: [
       { type: 'elementWithText', selector: 'h1', message: 'Agregá un <h1> con el nombre del gamer',         hint: '<h1>Nombre del gamer</h1>' },
       { type: 'elementWithText', selector: 'h2', message: 'Agregá al menos un <h2> para una sección',       hint: '<h2>Juegos favoritos</h2>' },
@@ -117,13 +94,13 @@ const lessons = [
       {
         question: '¿Cuántos <code>&lt;h1&gt;</code> se recomienda usar por página?',
         options: ['Los que necesités', 'Solo uno', 'Dos como máximo', 'Ninguno'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! Solo un &lt;h1&gt; por página — es el título principal. Usar varios confunde a Google y a los lectores de pantalla.'
       },
       {
         question: '¿Cuál de estos títulos tiene menor jerarquía (es el más pequeño visualmente)?',
         options: ['&lt;h1&gt;', '&lt;h3&gt;', '&lt;h4&gt;', '&lt;h6&gt;'],
-        correct: 3,
+        _c: 'Mw==',
         explanation: '¡Correcto! HTML tiene 6 niveles: &lt;h1&gt; es el más grande e importante, &lt;h6&gt; el más pequeño. Se usan para organizar la jerarquía del contenido.'
       }
     ]
@@ -148,7 +125,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       <h3>Ojo con esto</h3>
       <p>Los espacios y enters que ponés en el código <strong>no se ven</strong> en el navegador. Solo los <code>&lt;p&gt;</code> y <code>&lt;br&gt;</code> generan separación visual.</p>
     `,
-    instructions: "Escribí tu bio como si fuera para Instagram o TikTok. Necesitás: un h1 con tu nombre o apodo, y al menos 3 párrafos: uno presentándote, uno con tus intereses, y uno con un dato random tuyo.",
+    instructions: "Escribí tu bio como si fuera para Instagram o TikTok. Tiene que tener:\n• Un h1 con tu nombre o apodo\n• Un párrafo presentándote\n• Un párrafo con tus intereses\n• Un párrafo con un dato random tuyo",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -160,18 +137,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mi bio</title>
-  </head>
-  <body>
-    <h1>@sofi.codes 🌙</h1>
-    <p>Hola! Soy Sofi, tengo 16 años y soy de Buenos Aires.</p>
-    <p>Me obsesiona el anime, el K-pop y aprender a programar (sí, las tres cosas juntas).</p>
-    <p>Dato random: puedo comer pizza a cualquier hora del día 🍕</p>
-  </body>
-</html>`,
     checks: [
       { type: 'elementWithText', selector: 'h1',  message: 'Agregá un <h1> con tu nombre o apodo',    hint: '<h1>@tu_nombre</h1>' },
       { type: 'minCount',        selector: 'p',   count: 3, message: 'Escribí al menos 3 párrafos <p>', hint: 'Cada bloque de texto va en su propio <p>...</p>' },
@@ -180,13 +145,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Qué etiqueta insertá un salto de línea DENTRO de un párrafo?',
         options: ['&lt;p&gt;', '&lt;break&gt;', '&lt;br&gt;', '&lt;lb&gt;'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! &lt;br&gt; es una etiqueta vacía (sin cierre) que inserta un salto de línea. &lt;p&gt; en cambio crea un párrafo nuevo con espacio adicional arriba y abajo.'
       },
       {
         question: '¿Qué pasa si escribís diez espacios seguidos en el código HTML?',
         options: ['Se muestran todos en la página', 'El navegador los muestra como uno solo', 'Genera un error de sintaxis', 'La página no carga'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! El navegador colapsa múltiples espacios en uno solo. Para agregar espacio visual usá párrafos &lt;p&gt;, el salto &lt;br&gt;, o la entidad &amp;nbsp;'
       }
     ]
@@ -216,7 +181,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 &lt;/ol&gt;</code></pre>
       <p>Cada elemento de la lista va dentro de <code>&lt;li&gt;</code>.</p>
     `,
-    instructions: "Creá dos listas: tu TOP 5 canciones o series del momento (ul, porque son tus favoritas y no están rankeadas), y un ranking TOP 3 de tus películas o videojuegos favoritos de todos los tiempos (ol, con orden de mejor a mejor).",
+    instructions: "Creá dos listas:\n• Una lista sin orden (ul) con tu TOP 5 canciones o series del momento\n• Una lista ordenada (ol) con tu TOP 3 de películas o videojuegos de todos los tiempos, del mejor al tercero",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -233,31 +198,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mis tops 🏆</title>
-  </head>
-  <body>
-    <h1>Mis tops del momento</h1>
-
-    <h2>Lo que estoy escuchando</h2>
-    <ul>
-      <li>Un Verano Sin Ti - Bad Bunny</li>
-      <li>Midnights - Taylor Swift</li>
-      <li>MAÑANA SERÁ BONITO - Karol G</li>
-      <li>Bzrp Music Sessions - Bizarrap</li>
-      <li>El Último Tour del Mundo</li>
-    </ul>
-
-    <h2>Mi ranking de películas de todos los tiempos</h2>
-    <ol>
-      <li>Interstellar</li>
-      <li>Spider-Man: No Way Home</li>
-      <li>El Rey León</li>
-    </ol>
-  </body>
-</html>`,
     checks: [
       { type: 'element',    selector: 'ul',    message: 'Agregá una lista sin orden <ul>',               hint: '<ul><li>...</li></ul>' },
       { type: 'minCount',   selector: 'ul li', count: 5, message: 'La lista <ul> necesita al menos 5 elementos', hint: 'Ponele 5 cosas a tu lista <ul>' },
@@ -268,13 +208,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Para qué sirve la etiqueta <code>&lt;ol&gt;</code>?',
         options: ['Para listas sin orden (bullets)', 'Para crear links', 'Para listas ordenadas (numeradas)', 'Para listas de imágenes'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! &lt;ol&gt; (ordered list) numera los elementos automáticamente. Se usa para rankings, pasos de recetas o instrucciones donde el orden importa.'
       },
       {
         question: '¿Qué etiqueta va DENTRO de &lt;ul&gt; y &lt;ol&gt; para cada elemento?',
         options: ['&lt;item&gt;', '&lt;list&gt;', '&lt;element&gt;', '&lt;li&gt;'],
-        correct: 3,
+        _c: 'Mw==',
         explanation: '¡Correcto! &lt;li&gt; (list item) es cada elemento de la lista. Siempre va dentro de &lt;ul&gt; o &lt;ol&gt; — nunca solo en el HTML.'
       }
     ]
@@ -299,7 +239,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       <h3>El texto importa</h3>
       <p>Evitá poner "clickeá acá" — mejor describí a dónde lleva el link. Es mejor para accesibilidad y para Google.</p>
     `,
-    instructions: "Armá tu sección personal de links (tipo Linktree). Creá al menos 3 links a sitios que usás seguido: YouTube, Spotify, Instagram, Twitch, lo que quieras. Cada link debe abrirse en una nueva pestaña.",
+    instructions: "Armá tu sección personal de links (tipo Linktree):\n• Al menos 3 links a sitios que usás — YouTube, Spotify, Instagram, Twitch, lo que quieras\n• Cada link tiene que abrirse en una nueva pestaña (target=\"_blank\")",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -314,23 +254,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mis links 🔗</title>
-  </head>
-  <body>
-    <h1>@sofi.codes — mis links</h1>
-    <p>Todo lo que necesitás en un solo lugar:</p>
-
-    <ul>
-      <li><a href="https://www.youtube.com" target="_blank">Mi canal de YouTube 🎥</a></li>
-      <li><a href="https://open.spotify.com" target="_blank">Mi playlist en Spotify 🎵</a></li>
-      <li><a href="https://www.instagram.com" target="_blank">Instagram 📸</a></li>
-      <li><a href="https://www.twitch.tv" target="_blank">En vivo en Twitch 🎮</a></li>
-    </ul>
-  </body>
-</html>`,
     checks: [
       { type: 'minCount',      selector: 'a',        count: 3, message: 'Agregá al menos 3 links <a>',              hint: '<a href="https://...">texto del link</a>' },
       { type: 'elementWithAttr', selector: 'a',      attr: 'href', message: 'Los links necesitan el atributo href',  hint: 'href="https://www.youtube.com"' },
@@ -340,13 +263,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Qué atributo de <code>&lt;a&gt;</code> indica a dónde va el link?',
         options: ['src', 'link', 'href', 'url'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! href (hypertext reference) contiene la URL de destino. Sin href el elemento &lt;a&gt; no lleva a ningún lado.'
       },
       {
         question: '¿Qué hace <code>target="_blank"</code> en un link?',
         options: ['Lo hace invisible', 'Lo bloquea', 'Lo abre en la misma pestaña', 'Lo abre en una nueva pestaña'],
-        correct: 3,
+        _c: 'Mw==',
         explanation: '¡Correcto! target="_blank" le dice al navegador que abra el link en una nueva pestaña, sin cerrar la página actual. Muy útil para links externos.'
       }
     ]
@@ -373,7 +296,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
      alt="Foto random"
      width="300"&gt;</code></pre>
     `,
-    instructions: "Creá una mini galería de tu serie, banda, videojuego o artista favorito. Agregá al menos 2 imágenes usando URLs de internet. Cada imagen DEBE tener un alt descriptivo (no pongas alt vacío — es trampa 😄).",
+    instructions: "Creá una mini galería de tu serie, banda, videojuego o artista favorito:\n• Al menos 2 imágenes con URLs de internet\n• Cada imagen DEBE tener un alt descriptivo\n  (no pongas alt vacío — eso no cuenta 😄)",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -389,20 +312,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mi galería favorita 🖼️</title>
-  </head>
-  <body>
-    <h1>Galería: Stranger Things</h1>
-    <p>Una colección de imágenes de lo que más me gusta.</p>
-
-    <img src="https://picsum.photos/300/200?random=10" alt="Escena del grupo en el bosque" width="300">
-    <img src="https://picsum.photos/300/200?random=20" alt="El laboratorio de Hawkins" width="300">
-    <img src="https://picsum.photos/300/200?random=30" alt="Eleven usando sus poderes" width="300">
-  </body>
-</html>`,
     checks: [
       { type: 'minCount',      selector: 'img',      count: 2, message: 'Agregá al menos 2 imágenes <img>',        hint: '<img src="https://..." alt="descripción">' },
       { type: 'elementWithAttr', selector: 'img',    attr: 'src',  message: 'Las imágenes necesitan el atributo src',   hint: 'src="URL de la imagen"' },
@@ -412,13 +321,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Para qué sirve el atributo <code>alt</code> en las imágenes?',
         options: ['Define el tamaño de la imagen', 'Muestra texto si la imagen no carga y mejora la accesibilidad', 'Es el link de la imagen', 'No tiene ninguna función importante'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! alt es fundamental: aparece si la imagen falla al cargar, lo leen los lectores de pantalla para personas con discapacidad visual, y mejora el SEO en Google.'
       },
       {
         question: '¿Cuál de estos códigos de imagen es correcto?',
         options: ['&lt;img href="foto.jpg" alt="mi foto"&gt;', '&lt;img src="foto.jpg" alt="mi foto"&gt;', '&lt;image src="foto.jpg"&gt;', '&lt;img src="foto.jpg"&gt;&lt;/img&gt;'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! &lt;img&gt; usa src (no href) para la URL de la imagen. Además es una etiqueta vacía — no necesita etiqueta de cierre &lt;/img&gt;.'
       }
     ]
@@ -442,7 +351,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       <h3>Tip</h3>
       <p>Usá <code>&lt;mark&gt;</code> para spoilers o datos que no querés que se pierdan. ¡Queda re bien en las reviews!</p>
     `,
-    instructions: "Escribí una mini review de tu película, serie o videojuego favorito. Debe tener: un título con h1, al menos 2 párrafos, una palabra en <strong> (el nombre del título o algo importante), algo en <em> (tu opinión personal), y algo en <mark> (¡sin spoilers... o con, vos decidís!).",
+    instructions: "Escribí una mini review de tu película, serie o videojuego favorito. Tiene que tener:\n• Un h1 con el título\n• Al menos 2 párrafos\n• Algo en <strong> (el nombre o algo importante)\n• Algo en <em> (tu opinión personal)\n• Algo en <mark> (¡sin spoilers... o con, vos decidís! 😄)",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -457,27 +366,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mi review ⭐</title>
-  </head>
-  <body>
-    <h1>Review: Arcane (Netflix)</h1>
-
-    <p>
-      <strong>Arcane</strong> es probablemente la mejor serie animada que vi en mi vida.
-      La animación es <em>una obra de arte</em> — cada frame parece una pintura.
-    </p>
-
-    <p>
-      La historia de Vi y Jinx te parte el corazón en serio.
-      <mark>Spoiler: el final de la temporada 1 me dejó llorando 10 minutos.</mark>
-    </p>
-
-    <p>Calificación: <strong>10/10</strong> — <em>obligatoria</em>.</p>
-  </body>
-</html>`,
     checks: [
       { type: 'elementWithText', selector: 'h1',             message: 'Poné un título <h1> con el nombre de tu review',    hint: '<h1>Review: nombre de tu peli/serie</h1>' },
       { type: 'minCount',        selector: 'p',    count: 2, message: 'Escribí al menos 2 párrafos',                        hint: 'Dos bloques de texto entre <p>...</p>' },
@@ -488,13 +376,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Cuál es la diferencia entre <code>&lt;strong&gt;</code> y <code>&lt;b&gt;</code>?',
         options: ['No hay diferencia, son iguales', '&lt;strong&gt; indica importancia semántica, &lt;b&gt; es solo visual', '&lt;b&gt; es más moderno y recomendado', '&lt;strong&gt; hace el texto más grande'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! Aunque ambos muestran negrita, &lt;strong&gt; le indica al navegador que ese contenido es importante. Los lectores de pantalla lo leen con mayor énfasis.'
       },
       {
         question: '¿Qué etiqueta resalta texto como con un marcador fluorescente?',
         options: ['&lt;highlight&gt;', '&lt;yellow&gt;', '&lt;mark&gt;', '&lt;em&gt;'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! &lt;mark&gt; resalta el texto en amarillo, como un marcador. Ideal para spoilers, datos clave o advertencias importantes en tu contenido.'
       }
     ]
@@ -532,7 +420,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
         <li><code>&lt;td&gt;</code> — celda de datos</li>
       </ul>
     `,
-    instructions: "Creá la tabla de stats de 3 personajes de tu juego, película o serie favorita. Las columnas deben ser: Personaje, Poder especial, Punto débil y Nivel de amenaza (del 1 al 10).",
+    instructions: "Creá la tabla de stats de 3 personajes de tu juego, película o serie favorita.\nLas columnas tienen que ser:\n• Personaje\n• Poder especial\n• Punto débil\n• Nivel de amenaza (del 1 al 10)",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -546,46 +434,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Stats de personajes 📊</title>
-  </head>
-  <body>
-    <h1>Tabla de stats: Marvel</h1>
-
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Personaje</th>
-          <th>Poder especial</th>
-          <th>Punto débil</th>
-          <th>Nivel de amenaza</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Spider-Man</td>
-          <td>Sentido arácnido + telarañas</td>
-          <td>Proteger a sus seres queridos</td>
-          <td>8/10</td>
-        </tr>
-        <tr>
-          <td>Iron Man</td>
-          <td>Armadura de alta tecnología</td>
-          <td>Sin la armadura es humano</td>
-          <td>9/10</td>
-        </tr>
-        <tr>
-          <td>Scarlet Witch</td>
-          <td>Magia del caos</td>
-          <td>Emociones fuertes</td>
-          <td>10/10</td>
-        </tr>
-      </tbody>
-    </table>
-  </body>
-</html>`,
     checks: [
       { type: 'element',    selector: 'table',             message: 'Creá la tabla con <table>',                     hint: '<table>...</table>' },
       { type: 'minCount',   selector: 'th',     count: 4,  message: 'La tabla necesita 4 encabezados <th>',          hint: 'Personaje | Poder | Punto débil | Nivel' },
@@ -596,13 +444,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Qué etiqueta define una celda de ENCABEZADO en una tabla?',
         options: ['&lt;td&gt;', '&lt;th&gt;', '&lt;head&gt;', '&lt;header&gt;'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! &lt;th&gt; (table header) crea celdas de encabezado — aparecen en negrita y centradas por defecto. &lt;td&gt; es para los datos normales de la tabla.'
       },
       {
         question: '¿Qué etiqueta representa una FILA completa en una tabla?',
         options: ['&lt;row&gt;', '&lt;line&gt;', '&lt;tr&gt;', '&lt;td&gt;'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! &lt;tr&gt; (table row) define una fila completa. Dentro de cada &lt;tr&gt; van las celdas: &lt;th&gt; para encabezados o &lt;td&gt; para datos.'
       }
     ]
@@ -637,7 +485,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
         <li><code>type="number"</code> — solo números</li>
       </ul>
     `,
-    instructions: "Creá el formulario de inscripción al fan club de tu artista favorito. Debe pedir: nombre artístico (text), email (email), un área de texto preguntando '¿Por qué sos el/la fan número 1?' (textarea), y un botón que diga 'Unirme al club 🎤'.",
+    instructions: "Creá el formulario de inscripción al fan club de tu artista favorito. El formulario debe pedir:\n• Nombre artístico (input type=\"text\")\n• Email (input type=\"email\")\n• Un textarea con la pregunta '¿Por qué sos el/la fan número 1?'\n• Un botón que diga 'Unirme al club 🎤'",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -652,30 +500,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Fan Club 🎤</title>
-  </head>
-  <body>
-    <h1>Fan Club Oficial de Karol G 🌸</h1>
-    <p>¿Querés unirte a las Bichota? Completá el formulario:</p>
-
-    <form>
-      <label for="apodo">Tu nombre artístico:</label><br>
-      <input type="text" id="apodo" name="apodo" placeholder="Ej: Bichota_superfan"><br><br>
-
-      <label for="email">Tu email:</label><br>
-      <input type="email" id="email" name="email" placeholder="tu@email.com"><br><br>
-
-      <label for="razon">¿Por qué sos el/la fan número 1?</label><br>
-      <textarea id="razon" name="razon" rows="4" cols="40"
-        placeholder="Contanos todo..."></textarea><br><br>
-
-      <button type="submit">Unirme al club 🎤</button>
-    </form>
-  </body>
-</html>`,
     checks: [
       { type: 'element', selector: 'form',                                    message: 'Creá el formulario con <form>',                    hint: '<form>...</form>' },
       { type: 'element', selector: 'input[type="text"], input:not([type])',   message: 'Agregá un campo de texto para el nombre artístico', hint: '<input type="text" name="apodo">' },
@@ -687,13 +511,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Qué tipo de <code>&lt;input&gt;</code> se usa para campos de contraseña?',
         options: ['type="secret"', 'type="hidden"', 'type="password"', 'type="text"'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! type="password" oculta lo que el usuario escribe con puntos o asteriscos. Es esencial para proteger contraseñas en cualquier formulario.'
       },
       {
         question: '¿Qué etiqueta crea un área de texto multilínea (como para escribir un mensaje largo)?',
         options: ['&lt;input type="textarea"&gt;', '&lt;text&gt;', '&lt;textarea&gt;', '&lt;input type="multiline"&gt;'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! &lt;textarea&gt; crea un campo de texto multilínea que el usuario puede expandir. A diferencia de &lt;input&gt;, tiene etiqueta de cierre: &lt;/textarea&gt;.'
       }
     ]
@@ -749,7 +573,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
         <li>Usá <code>&lt;div&gt;</code> cuando solo necesitás <strong>agrupar cosas sin significado especial</strong></li>
       </ul>
     `,
-    instructions: "Organizá la página de perfil de un gamer usando divs. La página debe tener 3 secciones separadas cada una en su propio <div>: una para los datos del jugador (nombre, nivel, país), una para la lista de juegos favoritos, y una para los logros desbloqueados (al menos 2 logros como párrafos).",
+    instructions: "Organizá la página de perfil de un gamer usando divs.\nLa página debe tener 3 secciones, cada una en su propio <div>:\n• Datos del jugador (nombre, nivel, país)\n• Lista de juegos favoritos\n• Logros desbloqueados (al menos 2 logros como párrafos)",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -765,37 +589,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Perfil Gamer 🎮</title>
-  </head>
-  <body>
-    <h1>🎮 Perfil del jugador</h1>
-
-    <div>
-      <h2>Datos del jugador</h2>
-      <p>Nombre: xXNightWolfXx</p>
-      <p>Nivel: 87</p>
-      <p>País: Argentina 🇦🇷</p>
-    </div>
-
-    <div>
-      <h2>Juegos favoritos</h2>
-      <ul>
-        <li>Minecraft</li>
-        <li>Fortnite</li>
-        <li>Valorant</li>
-      </ul>
-    </div>
-
-    <div>
-      <h2>Logros</h2>
-      <p>🏆 500 victorias en modo batalla</p>
-      <p>⭐ Clasificado en el top 100 del servidor</p>
-    </div>
-  </body>
-</html>`,
     checks: [
       { type: 'minCount',        selector: 'div',    count: 3, message: 'Usá al menos 3 <div> para separar las secciones',          hint: 'Cada sección (datos, juegos, logros) en su propio <div>' },
       { type: 'elementWithText', selector: 'h1',               message: 'Necesitás un <h1> para el título de la página',             hint: '<h1>Perfil del jugador</h1>' },
@@ -806,13 +599,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Qué muestra un <code>&lt;div&gt;</code> vacío en la pantalla?',
         options: ['Un recuadro con borde gris', 'Nada — es completamente invisible', 'Un espacio en blanco del tamaño de la pantalla', 'Un mensaje de error'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! Un &lt;div&gt; sin estilos CSS es completamente invisible. Su función es organizar el HTML, no agregar apariencia. El diseño viene después, con CSS.'
       },
       {
         question: '¿Cuándo conviene usar <code>&lt;div&gt;</code> en vez de <code>&lt;section&gt;</code>?',
         options: ['Siempre, div reemplaza a todos', 'Cuando el bloque no tiene un significado especial y solo agrupa elementos', 'Div es para imágenes, section para texto', 'Nunca, section es siempre mejor'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! Usá &lt;section&gt; cuando el bloque representa una sección real del contenido. Usá &lt;div&gt; cuando solo necesitás una caja genérica para agrupar sin significado semántico.'
       }
     ]
@@ -856,7 +649,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
 &lt;/select&gt;</code></pre>
       <p>El <code>for</code> del label y el <code>id</code> del select tienen que tener el mismo valor.</p>
     `,
-    instructions: "Creá un formulario de creación de personaje RPG con 3 menús desplegables: uno para la raza del personaje (Humano, Elfo, Enano, Orco), uno para la clase (Guerrero, Mago, Arquero, Ladrón), y uno para la dificultad (Fácil, Normal, Difícil, Legendario). Cada select debe tener su label y su atributo name.",
+    instructions: "Creá un formulario de creación de personaje RPG con 3 menús desplegables:\n• Raza: Humano, Elfo, Enano, Orco\n• Clase: Guerrero, Mago, Arquero, Ladrón\n• Dificultad: Fácil, Normal, Difícil, Legendario\n\nCada <select> debe tener su <label> y su atributo name.",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -879,43 +672,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
     </form>
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Crear personaje ⚔️</title>
-  </head>
-  <body>
-    <h1>⚔️ Creá tu personaje</h1>
-    <form>
-
-      <label for="raza">Raza:</label><br>
-      <select id="raza" name="raza">
-        <option value="humano">Humano</option>
-        <option value="elfo">Elfo</option>
-        <option value="enano">Enano</option>
-        <option value="orco">Orco</option>
-      </select><br><br>
-
-      <label for="clase">Clase:</label><br>
-      <select id="clase" name="clase">
-        <option value="guerrero">Guerrero</option>
-        <option value="mago">Mago</option>
-        <option value="arquero">Arquero</option>
-        <option value="ladron">Ladrón</option>
-      </select><br><br>
-
-      <label for="dificultad">Dificultad:</label><br>
-      <select id="dificultad" name="dificultad">
-        <option value="facil">Fácil</option>
-        <option value="normal">Normal</option>
-        <option value="dificil">Difícil</option>
-        <option value="legendario">Legendario</option>
-      </select><br><br>
-
-      <button type="submit">¡Comenzar aventura! ⚔️</button>
-    </form>
-  </body>
-</html>`,
     checks: [
       { type: 'minCount',        selector: 'select',    count: 3, message: 'Necesitás 3 menús <select> (raza, clase, dificultad)',  hint: '<select name="raza">...</select>' },
       { type: 'minCount',        selector: 'option',    count: 8, message: 'Cada select necesita al menos 3 opciones <option>',     hint: '<option value="elfo">Elfo</option>' },
@@ -926,13 +682,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Qué valor recibe el servidor cuando el usuario elige una <code>&lt;option&gt;</code>?',
         options: ['El texto visible entre las etiquetas option', 'El atributo value de la option elegida', 'El atributo name del select', 'El id del select'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! El servidor recibe el value — no el texto visible. Ej: &lt;option value="ar"&gt;Argentina&lt;/option&gt; → el servidor recibe "ar", aunque el usuario haya visto "Argentina".'
       },
       {
         question: '¿En qué etiqueta va el atributo <code>name</code> del menú desplegable?',
         options: ['En cada &lt;option&gt; individualmente', 'En el &lt;label&gt;', 'En el &lt;select&gt;', 'En el &lt;form&gt;'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! El name va en el &lt;select&gt;, no en las opciones. El select representa el campo completo — las opciones son solo sus posibles valores.'
       }
     ]
@@ -981,7 +737,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
         <li>Siempre conectá cada input con su <code>&lt;label&gt;</code> usando <code>for</code> e <code>id</code> iguales</li>
       </ul>
     `,
-    instructions: "Creá un formulario de encuesta gamer con dos secciones: (1) un grupo de radio buttons para elegir el estilo de juego preferido — Competitivo, Casual o Cooperativo (un solo name para los tres), y (2) al menos 3 checkboxes para marcar los géneros favoritos — RPG, FPS, Estrategia, Deportes, Aventura (cada uno con su propio name). Cada input debe tener su label con for.",
+    instructions: "Creá un formulario de encuesta gamer con dos secciones:\n\n1. Radio buttons — estilo de juego preferido:\n   Competitivo, Casual o Cooperativo (mismo name para los tres)\n\n2. Checkboxes — géneros favoritos:\n   RPG, FPS, Estrategia, Deportes, Aventura (name distinto para cada uno)\n\nCada input debe tener su <label> con el atributo for.",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -1005,45 +761,6 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
     </form>
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Encuesta Gamer 🎮</title>
-  </head>
-  <body>
-    <h1>🎮 ¿Qué tipo de gamer sos?</h1>
-
-    <form>
-      <h2>¿Cómo preferís jugar?</h2>
-      <input type="radio" id="competitivo" name="estilo" value="competitivo">
-      <label for="competitivo">Competitivo</label><br>
-
-      <input type="radio" id="casual" name="estilo" value="casual">
-      <label for="casual">Casual</label><br>
-
-      <input type="radio" id="cooperativo" name="estilo" value="cooperativo">
-      <label for="cooperativo">Cooperativo</label><br><br>
-
-      <h2>¿Qué géneros te gustan?</h2>
-      <input type="checkbox" id="rpg" name="genero_rpg" value="rpg">
-      <label for="rpg">RPG</label><br>
-
-      <input type="checkbox" id="fps" name="genero_fps" value="fps">
-      <label for="fps">FPS</label><br>
-
-      <input type="checkbox" id="estrategia" name="genero_estrategia" value="estrategia">
-      <label for="estrategia">Estrategia</label><br>
-
-      <input type="checkbox" id="deportes" name="genero_deportes" value="deportes">
-      <label for="deportes">Deportes</label><br>
-
-      <input type="checkbox" id="aventura" name="genero_aventura" value="aventura">
-      <label for="aventura">Aventura</label><br><br>
-
-      <button type="submit">Enviar encuesta 🎯</button>
-    </form>
-  </body>
-</html>`,
     checks: [
       { type: 'minCount', selector: 'input[type="radio"]',    count: 3, message: 'Agregá 3 radio buttons para el estilo de juego',   hint: '<input type="radio" name="estilo" value="competitivo">' },
       { type: 'custom',   test: (code) => { const m = code.match(/name="estilo"/gi); return m && m.length >= 3; },
@@ -1055,13 +772,13 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       {
         question: '¿Por qué los <code>type="radio"</code> de un mismo grupo deben tener el mismo <code>name</code>?',
         options: ['Para que tengan el mismo color', 'Para que el navegador sepa que son del mismo grupo y solo permita elegir uno', 'Para que el label funcione correctamente', 'Es solo una convención, no es obligatorio'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! El name agrupa los radio buttons. El navegador automáticamente solo permite marcar uno por grupo. Si tuvieran nombres distintos, podrías marcar todos a la vez.'
       },
       {
         question: '¿Cuál es la principal diferencia entre <code>radio</code> y <code>checkbox</code>?',
         options: ['Radio es circular, checkbox es cuadrado', 'Radio permite elegir solo una opción; checkbox permite elegir varias', 'Checkbox solo funciona en formularios con method="post"', 'No hay diferencia práctica'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! Radio = elegí uno (como sintonizar una radio: una sola estación). Checkbox = elegí varios (como una lista de compras: marcás lo que querás).'
       }
     ]
@@ -1117,7 +834,7 @@ String categoria = request.getParameter("categoria");</code></pre>
 &lt;/form&gt;
 &lt;!-- La clave NO aparece en la URL ✓ --&gt;</code></pre>
     `,
-    instructions: "Armá el formulario completo de inscripción a un torneo de esports. El <form> debe tener action='/inscripcion' y method='post'. Necesita: campo de nombre (name='nombre'), campo de email (name='email'), un <select> de categoría con su name, 2 radio buttons con el mismo name='modalidad', 1 checkbox con name, y un botón de envío. ¡Revisá que TODOS los inputs tengan name!",
+    instructions: "Armá el formulario completo de inscripción a un torneo de esports.\n\nEl <form> debe tener action='/inscripcion' y method='post'.\n\nNecesita:\n• Campo nombre (name='nombre')\n• Campo email (name='email')\n• Un <select> de categoría (con su name)\n• 2 radio buttons con el mismo name='modalidad'\n• 1 checkbox con su name\n• Un botón de envío\n\n¡Revisá que TODOS los inputs tengan name!",
     starterCode: `<!DOCTYPE html>
 <html>
   <head>
@@ -1147,44 +864,6 @@ String categoria = request.getParameter("categoria");</code></pre>
     </form>
   </body>
 </html>`,
-    solution: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Torneo de Esports 🏆</title>
-  </head>
-  <body>
-    <h1>🏆 Torneo de Esports</h1>
-    <h2>Formulario de inscripción</h2>
-
-    <form action="/inscripcion" method="post">
-
-      <label for="nombre">Nombre del jugador:</label><br>
-      <input type="text" id="nombre" name="nombre" placeholder="Tu apodo gamer"><br><br>
-
-      <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email" placeholder="tu@email.com"><br><br>
-
-      <label for="categoria">Categoría:</label><br>
-      <select id="categoria" name="categoria">
-        <option value="amateur">Amateur</option>
-        <option value="semipro">Semi-pro</option>
-        <option value="pro">Pro</option>
-      </select><br><br>
-
-      <p>Modalidad:</p>
-      <input type="radio" id="individual" name="modalidad" value="individual">
-      <label for="individual">Individual</label><br>
-      <input type="radio" id="equipo" name="modalidad" value="equipo">
-      <label for="equipo">Por equipos</label><br><br>
-
-      <input type="checkbox" id="acepto" name="acepto" value="si">
-      <label for="acepto">Acepto las bases del torneo</label><br><br>
-
-      <button type="submit">¡Inscribirme! 🏆</button>
-
-    </form>
-  </body>
-</html>`,
     checks: [
       { type: 'elementWithAttr', selector: 'form',  attr: 'action', message: 'El <form> necesita el atributo action (la URL del servidor)',    hint: '<form action="/inscripcion" method="post">' },
       { type: 'elementWithAttr', selector: 'form',  attr: 'method', message: 'El <form> necesita el atributo method (post o get)',             hint: '<form action="/inscripcion" method="post">' },
@@ -1197,13 +876,13 @@ String categoria = request.getParameter("categoria");</code></pre>
       {
         question: '¿Qué método deberías usar para enviar una contraseña en un formulario?',
         options: ['get, es más rápido', 'post, los datos van ocultos y no aparecen en la URL', 'Cualquiera, no hay diferencia de seguridad', 'get, porque es el método predeterminado'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! Con post los datos viajan ocultos. Con get la contraseña aparecería en la URL (?clave=mi_clave123) — visible para cualquiera que vea la pantalla, el historial o las capturas de pantalla.'
       },
       {
         question: 'En Java, ¿cómo leés el valor de un input con <code>name="email"</code>?',
         options: ['request.getValue("email")', 'request.getInput("email")', 'request.getParameter("email")', 'request.getName("email")'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! request.getParameter("email") lee el campo cuyo name en HTML es "email". El texto entre comillas DEBE coincidir exactamente con el atributo name del input.'
       }
     ]

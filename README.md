@@ -1,177 +1,44 @@
 # 🌐 Aprende a Programar — Cursos Interactivos
 
-Plataforma de aprendizaje interactiva para enseñar HTML, CSS y JavaScript desde cero, similar a Codedex. Diseñada para uso en clase con estudiantes principiantes.
+Plataforma de aprendizaje interactiva para enseñar HTML, CSS y JavaScript desde cero.
 
 🔗 **Demo en vivo:** [programacion2do.github.io/cursoHTML](https://programacion2do.github.io/cursoHTML)
 
 ---
 
-## ✨ Características
+## ✨ ¿Qué incluye?
 
-- **3 cursos completos:** HTML, CSS y JavaScript
-- **Editor de código en vivo** con 3 pestañas (HTML / CSS / JS) y vista previa instantánea
-- **Verificación automática** de ejercicios con checks personalizados por lección
-- **Quiz por lección** — el botón "Siguiente" se desbloquea solo al completar el ejercicio Y el quiz
-- **Diploma descargable** al finalizar cada curso (PNG via html2canvas)
-- **Formulario de opinión** con puntaje de estrellas, guardado en localStorage
-- **Playground libre** — editor sin restricciones para experimentar, con guardado de proyectos y enlaces para compartir
-- **Sistema de desafíos** — 9 desafíos (3 por curso) con puntos XP y 5 niveles (🌱→🔭→💻→🚀→🏆)
-- **Panel docente** con exportación a PDF del material completo (teoría + misión + solución + vista previa)
-- **Sistema de entrega** — los alumnos pueden enviar su código al docente por email o descargarlo como JSON
-- Progreso guardado en `localStorage` (sin cuenta, sin servidor)
-
----
-
-## 🗂️ Estructura del proyecto
-
-```
-html-course/
-├── index.html          # Página de inicio — selección de cursos + desafíos + XP
-├── lesson.html         # Página de lección — editor + quiz + diploma
-├── challenge.html      # Página de desafío — editor + verificación + celebración XP
-├── playground.html     # Editor libre (HTML/CSS/JS)
-├── css/
-│   └── style.css       # Estilos globales
-└── js/
-    ├── app.js          # Lógica de lecciones (editor, verificación, quiz, diploma...)
-    ├── challenge-app.js# Lógica de desafíos (editor, verificación, XP, confetti...)
-    ├── lessons.js      # Contenido del curso de HTML
-    ├── css-lessons.js  # Contenido del curso de CSS
-    ├── js-lessons.js   # Contenido del curso de JavaScript
-    └── challenges.js   # Contenido de los 9 desafíos + helpers de XP
-```
+- **3 cursos:** HTML (13 lecciones), CSS (6 lecciones) y JavaScript (6 lecciones)
+- **Editor de código en vivo** con vista previa instantánea
+- **Quiz por lección** — el botón "Siguiente" se desbloquea al completar el ejercicio y el quiz
+- **Diploma descargable** al finalizar cada curso
+- **Sistema de desafíos** con puntos XP y 5 niveles (🌱→🔭→💻→🚀→🏆)
+- **Playground libre** para experimentar sin restricciones
+- Sin instalación, sin cuenta — funciona directo en el navegador
 
 ---
 
 ## 🚀 Cómo usar
 
-No requiere instalación ni servidor. Es HTML/CSS/JS puro, funciona directamente en el navegador.
-
-### Opción 1 — Abrir directo
-Abre `index.html` en cualquier navegador moderno.
-
-### Opción 2 — Servidor local (recomendado para evitar restricciones CORS)
-```powershell
-# Desde la carpeta del proyecto
-.\server.ps1
-```
-O con Python:
-```bash
-python -m http.server 8000
-```
+Abrí `index.html` en cualquier navegador moderno. No requiere instalación ni servidor.
 
 ---
 
-## ⚡ Sistema de desafíos
+## 💾 Exportar e importar progreso
 
-Cada curso tiene 3 desafíos de dificultad creciente, accesibles desde la página de inicio debajo de las lecciones.
+El progreso se guarda en el navegador del equipo donde trabajás. Para continuar en otro equipo:
 
-| | Fácil · 50 XP | Medio · 100 XP | Difícil · 200 XP |
-|---|---|---|---|
-| HTML | Mi carta de presentación | Menú de restaurante | Formulario de registro |
-| CSS | Tarjeta de perfil | Navbar con Flexbox | Galería con Grid |
-| JS | Contador interactivo | Lista de tareas | Calculadora |
-
-**Niveles de XP:**
-
-| XP | Nivel |
-|---|---|
-| 0 | 🌱 Principiante |
-| 100 | 🔭 Explorador |
-| 300 | 💻 Desarrollador |
-| 600 | 🚀 Experto |
-| 1000 | 🏆 Maestro |
-
-Al completar un desafío aparece una celebración animada con confetti y el XP ganado. El progreso total se muestra como barra en el hero de cada curso.
-
-**Agregar desafíos:** edita `js/challenges.js` siguiendo la misma estructura. Cada desafío soporta los mismos tipos de check que las lecciones (ver tabla más abajo).
-
----
-
-## 📤 Sistema de entregas
-
-Cuando un alumno completa un curso y descarga su diploma, puede entregar su trabajo al docente:
-
-- **Descargar JSON** — genera un archivo con el código de cada ejercicio completado
-- **Enviar por email** — integración con [EmailJS](https://emailjs.com) (gratis hasta 200 emails/mes)
-
-Para activar el envío por email, edita `js/app.js` y completa:
-```js
-const _EMAILJS_SERVICE  = 'service_xxx';   // de emailjs.com
-const _EMAILJS_TEMPLATE = 'template_xxx';
-const _EMAILJS_PUBLIC   = 'tu_public_key';
-```
-El template de EmailJS debe incluir las variables: `{{nombre}}`, `{{apellido}}`, `{{email}}`, `{{curso}}`, `{{progreso}}`, `{{fecha}}`, `{{contenido}}`.
+1. Clic en **"💾 Mi progreso"** → **"⬇️ Exportar progreso"** → guardá el archivo `.json`
+2. En el otro equipo: **"💾 Mi progreso"** → **"⬆️ Importar progreso"** → seleccioná el archivo
 
 ---
 
 ## 🎮 Playground
 
-Editor libre en `playground.html`, accesible desde el botón del header. Permite:
-
-- Escribir HTML, CSS y JS con vista previa en vivo
-- Guardar proyectos en el navegador (hasta 20)
-- Compartir proyectos mediante un enlace (el código se codifica en la URL)
-- Restaura automáticamente la última sesión al volver
-
----
-
-## 🛠️ Tecnologías
-
-| Herramienta | Uso |
-|---|---|
-| [CodeMirror 5](https://codemirror.net/5/) | Editor de código con syntax highlighting |
-| [html2canvas](https://html2canvas.hertzen.com/) | Exportar el diploma como imagen PNG |
-| [EmailJS](https://emailjs.com/) | Envío de entregas por email (opcional) |
-| localStorage | Guardar progreso, opiniones y proyectos |
-| GitHub Pages | Hosting estático gratuito |
-
----
-
-## 📝 Agregar o editar lecciones
-
-Cada archivo de lecciones (`lessons.js`, `css-lessons.js`, `js-lessons.js`) exporta un array. Cada lección tiene esta estructura:
-
-```js
-{
-  id:           1,
-  chapter:      1,
-  chapterTitle: 'Nombre del capítulo',
-  icon:         '🏷️',
-  title:        'Título de la lección',
-  duration:     '10 min',
-  theory:       `<h3>Subtítulo</h3><p>Contenido HTML...</p>`,
-  instructions: 'Descripción de la tarea para el alumno.',
-  starterCode:  `<!-- código inicial -->`,
-  solution:     `<!-- código correcto -->`,
-  checks: [
-    { type: 'element', selector: 'h1', message: 'Debe existir un <h1>', hint: 'Agrega una etiqueta h1' },
-    { type: 'regex',   pattern:  'hola', message: 'El texto debe incluir "hola"' },
-  ],
-  quiz: [
-    {
-      question:    '¿Para qué sirve la etiqueta <h1>?',
-      options:     ['Título principal', 'Imagen', 'Párrafo', 'Lista'],
-      correct:     0,
-      explanation: 'h1 es el título de mayor jerarquía en HTML.',
-    },
-  ],
-}
-```
-
-**Tipos de check disponibles:**
-
-| Tipo | Descripción |
-|---|---|
-| `element` | Verifica que exista un selector CSS en el DOM |
-| `elementWithText` | Verifica que el elemento exista y tenga texto |
-| `elementWithAttr` | Verifica que el elemento tenga un atributo determinado |
-| `regex` | Verifica que el código coincida con una expresión regular |
-| `minCount` | Verifica que haya al menos N elementos de un selector |
-| `custom` | Función personalizada `(code, doc) => boolean` |
+Editor libre accesible desde el botón del header. Podés guardar proyectos, compartirlos con un enlace y retomar donde dejaste.
 
 ---
 
 ## 👩‍💻 Desarrollado por
 
-**Elizabeth Izquierdo** con asistencia de [Claude](https://claude.ai) · © 2026
+**Elizabeth Izquierdo** con asistencia de [Claude](https://claude.ai) · CC BY-SA 4.0 · © 2026

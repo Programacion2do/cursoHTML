@@ -10,6 +10,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
 
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .lesson-share-btn {
+      margin-left: auto;
+      padding: 4px 11px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--text2);
+      font-family: inherit;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .lesson-share-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg2); }
+    .lesson-toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--accent); color: white;
+      border-radius: 8px; padding: 10px 22px;
+      font-size: 0.87rem; font-weight: 500;
+      opacity: 0; transition: opacity 0.25s, transform 0.25s;
+      z-index: 9999; pointer-events: none; white-space: nowrap;
+    }
+    .lesson-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
 </head>
 <body class="lesson-page">
 
@@ -55,6 +86,7 @@
             <strong>¡Ejercicio completado!</strong>
             <span>Ahora respondé el quiz para continuar.</span>
           </div>
+          <button class="btn-retry" onclick="resetLesson()" title="Volvé al código inicial para practicar de nuevo">↺ Reintentar</button>
         </div>
 
         <!-- QUIZ -->
@@ -107,6 +139,7 @@
         <div class="editor-tab active" id="tab-html" onclick="switchEditorTab('html')">index.html</div>
         <div class="editor-tab editor-tab-css" id="tab-css" onclick="switchEditorTab('css')" style="display:none">style.css</div>
         <div class="editor-tab editor-tab-js"  id="tab-js"  onclick="switchEditorTab('js')"  style="display:none">script.js</div>
+        <button class="lesson-share-btn" onclick="shareCode()" title="Copiar enlace con tu código actual para compartir">🔗 Compartir</button>
       </div>
       <div class="editor-wrap" id="wrap-html">
         <textarea id="code-editor"></textarea>
@@ -266,6 +299,9 @@
     </div>
   </div>
 
+  <!-- Toast -->
+  <div class="lesson-toast" id="lesson-toast"></div>
+
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
@@ -279,6 +315,39 @@
   <script src="js/app.js"></script>
 
   <script>
+    // ── SHARE ────────────────────────────────────────────
+    function shareCode() {
+      if (!editor) return;
+      const data = {
+        html: editor.getValue(),
+        css:  editorCss ? editorCss.getValue() : '',
+        js:   editorJs  ? editorJs.getValue()  : '',
+      };
+      try {
+        const enc = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+        const pgPath = location.pathname.replace(/[^/]*$/, 'playground.html');
+        const url = location.origin + pgPath + '#' + enc;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(() =>
+            showLessonToast('🔗 Enlace copiado — pegalo en el navegador para ver tu código')
+          );
+        } else {
+          prompt('Copiá este enlace para compartir tu código:', url);
+        }
+      } catch(e) {
+        alert('El código es muy largo para compartir por URL.');
+      }
+    }
+
+    let _lessonToastTimer = null;
+    function showLessonToast(msg) {
+      const t = document.getElementById('lesson-toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(_lessonToastTimer);
+      _lessonToastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
     // Sync the h2 title in panel with the topbar title
     document.addEventListener('DOMContentLoaded', () => {
       const obs = new MutationObserver(() => {

@@ -1,2 +1,9 @@
-# Servidor local (no necesario en el repo)
+# Servidor local
 server.ps1
+
+# Dependencias y build
+node_modules/
+dist/
+
+# Archivos internos de Claude
+.claude/

@@ -1,4 +1,3 @@
-// ── COURSE DETECTION ─────────────────────────────────
 const _urlParams   = new URLSearchParams(window.location.search);
 const _course      = _urlParams.get('course') || 'html';
 const _lessons     = _course === 'css' ? (typeof cssLessons !== 'undefined' ? cssLessons : [])
@@ -11,7 +10,6 @@ const _quizKey     = _course === 'css' ? 'csscourse_quiz'
                    : _course === 'js'  ? 'jscourse_quiz'
                    : 'htmlcourse_quiz';
 
-// ── STATE ────────────────────────────────────────────
 let editor          = null;   // index.html  (xml mode)
 let editorCss       = null;   // style.css   (css mode)
 let editorJs        = null;   // script.js   (javascript mode)
@@ -23,7 +21,6 @@ let quizAnswers     = {};   // { questionIndex: optionIndex }
 let completedLessons = JSON.parse(localStorage.getItem(_progressKey) || '[]');
 let completedQuizzes = JSON.parse(localStorage.getItem(_quizKey)     || '[]');
 
-// ── BOOT ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   const params   = new URLSearchParams(window.location.search);
   const lessonId = parseInt(params.get('id')) || 1;
@@ -62,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadLesson(lessonId);
 });
 
-// ── LESSON LOADING ────────────────────────────────────
 function loadLesson(id) {
   currentLesson = _lessons.find(l => l.id === id);
   if (!currentLesson) return;
@@ -94,22 +90,28 @@ function loadLesson(id) {
   if (wrapJs)  wrapJs.style.display  = 'none';
 
   if (isJs) {
-    // JS lesson: 3 tabs (html readonly-ish, css readonly-ish, js editable)
-    editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
-    editorCss.setValue(alreadyDone ? (currentLesson.solutionCss || currentLesson.starterCss || '') : (currentLesson.starterCss || ''));
-    editorJs.setValue(alreadyDone ? currentLesson.solutionJs : currentLesson.starterJs);
+    let h = currentLesson.starterHtml, c = currentLesson.starterCss || '', j = currentLesson.starterJs;
+    if (alreadyDone) {
+      const raw = localStorage.getItem(_progressKey + '_code_' + id);
+      if (raw) { const snap = JSON.parse(raw); h = snap.html || h; c = snap.css || c; j = snap.js || j; }
+    }
+    editor.setValue(h); editorCss.setValue(c); editorJs.setValue(j);
     switchEditorTab('js');
   } else if (isCss) {
-    // CSS lesson: 2 tabs (html readonly-ish, css editable)
-    editor.setValue(alreadyDone ? currentLesson.solutionHtml : currentLesson.starterHtml);
-    editorCss.setValue(alreadyDone ? currentLesson.solutionCss : currentLesson.starterCss);
-    editorJs.setValue('');
+    let h = currentLesson.starterHtml, c = currentLesson.starterCss;
+    if (alreadyDone) {
+      const raw = localStorage.getItem(_progressKey + '_code_' + id);
+      if (raw) { const snap = JSON.parse(raw); h = snap.html || h; c = snap.css || c; }
+    }
+    editor.setValue(h); editorCss.setValue(c); editorJs.setValue('');
     switchEditorTab('css');
   } else {
-    // HTML lesson: 1 tab
-    editor.setValue(alreadyDone ? currentLesson.solution : currentLesson.starterCode);
-    editorCss.setValue('');
-    editorJs.setValue('');
+    let code = currentLesson.starterCode;
+    if (alreadyDone) {
+      const raw = localStorage.getItem(_progressKey + '_code_' + id);
+      if (raw) { const snap = JSON.parse(raw); code = snap.html || code; }
+    }
+    editor.setValue(code); editorCss.setValue(''); editorJs.setValue('');
     switchEditorTab('html');
   }
 
@@ -131,7 +133,6 @@ function loadLesson(id) {
   setTimeout(() => { editor.refresh(); editorCss.refresh(); editorJs.refresh(); updatePreview(); }, 50);
 }
 
-// ── PREVIEW ───────────────────────────────────────────
 function updatePreview() {
   const html = editor    ? editor.getValue()    : '';
   const css  = editorCss ? editorCss.getValue() : '';
@@ -152,7 +153,6 @@ function updatePreview() {
   } catch (e) { iframe.srcdoc = combined; }
 }
 
-// ── EXERCISE VERIFICATION ─────────────────────────────
 function verifyCode() {
   const isJs     = currentLesson.starterJs  !== undefined;
   const isCss    = currentLesson.starterCss !== undefined;
@@ -249,7 +249,6 @@ function markComplete() {
   showQuiz();
 }
 
-// ── QUIZ ──────────────────────────────────────────────
 function showQuiz() {
   quizAnswers = {};
   const panel = document.getElementById('quiz-panel');
@@ -283,17 +282,19 @@ function renderQuiz() {
   });
 }
 
+function _ci(q) { return parseInt(atob(q._c)); }
+
 function selectOption(qi, oi) {
   if (quizAnswers[qi] !== undefined) return;  // already answered
   quizAnswers[qi] = oi;
 
   const q       = currentLesson.quiz[qi];
-  const correct = oi === q.correct;
+  const correct = oi === _ci(q);
 
   // Style options
   document.querySelectorAll(`#qopts-${qi} .quiz-opt`).forEach((btn, i) => {
     btn.disabled = true;
-    if (i === q.correct) btn.classList.add('qopt-correct');
+    if (i === _ci(q)) btn.classList.add('qopt-correct');
     if (i === oi && !correct) btn.classList.add('qopt-wrong');
   });
 
@@ -337,7 +338,7 @@ function restoreCompletedQuiz() {
       <div class="quiz-q-text">${q.question}</div>
       <div class="quiz-opts">
         ${'ABCD'.split('').map((letter, oi) => `
-          <button class="quiz-opt ${oi === q.correct ? 'qopt-correct' : ''}" disabled>
+          <button class="quiz-opt ${oi === _ci(q) ? 'qopt-correct' : ''}" disabled>
             <span class="quiz-letter">${letter}</span>
             <span>${q.options[oi]}</span>
           </button>`).join('')}
@@ -351,7 +352,6 @@ function restoreCompletedQuiz() {
   document.getElementById('quiz-done-banner').style.display = 'flex';
 }
 
-// ── HELPERS ───────────────────────────────────────────
 function enableNext() {
   const btn = document.getElementById('btn-next');
   if (btn) {
@@ -425,25 +425,67 @@ function resetCode() {
     clearFeedback(); updatePreview();
   }
 }
+function resetLesson() {
+  const id = currentLesson.id;
+  completedLessons = completedLessons.filter(x => x !== id);
+  localStorage.setItem(_progressKey, JSON.stringify(completedLessons));
+
+  const isJs  = currentLesson.starterJs  !== undefined;
+  const isCss = currentLesson.starterCss !== undefined;
+  if (isJs) {
+    editor.setValue(currentLesson.starterHtml);
+    editorCss.setValue(currentLesson.starterCss || '');
+    editorJs.setValue(currentLesson.starterJs);
+    switchEditorTab('js');
+  } else if (isCss) {
+    editor.setValue(currentLesson.starterHtml);
+    editorCss.setValue(currentLesson.starterCss);
+    editorJs.setValue('');
+    switchEditorTab('css');
+  } else {
+    editor.setValue(currentLesson.starterCode);
+    editorCss.setValue('');
+    editorJs.setValue('');
+    switchEditorTab('html');
+  }
+  editor.clearHistory(); editorCss.clearHistory(); editorJs.clearHistory();
+  clearFeedback();
+  updateNavButtons(id);
+  updateProgressBar();
+  updatePreview();
+}
+
 function showSolution() {
   if (confirm('¿Ver la solución? Te recomendamos intentarlo primero.')) {
-    const isJs  = currentLesson.starterJs  !== undefined;
-    const isCss = currentLesson.starterCss !== undefined;
-    if (isJs) {
-      editor.setValue(currentLesson.solutionHtml);
-      editorCss.setValue(currentLesson.solutionCss || currentLesson.starterCss || '');
-      editorJs.setValue(currentLesson.solutionJs);
-    } else if (isCss) {
-      editor.setValue(currentLesson.solutionHtml);
-      editorCss.setValue(currentLesson.solutionCss);
-      editorJs.setValue('');
-    } else {
-      editor.setValue(currentLesson.solution);
-      editorCss.setValue('');
-      editorJs.setValue('');
-    }
-    updatePreview();
+    _loadSolutionData().then(sd => {
+      const isJs  = currentLesson.starterJs  !== undefined;
+      const isCss = currentLesson.starterCss !== undefined;
+      const id    = currentLesson.id;
+      const dec   = s => { try { return decodeURIComponent(escape(atob(s || ''))); } catch(e) { return ''; } };
+      if (isJs) {
+        const d = sd.js[id] || {};
+        editor.setValue(dec(d.h)); editorCss.setValue(dec(d.c) || currentLesson.starterCss || ''); editorJs.setValue(dec(d.j));
+      } else if (isCss) {
+        const d = sd.css[id] || {};
+        editor.setValue(dec(d.h)); editorCss.setValue(dec(d.c)); editorJs.setValue('');
+      } else {
+        const d = sd.html[id] || {};
+        editor.setValue(dec(d.s)); editorCss.setValue(''); editorJs.setValue('');
+      }
+      updatePreview();
+    });
   }
+}
+
+function _loadSolutionData() {
+  if (typeof _SD !== 'undefined') return Promise.resolve(_SD);
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'js/app-data.js';
+    s.onload = () => resolve(_SD);
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
 }
 function showToast(msg, type = 'info') {
   const t = document.createElement('div');
@@ -453,7 +495,6 @@ function showToast(msg, type = 'info') {
   setTimeout(() => { t.classList.remove('toast-visible'); setTimeout(() => t.remove(), 300); }, 2500);
 }
 
-// ── EDITOR TAB SWITCHER ───────────────────────────────
 function switchEditorTab(tab) {
   activeEditorTab = tab;
   const wrapHtml = document.getElementById('wrap-html');
@@ -475,7 +516,6 @@ function switchEditorTab(tab) {
   }, 10);
 }
 
-// ── PANEL RESIZERS ────────────────────────────────────
 function initResizers() {
   const leftPanel  = document.getElementById('panel-lesson');
   const rightPanel = document.getElementById('panel-preview');
@@ -518,7 +558,6 @@ function initResizers() {
   makeResizable(document.getElementById('resizer-right'), rightPanel, 'right');
 }
 
-// ── DIPLOMA ───────────────────────────────────────────
 function showDiplomaModal() {
   const modal = document.getElementById('diploma-modal');
   if (!modal) { window.location.href = 'index.html'; return; }
@@ -585,7 +624,6 @@ function openFeedback() {
   }, 180);
 }
 
-// ── FEEDBACK ──────────────────────────────────────────
 let _feedbackRating = 0;
 
 function setRating(r) {
@@ -595,20 +633,51 @@ function setRating(r) {
   });
 }
 
-function submitFeedback(e) {
+async function submitFeedback(e) {
   e.preventDefault();
-  const entry = {
-    curso:       _course,
-    nombre:      document.getElementById('fb-nombre').value.trim(),
-    apellido:    document.getElementById('fb-apellido').value.trim(),
-    rating:      _feedbackRating,
-    opinion:     document.getElementById('fb-opinion').value.trim(),
-    sugerencias: document.getElementById('fb-sugerencias').value.trim(),
-    fecha:       new Date().toISOString(),
-  };
+  const nombre      = document.getElementById('fb-nombre').value.trim();
+  const apellido    = document.getElementById('fb-apellido').value.trim();
+  const opinion     = document.getElementById('fb-opinion').value.trim();
+  const sugerencias = document.getElementById('fb-sugerencias').value.trim();
+  const fecha       = new Date().toLocaleDateString('es-AR', { year:'numeric', month:'long', day:'numeric' });
+  const labels      = { html: 'HTML', css: 'CSS', js: 'JavaScript' };
+  const stars       = '★'.repeat(_feedbackRating) + '☆'.repeat(5 - _feedbackRating);
+
+  // Siempre guardar en localStorage como respaldo
+  const entry = { curso: _course, nombre, apellido, rating: _feedbackRating, opinion, sugerencias, fecha: new Date().toISOString() };
   const all = JSON.parse(localStorage.getItem('course_feedback') || '[]');
   all.push(entry);
   localStorage.setItem('course_feedback', JSON.stringify(all));
+
+  // Enviar por email si EmailJS está configurado
+  if (_EMAILJS_SERVICE && _EMAILJS_FB_TEMPLATE) {
+    const btn = document.querySelector('.feedback-submit');
+    if (btn) { btn.textContent = 'Enviando...'; btn.disabled = true; }
+    try {
+      if (typeof emailjs === 'undefined') {
+        await new Promise((res, rej) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+          s.onload = res; s.onerror = rej;
+          document.head.appendChild(s);
+        });
+        emailjs.init(_EMAILJS_PUBLIC);
+      }
+      await emailjs.send(_EMAILJS_SERVICE, _EMAILJS_FB_TEMPLATE, {
+        nombre, apellido,
+        curso:       labels[_course] || _course,
+        calificacion: stars + ' (' + _feedbackRating + '/5)',
+        opinion,
+        sugerencias:  sugerencias || '(sin sugerencias)',
+        fecha,
+      });
+    } catch(err) {
+      console.error('EmailJS feedback error:', err);
+    } finally {
+      if (btn) { btn.textContent = 'Enviar opinión ✓'; btn.disabled = false; }
+    }
+  }
+
   document.getElementById('feedback-form-wrap').style.display = 'none';
   document.getElementById('feedback-thanks').style.display    = 'block';
 }
@@ -619,16 +688,16 @@ function closeFeedbackModal() {
   document.querySelectorAll('.feedback-star').forEach(s => s.classList.remove('active'));
 }
 
-// ── SUBMISSION ────────────────────────────────────────
 // Para recibir entregas por email configurá EmailJS (gratis en emailjs.com):
 //   1. Creá una cuenta en https://emailjs.com
 //   2. Añadí un Email Service (Gmail, Outlook, etc.)
 //   3. Creá un Email Template con las variables: {{nombre}}, {{apellido}}, {{email}},
 //      {{curso}}, {{progreso}}, {{fecha}}, {{contenido}}
 //   4. Copiá los IDs y pegálos acá:
-const _EMAILJS_SERVICE  = '';   // ej: 'service_abc123'
-const _EMAILJS_TEMPLATE = '';   // ej: 'template_xyz789'
-const _EMAILJS_PUBLIC   = '';   // ej: 'abCdEfGhIjKlMnOp'
+const _EMAILJS_SERVICE     = 'service_76356jc';
+const _EMAILJS_TEMPLATE    = '';
+const _EMAILJS_FB_TEMPLATE = 'template_14scmt8';
+const _EMAILJS_PUBLIC      = 'sTGt_cQvivmQWwJq1';
 
 function openSubmitModal() {
   const modal = document.getElementById('submit-modal');

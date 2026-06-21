@@ -1,4 +1,4 @@
-const jsLessons = [
+﻿const jsLessons = [
 
   // ── CAPÍTULO 1: FUNDAMENTOS ──────────────────────────────────
 
@@ -28,7 +28,7 @@ const jsLessons = [
 document.getElementById('caja').style.backgroundColor = '#1a1a2e';</code></pre>
       <p>💡 En JavaScript las propiedades CSS usan <strong>camelCase</strong>: <code>background-color</code> → <code>backgroundColor</code>, <code>font-size</code> → <code>fontSize</code>.</p>
     `,
-    instructions: "En el tab script.js: (1) usá getElementById y .textContent para cambiar el texto del #titulo, (2) cambiá el .style.color del #mensaje a cualquier color que quieras, (3) cambiá el textContent del #estado.",
+    instructions: "En el tab script.js escribí las 3 instrucciones:\n• Usá getElementById y .textContent para cambiar el texto del #titulo\n• Cambiá el .style.color del #mensaje al color que quieras\n• Cambiá el textContent del #estado",
     starterHtml: `<!DOCTYPE html>
 <html>
   <head>
@@ -56,26 +56,6 @@ h1   { color: #9f67ff; }
 //   elemento.style.color = 'hotpink'
 
 `,
-    solutionHtml: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mi primera app JS ⚡</title>
-  </head>
-  <body>
-    <h1 id="titulo">Hola, mundo</h1>
-    <p id="mensaje">Este texto va a cambiar con JavaScript.</p>
-    <p id="estado">Estado: apagado</p>
-  </body>
-</html>`,
-    solutionJs: `// Cambiar el texto del título
-document.getElementById('titulo').textContent = '¡JavaScript funciona!';
-
-// Cambiar el color del mensaje
-document.getElementById('mensaje').style.color = 'hotpink';
-
-// Cambiar el estado
-document.getElementById('estado').textContent = 'Estado: encendido';
-document.getElementById('estado').style.color = 'limegreen';`,
     checks: [
       { type: 'regex', pattern: 'getElementById',       message: 'Usá document.getElementById para acceder a un elemento', hint: "document.getElementById('titulo')" },
       { type: 'regex', pattern: '\\.textContent\\s*=',  message: 'Cambiá el textContent de algún elemento',                hint: "elemento.textContent = 'nuevo texto'" },
@@ -85,13 +65,13 @@ document.getElementById('estado').style.color = 'limegreen';`,
       {
         question: '¿Cómo se accede a un elemento HTML con id="nombre" desde JavaScript?',
         options: ['getElement("nombre")', 'document.getElementById("nombre")', 'getElementById("nombre")', 'document.getElement("nombre")'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! document.getElementById("nombre") devuelve el elemento con ese id. Se usa "document" porque es la puerta de entrada al HTML desde JavaScript.'
       },
       {
         question: 'En JavaScript, ¿cómo se escribe la propiedad CSS background-color?',
         options: ['background-color', 'background_color', 'backgroundColor', '"background-color"'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! En JavaScript las propiedades CSS se escriben en camelCase: background-color → backgroundColor, font-size → fontSize, border-radius → borderRadius.'
       }
     ]
@@ -138,7 +118,7 @@ let frase  = \`Me llamo \${nombre} y tengo \${edad} años.\`;
       <pre><code>let precio = 100;
 document.getElementById('total').textContent = \`Total: $\${precio * 1.21}\`;</code></pre>
     `,
-    instructions: "En script.js: (1) declarar una variable con let para tu nombre, (2) declarar una const para tu materia favorita, (3) armar un mensaje con template literal combinando ambas variables, (4) mostrar el resultado en el #saludo con textContent.",
+    instructions: "En script.js escribí estas 4 instrucciones:\n• Declarar una variable con let para tu nombre\n• Declarar una const para tu materia favorita\n• Armar un mensaje combinando ambas con template literal\n• Mostrar el resultado en el #saludo con textContent",
     starterHtml: `<!DOCTYPE html>
 <html>
   <head>
@@ -164,23 +144,7 @@ const materia = '';
 // 3. Mostrar un mensaje con template literal en el #saludo:
 // document.getElementById('saludo').textContent = \`...\${nombre}...\`
 
-`,
-    solutionHtml: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mi perfil 📦</title>
-  </head>
-  <body>
-    <h1>Mi perfil 📦</h1>
-    <p id="saludo">Acá va a aparecer tu mensaje...</p>
-    <p id="extra"></p>
-  </body>
-</html>`,
-    solutionJs: `let nombre = 'Sofía';
-const materia = 'Programación';
-
-document.getElementById('saludo').textContent =
-  \`Hola, me llamo \${nombre} y mi materia favorita es \${materia}.\`;
+\`Hola, me llamo \${nombre} y mi materia favorita es \${materia}.\`;
 
 let nota1 = 8;
 let nota2 = 9;
@@ -196,13 +160,13 @@ document.getElementById('extra').textContent =
       {
         question: '¿Cuál es la diferencia entre <code>let</code> y <code>const</code>?',
         options: ['No hay diferencia', 'let puede cambiar de valor; const no puede reasignarse', 'const es más rápida que let', 'let solo funciona con strings'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! let declara variables que pueden cambiar de valor. const declara constantes — si intentás reasignar una const, obtenés un error en tiempo de ejecución.'
       },
       {
         question: '¿Qué resultado da este código? <code>let x = 5; `El doble es ${x * 2}`</code>',
         options: ['El doble es ${x * 2}', 'El doble es x * 2', 'El doble es 10', 'Error de sintaxis'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! Los template literals evalúan ${expresión} y reemplazan con el resultado calculado. x * 2 = 10, entonces el resultado es "El doble es 10".'
       }
     ]
@@ -257,7 +221,7 @@ if (nota >= 6) {
       <h3>💡 Consejo</h3>
       <p>Usá siempre <code>===</code> (triple igual) en vez de <code>==</code>. El triple igual compara también el tipo de dato, lo que evita errores raros.</p>
     `,
-    instructions: "Escribí un if/else que evalúe la variable 'temperatura': si es mayor a 30 mostrá 'Hace calor 🔥' en rojo en el #clima; si es menor a 10 mostrá 'Hace frío 🧊' en celeste; si no mostrá 'Temperatura agradable 😊' en verde. También mostrá el número exacto en #detalle con template literal.",
+    instructions: "Escribí un if/else que evalúe la variable 'temperatura':\n• Si es mayor a 30 → mostrá 'Hace calor 🔥' en rojo en el #clima\n• Si es menor a 10 → mostrá 'Hace frío 🧊' en celeste en el #clima\n• Si no → mostrá 'Temperatura agradable 😊' en verde en el #clima\n\nTambién mostrá el número exacto en #detalle con template literal.",
     starterHtml: `<!DOCTYPE html>
 <html>
   <head>
@@ -282,33 +246,7 @@ let temperatura = 35;
 // Si temperatura < 10  → 'Hace frío 🧊'           (color: #38bdf8)
 // Si no                → 'Temperatura agradable 😊' (color: limegreen)
 
-`,
-    solutionHtml: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Clima hoy 🌤️</title>
-  </head>
-  <body>
-    <h1>🌤️ ¿Qué tiempo hace?</h1>
-    <p id="clima">Calculando...</p>
-    <p id="detalle"></p>
-  </body>
-</html>`,
-    solutionJs: `let temperatura = 35;
-
-if (temperatura > 30) {
-  document.getElementById('clima').textContent = 'Hace calor 🔥';
-  document.getElementById('clima').style.color = 'tomato';
-} else if (temperatura < 10) {
-  document.getElementById('clima').textContent = 'Hace frío 🧊';
-  document.getElementById('clima').style.color = '#38bdf8';
-} else {
-  document.getElementById('clima').textContent = 'Temperatura agradable 😊';
-  document.getElementById('clima').style.color = 'limegreen';
-}
-
-document.getElementById('detalle').textContent =
-  \`La temperatura actual es \${temperatura}°C\`;`,
+\`La temperatura actual es \${temperatura}°C\`;`,
     checks: [
       { type: 'regex', pattern: '\\bif\\s*\\(',        message: 'Usá un if para evaluar la temperatura',           hint: 'if (temperatura > 30) { ... }' },
       { type: 'regex', pattern: '\\belse\\b',           message: 'Usá else (o else if) para los otros casos',       hint: '} else { ... }' },
@@ -319,13 +257,13 @@ document.getElementById('detalle').textContent =
       {
         question: '¿Cuál es la diferencia entre <code>==</code> y <code>===</code>?',
         options: ['Son exactamente iguales', '=== compara valor Y tipo de dato; == solo compara el valor', '== es más moderno', '=== solo funciona con números'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! === (estricto) compara valor Y tipo. Por eso 5 == "5" es true pero 5 === "5" es false (distintos tipos: number vs string). Siempre usá ===.'
       },
       {
         question: '¿Qué pasa si la condición del <code>if</code> es false y no hay <code>else</code>?',
         options: ['Se produce un error en el código', 'El bloque if se ejecuta igual', 'El bloque if se salta y el programa sigue', 'El programa se detiene completamente'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! Si la condición es false y no hay else, simplemente se salta el bloque if y el código continúa desde la siguiente línea. No pasa nada malo.'
       }
     ]
@@ -371,7 +309,7 @@ document.getElementById('prom').textContent = prom;</code></pre>
       <h3>¿Por qué usar funciones?</h3>
       <p>Para <strong>no repetir código</strong>. Si tenés que calcular el promedio de 10 grupos distintos, escribís la función una vez y la llamás 10 veces.</p>
     `,
-    instructions: "Escribí una función calcularPromedio(n1, n2, n3) que retorne el promedio de tres notas. Llamarla con tres números, mostrar el resultado en #resultado con template literal, y usar un if/else para mostrar si aprobó (promedio >= 6) en #estado.",
+    instructions: "Escribí la función calcularPromedio(n1, n2, n3):\n• Tiene que retornar el promedio de los tres números\n• Llamarla con tres notas y mostrar el resultado en #resultado con template literal\n• Usar un if/else para mostrar en #estado si aprobó (promedio >= 6) o no",
     starterHtml: `<!DOCTYPE html>
 <html>
   <head>
@@ -402,26 +340,7 @@ let promedio = calcularPromedio(8, 7, 9);
 
 // 4. Usá if/else para mostrar 'Aprobado' o 'Desaprobado' en #estado:
 
-`,
-    solutionHtml: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Calculadora de notas 🧮</title>
-  </head>
-  <body>
-    <h1>🧮 Calculadora de notas</h1>
-    <p>Notas ingresadas en script.js</p>
-    <p id="resultado">Promedio: ?</p>
-    <p id="estado">Estado: ?</p>
-  </body>
-</html>`,
-    solutionJs: `function calcularPromedio(n1, n2, n3) {
-  return (n1 + n2 + n3) / 3;
-}
-
-let promedio = calcularPromedio(8, 7, 9);
-
-document.getElementById('resultado').textContent = \`Promedio: \${promedio}\`;
+\`Promedio: \${promedio}\`;
 
 if (promedio >= 6) {
   document.getElementById('estado').textContent = '✓ Aprobado';
@@ -440,13 +359,13 @@ if (promedio >= 6) {
       {
         question: '¿Qué hace la palabra clave <code>return</code> dentro de una función?',
         options: ['Termina el programa', 'Devuelve un valor al código que llamó la función', 'Imprime el valor en pantalla', 'Define el nombre de la función'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! return devuelve el valor al lugar donde se llamó la función. Si escribís let x = miFuncion(), el valor retornado queda guardado en x.'
       },
       {
         question: '¿Cuántas veces podés llamar a una misma función?',
         options: ['Solo una vez', 'Máximo 10 veces', 'Cuantas veces quieras', 'Depende del tamaño del archivo'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! Esa es la ventaja de las funciones: reutilizar código. Podés llamar a saludar("Ana"), saludar("Luis") y saludar("Pedro") sin repetir la lógica.'
       }
     ]
@@ -486,7 +405,7 @@ items.forEach(function(item) {
 // innerHTML renderiza el texto en negrita
 document.querySelector('#caja').innerHTML = '&lt;strong&gt;Negrita&lt;/strong&gt; y normal';</code></pre>
     `,
-    instructions: "En script.js: (1) usá querySelector para cambiar el textContent del h2, (2) usá querySelectorAll en los <li> y con forEach cambiá su color, (3) usá innerHTML para poner contenido HTML (con alguna etiqueta) en el #info.",
+    instructions: "En script.js usá los tres selectores:\n• querySelector para cambiar el textContent del h2\n• querySelectorAll en los li y con forEach cambiá su color\n• innerHTML para poner contenido HTML (con alguna etiqueta) en el #info",
     starterHtml: `<!DOCTYPE html>
 <html>
   <head>
@@ -517,35 +436,7 @@ li   { padding: 4px 0; font-size: 1rem; }
 // 3. Usá innerHTML para poner contenido HTML en #info:
 //    (por ejemplo: '<strong>Total:</strong> 4 series')
 
-`,
-    solutionHtml: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mi lista 🌐</title>
-  </head>
-  <body>
-    <h2>Mis series favoritas</h2>
-    <ul>
-      <li>Stranger Things</li>
-      <li>Breaking Bad</li>
-      <li>Arcane</li>
-      <li>Dark</li>
-    </ul>
-    <div id="info">Información adicional aquí...</div>
-  </body>
-</html>`,
-    solutionJs: `// 1. Cambiar el h2 con querySelector
-document.querySelector('h2').textContent = '🎬 Mis series favoritas';
-
-// 2. Cambiar el color de todos los li
-let items = document.querySelectorAll('li');
-items.forEach(function(item) {
-  item.style.color = '#a78bfa';
-});
-
-// 3. Usar innerHTML para poner HTML en #info
-document.querySelector('#info').innerHTML =
-  \`<strong>Total:</strong> \${items.length} series en la lista.\`;`,
+\`<strong>Total:</strong> \${items.length} series en la lista.\`;`,
     checks: [
       { type: 'regex', pattern: 'querySelector\\(',        message: 'Usá document.querySelector() para seleccionar un elemento', hint: "document.querySelector('h2')" },
       { type: 'regex', pattern: 'querySelectorAll\\(',     message: 'Usá querySelectorAll() para seleccionar todos los <li>',    hint: "document.querySelectorAll('li')" },
@@ -556,13 +447,13 @@ document.querySelector('#info').innerHTML =
       {
         question: '¿Cuál es la diferencia entre <code>querySelector</code> y <code>querySelectorAll</code>?',
         options: ['No hay diferencia', 'querySelector devuelve el primer elemento; querySelectorAll devuelve todos', 'querySelectorAll solo funciona con ids', 'querySelector solo funciona con clases'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! querySelector devuelve el PRIMER elemento que coincide (o null si no hay). querySelectorAll devuelve una lista con TODOS los elementos que coinciden.'
       },
       {
         question: '¿Cuál es la diferencia entre <code>textContent</code> e <code>innerHTML</code>?',
         options: ['Son exactamente iguales', 'textContent muestra texto plano; innerHTML renderiza etiquetas HTML', 'innerHTML es más lento siempre', 'textContent agrega el texto al final sin borrar lo anterior'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! Con innerHTML = "<b>hola</b>", el texto aparece en negrita. Con textContent = "<b>hola</b>", los caracteres < y > se muestran tal cual, sin interpretarse como HTML.'
       }
     ]
@@ -604,7 +495,7 @@ boton.addEventListener('click', function() {
   document.getElementById('contador').textContent = \`Clics: \${clics}\`;
 });</code></pre>
     `,
-    instructions: "Agregá un addEventListener de 'click' al botón #btn-cambiar. Cada vez que se haga clic: incrementá un contador, mostralo en #contador, y alterná el #mensaje entre '¡Par! 🟢' (color verde) y '¡Impar! 🔴' (color rojo) usando if con el operador módulo %.",
+    instructions: "Agregá un addEventListener de 'click' al botón #btn-cambiar.\nCada vez que se haga clic tiene que:\n• Incrementar un contador y mostrarlo en #contador\n• Alternar el #mensaje entre '¡Par! 🟢' (verde) y '¡Impar! 🔴' (rojo)\n  usando if con el operador módulo %",
     starterHtml: `<!DOCTYPE html>
 <html>
   <head>
@@ -642,26 +533,7 @@ boton.addEventListener('click', function() {
   // Tip: usá el operador módulo %  (clics % 2 === 0 → par)
 
 });
-`,
-    solutionHtml: `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Interactividad 🖱️</title>
-  </head>
-  <body>
-    <h1>🖱️ Hacé clic</h1>
-    <button id="btn-cambiar">¡Clic acá!</button>
-    <p id="mensaje">Esperando el primer clic...</p>
-    <p id="contador">Clics: 0</p>
-  </body>
-</html>`,
-    solutionJs: `let clics = 0;
-let boton = document.getElementById('btn-cambiar');
-
-boton.addEventListener('click', function() {
-  clics = clics + 1;
-
-  document.getElementById('contador').textContent = \`Clics: \${clics}\`;
+\`Clics: \${clics}\`;
 
   if (clics % 2 === 0) {
     document.getElementById('mensaje').textContent = '¡Par! 🟢';
@@ -681,13 +553,13 @@ boton.addEventListener('click', function() {
       {
         question: '¿Qué hace <code>addEventListener</code>?',
         options: ['Agrega un nuevo elemento al HTML', 'Registra una función que se ejecuta cuando ocurre un evento específico', 'Verifica si hay errores en el código', 'Conecta la página con el servidor'],
-        correct: 1,
+        _c: 'MQ==',
         explanation: '¡Correcto! addEventListener registra un "escuchador": espera el evento y ejecuta la función cuando ocurre. Podés tener múltiples listeners en el mismo elemento.'
       },
       {
         question: '¿Por qué declaramos <code>let clics = 0</code> FUERA del addEventListener?',
         options: ['Por un error de sintaxis', 'Para que la variable se reinicie a 0 en cada clic', 'Para que la variable persista entre un clic y otro', 'No importa dónde se declare'],
-        correct: 2,
+        _c: 'Mg==',
         explanation: '¡Correcto! Si declarás la variable dentro del listener, se reinicia a 0 cada vez que hacen clic. Declarada fuera, mantiene su valor entre llamadas y puede acumular.'
       }
     ]

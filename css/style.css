@@ -404,6 +404,7 @@ code, pre {
   color: var(--text);
   line-height: 1.65;
   font-weight: 400;
+  white-space: pre-line;
 }
 
 /* CHECKS */
@@ -449,6 +450,13 @@ code, pre {
 .success-text { flex: 1; }
 .success-text strong { display: block; color: var(--green); font-size: 0.9rem; }
 .success-text span { font-size: 0.82rem; color: var(--text2); }
+.btn-retry {
+  background: none; border: 1px solid rgba(16,185,129,0.4);
+  color: var(--green); font-size: 0.75rem; font-family: inherit;
+  cursor: pointer; border-radius: 6px; padding: 4px 10px;
+  white-space: nowrap; transition: all 0.15s; flex-shrink: 0;
+}
+.btn-retry:hover { background: rgba(16,185,129,0.12); }
 
 /* PANEL FOOTER - action buttons */
 .panel-actions {
