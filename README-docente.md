@@ -14,14 +14,16 @@ html-course/
 ├── playground.html      # Editor libre (HTML/CSS/JS)
 ├── css/
 │   └── style.css        # Estilos globales
-└── js/
-    ├── app.js           # Lógica de lecciones (editor, verificación, quiz, diploma, feedback...)
-    ├── challenge-app.js # Lógica de desafíos (editor, verificación, XP, confetti...)
-    ├── lessons.js       # Contenido del curso de HTML (sin soluciones — ver solutions-data.js)
-    ├── css-lessons.js   # Contenido del curso de CSS
-    ├── js-lessons.js    # Contenido del curso de JavaScript
-    ├── challenges.js    # Contenido de los 9 desafíos + helpers de XP
-    └── solutions-data.js# Soluciones de todos los cursos en base64 (carga bajo demanda)
+├── js/
+│   ├── app.js           # Lógica de lecciones (editor, verificación, quiz, diploma, feedback...)
+│   ├── challenge-app.js # Lógica de desafíos (editor, verificación, XP, confetti...)
+│   ├── lessons.js       # Contenido del curso de HTML (sin soluciones — ver app-data.js)
+│   ├── css-lessons.js   # Contenido del curso de CSS
+│   ├── js-lessons.js    # Contenido del curso de JavaScript
+│   ├── challenges.js    # Contenido de los 9 desafíos + helpers de XP
+│   └── app-data.js      # Soluciones de todos los cursos en base64 (carga bajo demanda)
+├── build.js             # Script de build: copia archivos a dist/ y ofusca los JS principales
+└── package.json         # Dependencias de build (javascript-obfuscator)
 ```
 
 ---
@@ -32,7 +34,7 @@ Permite exportar el material completo con soluciones en PDF.
 
 **Cómo activarlo:** `Ctrl + Shift + Y` → ingresar contraseña
 
-**Contraseña:** guardada fuera del repositorio (hash SHA-256 en `index.html` como `_TEACHER_HASH`, contraseña real en secreto separado).
+**Contraseña:** guardada fuera del repositorio (hash SHA-256 en `index.html` como `_kh`, contraseña real en secreto separado).
 
 **Qué incluye el PDF exportado:**
 - Teoría de cada lección
@@ -48,11 +50,11 @@ Las soluciones y respuestas del quiz están ofuscadas para dificultar que los es
 
 | Qué | Cómo se guarda | Cómo se usa |
 |---|---|---|
-| Soluciones de ejercicios | Base64 en `solutions-data.js` | Se carga solo al hacer clic en "Ver solución" |
-| Respuestas de quiz | Campo `_c` con base64 del índice | Se decodifica en `_correctIdx(q)` al validar |
-| Contraseña docente | Hash SHA-256 en `index.html` | Se compara con `crypto.subtle.digest` |
+| Soluciones de ejercicios | Base64 en `app-data.js` | Se carga solo al hacer clic en "Ver solución" |
+| Respuestas de quiz | Campo `_c` con base64 del índice | Se decodifica en `_ci(q)` al validar |
+| Contraseña docente | Hash SHA-256 en `index.html` (`_kh`) | Se compara con `crypto.subtle.digest` |
 
-`solutions-data.js` **no se carga al inicio** — solo cuando el alumno solicita ver la solución o el docente activa el panel.
+`app-data.js` **no se carga al inicio** — solo cuando el alumno solicita ver la solución o el docente activa el panel.
 
 ---
 
@@ -154,7 +156,7 @@ Cada archivo de lecciones (`lessons.js`, `css-lessons.js`, `js-lessons.js`) expo
 { starterHtml: `...`, starterCss: `...`, starterJs: `...`, checks: [...], quiz: [...] }
 ```
 
-> Los campos `solution`, `solutionHtml`, `solutionCss`, `solutionJs` **no van en estos archivos**. Las soluciones se agregan a `solutions-data.js` en base64.
+> Los campos `solution`, `solutionHtml`, `solutionCss`, `solutionJs` **no van en estos archivos**. Las soluciones se agregan a `app-data.js` en base64.
 
 **Estructura del quiz** (respuesta correcta ofuscada):
 ```js
@@ -190,6 +192,43 @@ Tabla de `_c` según índice correcto:
 
 ---
 
+## 🔨 Build y publicación
+
+El proyecto tiene dos repositorios en GitHub:
+
+| Repo | Contenido | Visibilidad |
+|---|---|---|
+| `cursoHTML` | Versión para estudiantes: JS ofuscado, sin archivos docente | Público (GitHub Pages) |
+| `cursoHTMLp` | Código fuente completo + documentación docente | Privado |
+
+### Ofuscación JS
+
+`build.js` usa [`javascript-obfuscator`](https://github.com/javascript-obfuscator/javascript-obfuscator) para dificultar la lectura del código en DevTools. Se ofuscan solo los archivos principales:
+
+| Archivo | Tamaño original → ofuscado |
+|---|---|
+| `js/app.js` | ~32 KB → ~79 KB |
+| `js/challenge-app.js` | ~15 KB → ~39 KB |
+| `js/challenges.js` | ~30 KB → ~58 KB |
+
+Los archivos de contenido (`lessons.js`, `css-lessons.js`, `js-lessons.js`, `app-data.js`) **no se ofuscan** — son datos que la docente edita frecuentemente o que ya están en base64.
+
+> **Requisito:** Node.js instalado. La primera vez: `npm install` dentro de `html-course/`.
+
+### Flujo para actualizar la app
+
+```
+1. Editar archivos fuente en html-course/
+2. node build.js               → genera dist/ con JS ofuscado
+3. git add ... && git commit   → guarda cambios en el repo privado
+   git push                    → sube a cursoHTMLp (privado)
+4. cd dist/
+   git add ... && git commit
+   git push                    → sube a cursoHTML (público, lo que ven los estudiantes)
+```
+
+---
+
 ## 🛠️ Tecnologías
 
 | Herramienta | Uso |
@@ -197,6 +236,7 @@ Tabla de `_c` según índice correcto:
 | [CodeMirror 5](https://codemirror.net/5/) | Editor de código con syntax highlighting |
 | [html2canvas](https://html2canvas.hertzen.com/) | Exportar el diploma como imagen PNG |
 | [EmailJS](https://emailjs.com/) | Envío de entregas y feedback por email (opcional) |
+| [javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator) | Ofuscación del JS en el proceso de build (Node.js) |
 | `crypto.subtle` | Hash SHA-256 para contraseña docente |
 | localStorage | Guardar progreso, opiniones y proyectos |
 | GitHub Pages | Hosting estático gratuito |
