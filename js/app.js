@@ -119,6 +119,14 @@ function loadLesson(id) {
   // If already fully completed, restore done state
   if (alreadyDone) {
     document.getElementById('success-banner').style.display = 'flex';
+    if (currentLesson.formUrl) {
+      const panel  = document.getElementById('form-link-panel');
+      const iframe = document.getElementById('form-embed');
+      if (panel && iframe) {
+        iframe.src = currentLesson.formUrl + '?embedded=true';
+        panel.style.display = 'block';
+      }
+    }
   }
 
   setTimeout(() => { editor.refresh(); editorCss.refresh(); editorJs.refresh(); updatePreview(); }, 50);
