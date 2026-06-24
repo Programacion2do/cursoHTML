@@ -455,38 +455,7 @@ function resetLesson() {
   updatePreview();
 }
 
-function showSolution() {
-  if (confirm('¿Ver la solución? Te recomendamos intentarlo primero.')) {
-    _loadSolutionData().then(sd => {
-      const isJs  = currentLesson.starterJs  !== undefined;
-      const isCss = currentLesson.starterCss !== undefined;
-      const id    = currentLesson.id;
-      const dec   = s => { try { return decodeURIComponent(escape(atob(s || ''))); } catch(e) { return ''; } };
-      if (isJs) {
-        const d = sd.js[id] || {};
-        editor.setValue(dec(d.h)); editorCss.setValue(dec(d.c) || currentLesson.starterCss || ''); editorJs.setValue(dec(d.j));
-      } else if (isCss) {
-        const d = sd.css[id] || {};
-        editor.setValue(dec(d.h)); editorCss.setValue(dec(d.c)); editorJs.setValue('');
-      } else {
-        const d = sd.html[id] || {};
-        editor.setValue(dec(d.s)); editorCss.setValue(''); editorJs.setValue('');
-      }
-      updatePreview();
-    });
-  }
-}
 
-function _loadSolutionData() {
-  if (typeof _SD !== 'undefined') return Promise.resolve(_SD);
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'js/app-data.js';
-    s.onload = () => resolve(_SD);
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
 function showToast(msg, type = 'info') {
   const t = document.createElement('div');
   t.className = `toast toast-${type}`; t.textContent = msg;

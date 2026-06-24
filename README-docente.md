@@ -8,7 +8,7 @@
 
 ```
 html-course/
-├── index.html           # Página de inicio — selección de cursos + desafíos + XP + panel docente
+├── index.html           # Página de inicio — selección de cursos + desafíos + XP
 ├── lesson.html          # Página de lección — editor + quiz + diploma + feedback
 ├── challenge.html       # Página de desafío — editor + verificación + celebración XP
 ├── playground.html      # Editor libre (HTML/CSS/JS)
@@ -17,44 +17,27 @@ html-course/
 ├── js/
 │   ├── app.js           # Lógica de lecciones (editor, verificación, quiz, diploma, feedback...)
 │   ├── challenge-app.js # Lógica de desafíos (editor, verificación, XP, confetti...)
-│   ├── lessons.js       # Contenido del curso de HTML (sin soluciones — ver app-data.js)
+│   ├── lessons.js       # Contenido del curso de HTML
 │   ├── css-lessons.js   # Contenido del curso de CSS
 │   ├── js-lessons.js    # Contenido del curso de JavaScript
-│   ├── challenges.js    # Contenido de los 9 desafíos + helpers de XP
-│   └── app-data.js      # Soluciones de todos los cursos en base64 (carga bajo demanda)
+│   └── challenges.js    # Contenido de los 9 desafíos + helpers de XP
 ├── build.js             # Script de build: copia archivos a dist/ y ofusca los JS principales
 └── package.json         # Dependencias de build (javascript-obfuscator)
 ```
 
 ---
 
-## 🔐 Panel docente
-
-Permite exportar el material completo con soluciones en PDF.
-
-**Cómo activarlo:** `Ctrl + Shift + Y` → ingresar contraseña
-
-**Contraseña:** guardada fuera del repositorio (hash SHA-256 en `index.html` como `_kh`, contraseña real en secreto separado).
-
-**Qué incluye el PDF exportado:**
-- Teoría de cada lección
-- Enunciado/misión
-- Solución completa (HTML / CSS / JS según corresponda)
-- Vista previa renderizada
-
----
-
 ## 🛡️ Seguridad
 
-Las soluciones y respuestas del quiz están ofuscadas para dificultar que los estudiantes las encuentren con las DevTools:
+Las respuestas del quiz están ofuscadas para dificultar que los estudiantes las encuentren con las DevTools:
 
 | Qué | Cómo se guarda | Cómo se usa |
 |---|---|---|
-| Soluciones de ejercicios | Base64 en `app-data.js` | Se carga solo al hacer clic en "Ver solución" |
 | Respuestas de quiz | Campo `_c` con base64 del índice | Se decodifica en `_ci(q)` al validar |
-| Contraseña docente | Hash SHA-256 en `index.html` (`_kh`) | Se compara con `crypto.subtle.digest` |
 
-`app-data.js` **no se carga al inicio** — solo cuando el alumno solicita ver la solución o el docente activa el panel.
+Las soluciones de los ejercicios **no están en la app** — se guardan en el repositorio privado `cursoHTMLp`.
+
+El panel docente y el botón "Ver solución" fueron eliminados para evitar que los estudiantes accedan a información sensible.
 
 ---
 
@@ -156,7 +139,7 @@ Cada archivo de lecciones (`lessons.js`, `css-lessons.js`, `js-lessons.js`) expo
 { starterHtml: `...`, starterCss: `...`, starterJs: `...`, checks: [...], quiz: [...] }
 ```
 
-> Los campos `solution`, `solutionHtml`, `solutionCss`, `solutionJs` **no van en estos archivos**. Las soluciones se agregan a `app-data.js` en base64.
+> Las soluciones **no van en la app pública**. Se guardan en el repositorio privado `cursoHTMLp`.
 
 **Estructura del quiz** (respuesta correcta ofuscada):
 ```js
@@ -211,7 +194,7 @@ El proyecto tiene dos repositorios en GitHub:
 | `js/challenge-app.js` | ~15 KB → ~39 KB |
 | `js/challenges.js` | ~30 KB → ~58 KB |
 
-Los archivos de contenido (`lessons.js`, `css-lessons.js`, `js-lessons.js`, `app-data.js`) **no se ofuscan** — son datos que la docente edita frecuentemente o que ya están en base64.
+Los archivos de contenido (`lessons.js`, `css-lessons.js`, `js-lessons.js`) **no se ofuscan** — son datos que la docente edita frecuentemente.
 
 > **Requisito:** Node.js instalado. La primera vez: `npm install` dentro de `html-course/`.
 

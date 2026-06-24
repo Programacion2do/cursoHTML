@@ -294,24 +294,6 @@ function chReset() {
   chUpdatePreview();
 }
 
-function chSolution() {
-  if (!_challenge || !confirm('¿Ver la solución? Intentá resolverlo primero.')) return;
-  const isJs  = _challenge.starterJs  !== undefined;
-  const isCss = _challenge.starterCss !== undefined && !isJs;
-  if (isJs) {
-    chEditor.setValue(_challenge.solutionHtml || _challenge.starterHtml || '');
-    chEditorCss.setValue(_challenge.solutionCss || _challenge.starterCss || '');
-    chEditorJs.setValue(_challenge.solutionJs || '');
-  } else if (isCss) {
-    chEditor.setValue(_challenge.solutionHtml || _challenge.starterHtml || '');
-    chEditorCss.setValue(_challenge.solutionCss || '');
-    chEditorJs.setValue('');
-  } else {
-    chEditor.setValue(_challenge.solution || '');
-    chEditorCss.setValue(''); chEditorJs.setValue('');
-  }
-  chUpdatePreview();
-}
 
 // ── TAB SWITCHER ─────────────────────────────────────
 function chSwitchTab(tab) {
