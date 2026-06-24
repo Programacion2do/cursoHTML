@@ -234,11 +234,12 @@ function markComplete() {
   enableNext();
 
   if (currentLesson.formUrl) {
-    const panel = document.getElementById('form-link-panel');
-    const link  = document.getElementById('form-link');
-    if (panel && link) {
-      link.href = currentLesson.formUrl;
+    const panel  = document.getElementById('form-link-panel');
+    const iframe = document.getElementById('form-embed');
+    if (panel && iframe) {
+      iframe.src = currentLesson.formUrl + '?embedded=true';
       panel.style.display = 'block';
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 150);
     }
   }
 }
