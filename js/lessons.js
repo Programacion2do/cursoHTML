@@ -37,6 +37,7 @@
       { type: 'elementWithText', selector: 'title',              message: '<title> debe tener el nombre de tu fan page', hint: 'Ej: <title>Fan Page de Bad Bunny</title>' },
       { type: 'element',         selector: 'body',               message: 'Necesitás el elemento <body>',              hint: 'Después de </head>, agregá <body>...</body>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Qué hace la declaración <code>&lt;!DOCTYPE html&gt;</code>?',
@@ -90,6 +91,7 @@
       { type: 'elementWithText', selector: 'h2', message: 'Agregá al menos un <h2> para una sección',       hint: '<h2>Juegos favoritos</h2>' },
       { type: 'elementWithText', selector: 'h3', message: 'Agregá al menos un <h3> con un detalle',         hint: '<h3>Minecraft</h3>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Cuántos <code>&lt;h1&gt;</code> se recomienda usar por página?',
@@ -141,6 +143,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'elementWithText', selector: 'h1',  message: 'Agregá un <h1> con tu nombre o apodo',    hint: '<h1>@tu_nombre</h1>' },
       { type: 'minCount',        selector: 'p',   count: 3, message: 'Escribí al menos 3 párrafos <p>', hint: 'Cada bloque de texto va en su propio <p>...</p>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Qué etiqueta insertá un salto de línea DENTRO de un párrafo?',
@@ -204,6 +207,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'element',    selector: 'ol',    message: 'Agregá un ranking <ol>',                        hint: '<ol><li>...</li></ol>' },
       { type: 'minCount',   selector: 'ol li', count: 3, message: 'El ranking <ol> necesita al menos 3 posiciones', hint: 'Ponele 3 cosas a tu ranking <ol>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Para qué sirve la etiqueta <code>&lt;ol&gt;</code>?',
@@ -259,6 +263,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'elementWithAttr', selector: 'a',      attr: 'href', message: 'Los links necesitan el atributo href',  hint: 'href="https://www.youtube.com"' },
       { type: 'elementWithAttr', selector: 'a[target="_blank"]', attr: 'target', message: 'Al menos un link debe abrir en nueva pestaña (target="_blank")', hint: 'Agregá target="_blank" a tus links' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Qué atributo de <code>&lt;a&gt;</code> indica a dónde va el link?',
@@ -317,6 +322,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'elementWithAttr', selector: 'img',    attr: 'src',  message: 'Las imágenes necesitan el atributo src',   hint: 'src="URL de la imagen"' },
       { type: 'elementWithAttr', selector: 'img',    attr: 'alt',  message: 'Las imágenes necesitan el atributo alt',   hint: 'alt="descripción de la imagen"' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Para qué sirve el atributo <code>alt</code> en las imágenes?',
@@ -372,6 +378,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'element',         selector: 'strong, b',      message: 'Usá <strong> para destacar algo importante',         hint: '<strong>el título o algo clave</strong>' },
       { type: 'element',         selector: 'em, i',          message: 'Usá <em> para tu opinión personal',                  hint: '<em>es increíble</em>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Cuál es la diferencia entre <code>&lt;strong&gt;</code> y <code>&lt;b&gt;</code>?',
@@ -440,6 +447,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'minCount',   selector: 'tr',     count: 4,  message: 'Necesitás al menos 4 filas <tr> (encabezado + 3 personajes)', hint: 'Una fila de encabezados y una por cada personaje' },
       { type: 'minCount',   selector: 'td',     count: 9,  message: 'Completá los datos de los 3 personajes',        hint: 'Cada personaje necesita 4 celdas <td>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Qué etiqueta define una celda de ENCABEZADO en una tabla?',
@@ -507,6 +515,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'element', selector: 'textarea',                               message: 'Agregá un <textarea> para la pregunta del fan',    hint: '<textarea name="razon"></textarea>' },
       { type: 'element', selector: 'button, input[type="submit"]',           message: 'Agregá un botón para enviar el formulario',        hint: '<button type="submit">Unirme al club 🎤</button>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Qué tipo de <code>&lt;input&gt;</code> se usa para campos de contraseña?',
@@ -595,6 +604,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'minCount',        selector: 'h2',     count: 3, message: 'Cada <div> necesita un <h2> como título de sección',         hint: '<h2>Datos del jugador</h2>' },
       { type: 'element',         selector: 'ul li, ol li',     message: 'Agregá una lista de juegos favoritos',                      hint: '<ul><li>Minecraft</li>...</ul>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Qué muestra un <code>&lt;div&gt;</code> vacío en la pantalla?',
@@ -678,6 +688,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'elementWithAttr', selector: 'select',    attr: 'name', message: 'Los <select> necesitan el atributo name',          hint: '<select name="raza">' },
       { type: 'element',         selector: 'label[for]',              message: 'Usá <label for="id"> para cada select',            hint: '<label for="raza">Raza:</label>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Qué valor recibe el servidor cuando el usuario elige una <code>&lt;option&gt;</code>?',
@@ -768,6 +779,7 @@ Línea dos (sin espacio extra)&lt;/p&gt;</code></pre>
       { type: 'minCount', selector: 'input[type="checkbox"]', count: 3, message: 'Agregá al menos 3 checkboxes de géneros',           hint: '<input type="checkbox" name="genero_rpg" value="rpg">' },
       { type: 'element',  selector: 'label[for]',                        message: 'Cada input necesita su <label for="id">',           hint: '<label for="rpg">RPG</label>' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Por qué los <code>type="radio"</code> de un mismo grupo deben tener el mismo <code>name</code>?',
@@ -872,6 +884,7 @@ String categoria = request.getParameter("categoria");</code></pre>
       { type: 'element',         selector: 'input[type="radio"]',   message: 'Agregá los radio buttons de modalidad',                          hint: '<input type="radio" name="modalidad" value="individual">' },
       { type: 'element',         selector: 'input[type="checkbox"]', message: 'Agregá el checkbox para aceptar las bases',                     hint: '<input type="checkbox" name="acepto">' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
     quiz: [
       {
         question: '¿Qué método deberías usar para enviar una contraseña en un formulario?',
