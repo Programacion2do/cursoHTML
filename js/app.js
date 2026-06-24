@@ -6,9 +6,6 @@ const _lessons     = _course === 'css' ? (typeof cssLessons !== 'undefined' ? cs
 const _progressKey = _course === 'css' ? 'csscourse_progress'
                    : _course === 'js'  ? 'jscourse_progress'
                    : 'htmlcourse_progress';
-const _quizKey     = _course === 'css' ? 'csscourse_quiz'
-                   : _course === 'js'  ? 'jscourse_quiz'
-                   : 'htmlcourse_quiz';
 
 let editor          = null;   // index.html  (xml mode)
 let editorCss       = null;   // style.css   (css mode)
@@ -16,10 +13,7 @@ let editorJs        = null;   // script.js   (javascript mode)
 let activeEditorTab = 'html'; // 'html' | 'css' | 'js'
 let currentLesson   = null;
 let previewDebounce = null;
-let quizAnswers     = {};   // { questionIndex: optionIndex }
-
 let completedLessons = JSON.parse(localStorage.getItem(_progressKey) || '[]');
-let completedQuizzes = JSON.parse(localStorage.getItem(_quizKey)     || '[]');
 
 document.addEventListener('DOMContentLoaded', () => {
   const params   = new URLSearchParams(window.location.search);
@@ -125,9 +119,6 @@ function loadLesson(id) {
   // If already fully completed, restore done state
   if (alreadyDone) {
     document.getElementById('success-banner').style.display = 'flex';
-    if (completedQuizzes.includes(id)) {
-      restoreCompletedQuiz();
-    }
   }
 
   setTimeout(() => { editor.refresh(); editorCss.refresh(); editorJs.refresh(); updatePreview(); }, 50);
@@ -240,117 +231,18 @@ function markComplete() {
 
   document.getElementById('success-banner').style.display = 'flex';
   updateProgressBar();
-
-  // If quiz already done (re-verification), just enable next
-  if (completedQuizzes.includes(id)) {
-    enableNext(); restoreCompletedQuiz(); return;
-  }
-  // Show quiz
-  showQuiz();
-}
-
-function showQuiz() {
-  quizAnswers = {};
-  const panel = document.getElementById('quiz-panel');
-  panel.style.display = 'block';
-  document.getElementById('quiz-done-banner').style.display = 'none';
-  renderQuiz();
-  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 150);
-}
-
-function renderQuiz() {
-  const quiz      = currentLesson.quiz || [];
-  const container = document.getElementById('quiz-questions');
-  container.innerHTML = '';
-
-  quiz.forEach((q, qi) => {
-    const block = document.createElement('div');
-    block.className = 'quiz-block';
-    block.id = `qblock-${qi}`;
-    block.innerHTML = `
-      <div class="quiz-q-label">Pregunta ${qi + 1} de ${quiz.length}</div>
-      <div class="quiz-q-text">${q.question}</div>
-      <div class="quiz-opts" id="qopts-${qi}">
-        ${'ABCD'.split('').map((letter, oi) => `
-          <button class="quiz-opt" onclick="selectOption(${qi},${oi})">
-            <span class="quiz-letter">${letter}</span>
-            <span>${q.options[oi]}</span>
-          </button>`).join('')}
-      </div>
-      <div class="quiz-feedback" id="qfb-${qi}" style="display:none"></div>`;
-    container.appendChild(block);
-  });
-}
-
-function _ci(q) { return parseInt(atob(q._c)); }
-
-function selectOption(qi, oi) {
-  if (quizAnswers[qi] !== undefined) return;  // already answered
-  quizAnswers[qi] = oi;
-
-  const q       = currentLesson.quiz[qi];
-  const correct = oi === _ci(q);
-
-  // Style options
-  document.querySelectorAll(`#qopts-${qi} .quiz-opt`).forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === _ci(q)) btn.classList.add('qopt-correct');
-    if (i === oi && !correct) btn.classList.add('qopt-wrong');
-  });
-
-  // Feedback
-  const fb = document.getElementById(`qfb-${qi}`);
-  fb.style.display = 'flex';
-  fb.className     = `quiz-feedback ${correct ? 'qfb-ok' : 'qfb-err'}`;
-  fb.innerHTML     = `<span class="qfb-icon">${correct ? '✓' : '✗'}</span><span>${q.explanation}</span>`;
-
-  // All answered?
-  const total = currentLesson.quiz.length;
-  const done  = Object.keys(quizAnswers).length;
-  if (done === total) setTimeout(completeQuiz, 500);
-}
-
-function completeQuiz() {
-  const id = currentLesson.id;
-  if (!completedQuizzes.includes(id)) {
-    completedQuizzes.push(id);
-    localStorage.setItem(_quizKey, JSON.stringify(completedQuizzes));
-  }
-  document.getElementById('quiz-done-banner').style.display = 'flex';
   enableNext();
-  document.getElementById('quiz-done-banner').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  if (currentLesson.formUrl) {
+    const panel = document.getElementById('form-link-panel');
+    const link  = document.getElementById('form-link');
+    if (panel && link) {
+      link.href = currentLesson.formUrl;
+      panel.style.display = 'block';
+    }
+  }
 }
 
-function restoreCompletedQuiz() {
-  const panel = document.getElementById('quiz-panel');
-  panel.style.display = 'block';
-
-  const container = document.getElementById('quiz-questions');
-  container.innerHTML = '';
-
-  // Show questions locked in solution state
-  const quiz = currentLesson.quiz || [];
-  quiz.forEach((q, qi) => {
-    const block = document.createElement('div');
-    block.className = 'quiz-block quiz-block-done';
-    block.innerHTML = `
-      <div class="quiz-q-label">Pregunta ${qi + 1} de ${quiz.length}</div>
-      <div class="quiz-q-text">${q.question}</div>
-      <div class="quiz-opts">
-        ${'ABCD'.split('').map((letter, oi) => `
-          <button class="quiz-opt ${oi === _ci(q) ? 'qopt-correct' : ''}" disabled>
-            <span class="quiz-letter">${letter}</span>
-            <span>${q.options[oi]}</span>
-          </button>`).join('')}
-      </div>
-      <div class="quiz-feedback qfb-ok" style="display:flex">
-        <span class="qfb-icon">✓</span><span>${q.explanation}</span>
-      </div>`;
-    container.appendChild(block);
-  });
-
-  document.getElementById('quiz-done-banner').style.display = 'flex';
-}
 
 function enableNext() {
   const btn = document.getElementById('btn-next');
@@ -373,10 +265,8 @@ function clearFeedback() {
   document.getElementById('checks-panel').style.display   = 'none';
   document.getElementById('checks-list').innerHTML        = '';
   document.getElementById('success-banner').style.display = 'none';
-  document.getElementById('quiz-panel').style.display     = 'none';
-  document.getElementById('quiz-questions').innerHTML     = '';
-  document.getElementById('quiz-done-banner').style.display = 'none';
-  quizAnswers = {};
+  const formPanel = document.getElementById('form-link-panel');
+  if (formPanel) formPanel.style.display = 'none';
 }
 
 function updateNavButtons(id) {
@@ -388,10 +278,10 @@ function updateNavButtons(id) {
   }
   if (nextBtn) {
     const isLast      = id >= _lessons.length;
-    const isUnlocked  = completedQuizzes.includes(id);
+    const isUnlocked  = completedLessons.includes(id);
     nextBtn.textContent = isLast ? '🏁 Finalizar' : 'Siguiente →';
     nextBtn.disabled    = !isUnlocked;
-    nextBtn.title       = isUnlocked ? '' : 'Completá el ejercicio y respondé el quiz para continuar';
+    nextBtn.title       = isUnlocked ? '' : 'Completá el ejercicio para continuar';
     nextBtn.classList.toggle('btn-next-active', isUnlocked);
     nextBtn.onclick = isUnlocked
       ? () => isLast ? showDiplomaModal() : navigateTo(id + 1)
@@ -700,7 +590,7 @@ function _renderSubmitSummary() {
   const el = document.getElementById('sub-summary');
   if (!el) return;
   const labels = { html: 'HTML', css: 'CSS', js: 'JavaScript' };
-  const done   = completedQuizzes.length;
+  const done   = completedLessons.length;
   const total  = _lessons.length;
   const pct    = Math.round((done / total) * 100);
   el.innerHTML =
@@ -719,7 +609,7 @@ function _collectSubmissionData(nombre, apellido, email) {
     return {
       id:        l.id,
       titulo:    l.title,
-      completada: completedQuizzes.includes(l.id),
+      completada: completedLessons.includes(l.id),
       codigo:    snap ? { html: snap.html, css: snap.css, js: snap.js } : null,
       fecha:     snap ? snap.date : null,
     };
@@ -727,7 +617,7 @@ function _collectSubmissionData(nombre, apellido, email) {
   return {
     alumno:   { nombre, apellido, email },
     curso:    labels[_course] || _course,
-    progreso: completedQuizzes.length + '/' + _lessons.length,
+    progreso: completedLessons.length + '/' + _lessons.length,
     fecha:    new Date().toISOString(),
     lecciones,
   };
