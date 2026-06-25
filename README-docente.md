@@ -47,7 +47,7 @@ Los quizzes se generaron con [Fábrica de Cuestionarios](https://github.com/recu
 
 | Curso | Aparece en | Google Form |
 |---|---|---|
-| HTML | Lección 13 | [Editar](https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/edit) |
+| HTML | Lección 13 | [Editar](https://docs.google.com/forms/d/1xHYYnRMimZx_CjtQzRkpcjcP2M981p51KHM6XGFp1jM/edit) |
 | CSS | Lección 6 | [Editar](https://docs.google.com/forms/d/1hhpwJ52LcVHfd4Rg6JJ6VlNa1gb5re7z6o3ClmHUh_s/edit) |
 | JS | Lección 6 | [Editar](https://docs.google.com/forms/d/1HkyMfFVObQxBp_ZnMCs7lOEqSe57bPbUCkoPzMEo8WU/edit) |
 

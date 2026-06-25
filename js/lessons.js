@@ -872,7 +872,7 @@ String categoria = request.getParameter("categoria");</code></pre>
       { type: 'element',         selector: 'input[type="radio"]',   message: 'Agregá los radio buttons de modalidad',                          hint: '<input type="radio" name="modalidad" value="individual">' },
       { type: 'element',         selector: 'input[type="checkbox"]', message: 'Agregá el checkbox para aceptar las bases',                     hint: '<input type="checkbox" name="acepto">' },
     ],
-    formUrl: 'https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/viewform',
+    formUrl: 'https://docs.google.com/forms/d/1xHYYnRMimZx_CjtQzRkpcjcP2M981p51KHM6XGFp1jM/viewform',
     quiz: [
       {
         question: '¿Qué método deberías usar para enviar una contraseña en un formulario?',
