@@ -38,7 +38,7 @@ html-course/
 
 ## 📝 Quizzes (Google Forms)
 
-Los quizzes se generaron con [Fábrica de Cuestionarios](https://github.com/recursos-docentes/Fabrica-cuestionarios) (Google Apps Script) y están alojados en la cuenta **profe.eliza17@gmail.com**.
+Los quizzes se generaron con [Fábrica de Cuestionarios](https://github.com/recursos-docentes/Fabrica-cuestionarios) (Google Apps Script) y están alojados en la cuenta **profe.eliza17@gmail.com** → [Carpeta en Drive](https://drive.google.com/drive/folders/1VZ7asxu4iCFL7TNARYyryRe2UUMU--vJ?usp=sharing).
 
 | Curso | Aparece en | Google Form |
 |---|---|---|
