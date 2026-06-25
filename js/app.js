@@ -119,7 +119,7 @@ function loadLesson(id) {
   // If already fully completed, restore done state
   if (alreadyDone) {
     document.getElementById('success-banner').style.display = 'flex';
-    if (currentLesson.formUrl) showFormPanel();
+    if (currentLesson.formUrl && completedLessons.length >= _lessons.length) showFormPanel();
   }
 
   setTimeout(() => { editor.refresh(); editorCss.refresh(); editorJs.refresh(); updatePreview(); }, 50);
@@ -234,7 +234,7 @@ function markComplete() {
   updateProgressBar();
   enableNext();
 
-  if (currentLesson.formUrl) showFormPanel();
+  if (currentLesson.formUrl && completedLessons.length >= _lessons.length) showFormPanel();
 }
 
 
