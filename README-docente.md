@@ -1,6 +1,6 @@
 # 📋 Documentación técnica — Aprende a Programar
 
-> **Este archivo es para uso docente exclusivamente. No incluir en repositorios públicos.**
+> **Este repositorio es el espejo privado de [Programacion2do/cursoHTML](https://github.com/Programacion2do/cursoHTML) (público).** Contiene el código fuente, las soluciones y la documentación docente. No incluir en repositorios públicos.
 
 ---
 
