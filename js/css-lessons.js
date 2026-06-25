@@ -560,6 +560,7 @@ h1 { margin: 24px 0 16px; }
       { type: 'regex', pattern: '\\.tarjetas\\s*\\{[^}]*gap\\s*:',             message: 'Agregá gap en .tarjetas',                                 hint: '.tarjetas { gap: 16px; }' },
       { type: 'regex', pattern: '\\.tarjetas\\s*\\{[^}]*flex-wrap\\s*:\\s*wrap', message: 'Agregá flex-wrap: wrap a .tarjetas',                    hint: '.tarjetas { flex-wrap: wrap; }' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/1hhpwJ52LcVHfd4Rg6JJ6VlNa1gb5re7z6o3ClmHUh_s/viewform',
     quiz: [
       {
         question: '¿En qué elemento se pone <code>display: flex</code>?',

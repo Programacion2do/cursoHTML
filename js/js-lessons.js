@@ -549,6 +549,7 @@ boton.addEventListener('click', function() {
       { type: 'regex', pattern: '\\.textContent\\s*=',                    message: 'Cambiá el textContent dentro del evento',             hint: "document.getElementById('mensaje').textContent = '...'" },
       { type: 'regex', pattern: '\\bif\\s*\\(',                           message: 'Usá un if para alternar entre los dos estados',       hint: 'if (clics % 2 === 0) { ... } else { ... }' },
     ],
+    formUrl: 'https://docs.google.com/forms/d/1HkyMfFVObQxBp_ZnMCs7lOEqSe57bPbUCkoPzMEo8WU/viewform',
     quiz: [
       {
         question: '¿Qué hace <code>addEventListener</code>?',
