@@ -9,13 +9,13 @@
 ```
 html-course/
 ├── index.html           # Página de inicio — selección de cursos + desafíos + XP
-├── lesson.html          # Página de lección — editor + quiz + diploma + feedback
+├── lesson.html          # Página de lección — editor + diploma + feedback
 ├── challenge.html       # Página de desafío — editor + verificación + celebración XP
 ├── playground.html      # Editor libre (HTML/CSS/JS)
 ├── css/
 │   └── style.css        # Estilos globales
 ├── js/
-│   ├── app.js           # Lógica de lecciones (editor, verificación, quiz, diploma, feedback...)
+│   ├── app.js           # Lógica de lecciones (editor, verificación, diploma, feedback...)
 │   ├── challenge-app.js # Lógica de desafíos (editor, verificación, XP, confetti...)
 │   ├── lessons.js       # Contenido del curso de HTML
 │   ├── css-lessons.js   # Contenido del curso de CSS
@@ -29,15 +29,10 @@ html-course/
 
 ## 🛡️ Seguridad
 
-Las respuestas del quiz están ofuscadas para dificultar que los estudiantes las encuentren con las DevTools:
-
-| Qué | Cómo se guarda | Cómo se usa |
-|---|---|---|
-| Respuestas de quiz | Campo `_c` con base64 del índice | Se decodifica en `_ci(q)` al validar |
-
-Las soluciones de los ejercicios **no están en la app** — se guardan en el repositorio privado `cursoHTMLp`.
-
-El panel docente y el botón "Ver solución" fueron eliminados para evitar que los estudiantes accedan a información sensible.
+- Las **respuestas del quiz** están en Google Forms (servidor de Google) — no en el código de la app
+- Las **soluciones de los ejercicios** no están en la app — se guardan en el repositorio privado `cursoHTMLp`
+- Los archivos JS principales están **ofuscados** con javascript-obfuscator
+- No hay panel docente, contraseñas ni botón "Ver solución" en la app pública
 
 ---
 
@@ -53,7 +48,7 @@ Los quizzes se generaron con [Fábrica de Cuestionarios](https://github.com/recu
 
 Los scripts `.gs` para regenerar los formularios están en `quiz-forms/`. Cada formulario incluye campos de identificación (nombre, apellido, institución, grupo), secciones por lección, autocorrección y feedback por pregunta.
 
-El quiz se muestra incrustado en el panel central de la app al completar el ejercicio de la última lección de cada curso.
+El quiz se muestra incrustado en el panel central de la app al completar **todas** las lecciones del curso. El diploma solo se habilita después del quiz.
 
 ---
 
@@ -117,10 +112,9 @@ El progreso se guarda en `localStorage` del navegador. Para continuar en otro eq
 | Clave | Contenido |
 |---|---|
 | `htmlcourse_progress` | IDs de lecciones HTML completadas |
-| `htmlcourse_quiz` | IDs de quizzes HTML completados |
 | `htmlcourse_progress_code_N` | Código guardado de la lección N |
-| `csscourse_progress` / `csscourse_quiz` / `_code_N` | Ídem para CSS |
-| `jscourse_progress` / `jscourse_quiz` / `_code_N` | Ídem para JS |
+| `csscourse_progress` / `_code_N` | Ídem para CSS |
+| `jscourse_progress` / `_code_N` | Ídem para JS |
 | `htmlchallenges_done` / `csschallenges_done` / `jschallenges_done` | Desafíos completados |
 | `lastCourse` | Último curso seleccionado |
 
@@ -139,42 +133,20 @@ Cada archivo de lecciones (`lessons.js`, `css-lessons.js`, `js-lessons.js`) expo
   instructions: 'Descripción de la tarea.',
   starterCode:  `<!-- código inicial -->`,
   checks: [ ... ],
-  quiz:   [ ... ],
 }
 ```
 
 **Lección CSS** (2 editores — HTML + CSS):
 ```js
-{ starterHtml: `...`, starterCss: `...`, checks: [...], quiz: [...] }
+{ starterHtml: `...`, starterCss: `...`, checks: [...] }
 ```
 
 **Lección JS** (3 editores — HTML + CSS + JS):
 ```js
-{ starterHtml: `...`, starterCss: `...`, starterJs: `...`, checks: [...], quiz: [...] }
+{ starterHtml: `...`, starterCss: `...`, starterJs: `...`, checks: [...] }
 ```
 
-> Las soluciones **no van en la app pública**. Se guardan en el repositorio privado `cursoHTMLp`.
-
-**Estructura del quiz** (respuesta correcta ofuscada):
-```js
-quiz: [
-  {
-    question:    '¿Para qué sirve la etiqueta h1?',
-    options:     ['Título principal', 'Imagen', 'Párrafo', 'Lista'],
-    _c:          'MA==',   // btoa('0') → índice 0 es la respuesta correcta
-    explanation: 'h1 es el título de mayor jerarquía en HTML.',
-  },
-]
-```
-
-Tabla de `_c` según índice correcto:
-
-| Índice | `_c` |
-|---|---|
-| 0 | `'MA=='` |
-| 1 | `'MQ=='` |
-| 2 | `'Mg=='` |
-| 3 | `'Mw=='` |
+En la última lección de cada curso se agrega `formUrl: 'https://docs.google.com/forms/...'` para conectar con el quiz de Google Forms.
 
 **Tipos de check disponibles:**
 
@@ -234,7 +206,6 @@ Los archivos de contenido (`lessons.js`, `css-lessons.js`, `js-lessons.js`) **no
 | [html2canvas](https://html2canvas.hertzen.com/) | Exportar el diploma como imagen PNG |
 | [EmailJS](https://emailjs.com/) | Envío de entregas y feedback por email (opcional) |
 | [javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator) | Ofuscación del JS en el proceso de build (Node.js) |
-| `crypto.subtle` | Hash SHA-256 para contraseña docente |
 | localStorage | Guardar progreso, opiniones y proyectos |
 | GitHub Pages | Hosting estático gratuito |
 
