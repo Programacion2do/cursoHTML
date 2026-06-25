@@ -119,8 +119,7 @@ function loadLesson(id) {
   // If already fully completed, restore done state
   if (alreadyDone) {
     document.getElementById('success-banner').style.display = 'flex';
-    if (currentLesson.formUrl && completedLessons.length >= _lessons.length) showFormPanel();
-  }
+      }
 
   setTimeout(() => { editor.refresh(); editorCss.refresh(); editorJs.refresh(); updatePreview(); }, 50);
 }
@@ -234,8 +233,7 @@ function markComplete() {
   updateProgressBar();
   enableNext();
 
-  if (currentLesson.formUrl && completedLessons.length >= _lessons.length) showFormPanel();
-}
+  }
 
 
 function enableNext() {
@@ -244,8 +242,15 @@ function enableNext() {
     btn.disabled  = false;
     btn.title     = '';
     btn.classList.add('btn-next-active');
-    const isLast  = currentLesson.id >= _lessons.length;
-    btn.onclick   = () => isLast ? showDiplomaModal() : navigateTo(currentLesson.id + 1);
+    const isLast    = currentLesson.id >= _lessons.length;
+    const allDone   = completedLessons.length >= _lessons.length;
+    const hasQuiz   = currentLesson.formUrl && allDone;
+    if (isLast && hasQuiz) {
+      btn.textContent = '📝 Ir al quiz';
+      btn.onclick = () => showFormPanel();
+    } else {
+      btn.onclick = () => isLast ? showDiplomaModal() : navigateTo(currentLesson.id + 1);
+    }
   }
 }
 

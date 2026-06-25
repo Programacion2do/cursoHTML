@@ -706,6 +706,25 @@ code, pre {
   background: white;
   border-radius: 0 0 8px 8px;
 }
+.form-footer {
+  padding: 12px 14px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.btn-finish-quiz {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #7c3aed, #10b981);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-finish-quiz:hover { opacity: 0.85; }
 #editor-area { display: flex; flex-direction: column; height: 100%; }
 
 
