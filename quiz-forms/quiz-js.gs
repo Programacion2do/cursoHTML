@@ -7,6 +7,12 @@ function crearQuizJS() {
   form.setIsQuiz(true);
   form.setDescription('Preguntas de comprensión del curso de JavaScript. Cada lección tiene 2 preguntas.');
 
+  // ── Datos del alumno ──
+  form.addTextItem().setTitle('Nombre').setRequired(true);
+  form.addTextItem().setTitle('Apellido').setRequired(true);
+  form.addMultipleChoiceItem().setTitle('Institución').setRequired(true).setChoiceValues(['Las Piedras', 'La Paz']);
+  form.addTextItem().setTitle('Grupo').setRequired(true);
+
   // ── Lección 1: DOM y primeros pasos ──
   form.addPageBreakItem().setTitle('Lección 1: DOM y primeros pasos');
 

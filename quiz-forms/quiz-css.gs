@@ -7,6 +7,12 @@ function crearQuizCSS() {
   form.setIsQuiz(true);
   form.setDescription('Preguntas de comprensión del curso de CSS. Cada lección tiene 2 preguntas.');
 
+  // ── Datos del alumno ──
+  form.addTextItem().setTitle('Nombre').setRequired(true);
+  form.addTextItem().setTitle('Apellido').setRequired(true);
+  form.addMultipleChoiceItem().setTitle('Institución').setRequired(true).setChoiceValues(['Las Piedras', 'La Paz']);
+  form.addTextItem().setTitle('Grupo').setRequired(true);
+
   // ── Lección 1: Introducción a CSS ──
   form.addPageBreakItem().setTitle('Lección 1: Introducción a CSS');
 
