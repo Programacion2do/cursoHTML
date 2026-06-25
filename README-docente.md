@@ -41,6 +41,22 @@ El panel docente y el botón "Ver solución" fueron eliminados para evitar que l
 
 ---
 
+## 📝 Quizzes (Google Forms)
+
+Los quizzes se generaron con [Fábrica de Cuestionarios](https://github.com/recursos-docentes/Fabrica-cuestionarios) (Google Apps Script) y están alojados en la cuenta **profe.eliza17@gmail.com**.
+
+| Curso | Aparece en | Google Form |
+|---|---|---|
+| HTML | Lección 13 | [Editar](https://docs.google.com/forms/d/15NCUF-0kXDL62rrN7AT8yCzGDfOhSa9Chr8uhX-I190/edit) |
+| CSS | Lección 6 | [Editar](https://docs.google.com/forms/d/1hhpwJ52LcVHfd4Rg6JJ6VlNa1gb5re7z6o3ClmHUh_s/edit) |
+| JS | Lección 6 | [Editar](https://docs.google.com/forms/d/1HkyMfFVObQxBp_ZnMCs7lOEqSe57bPbUCkoPzMEo8WU/edit) |
+
+Los scripts `.gs` para regenerar los formularios están en `quiz-forms/`. Cada formulario incluye campos de identificación (nombre, apellido, institución, grupo), secciones por lección, autocorrección y feedback por pregunta.
+
+El quiz se muestra incrustado en el panel central de la app al completar el ejercicio de la última lección de cada curso.
+
+---
+
 ## 📤 Sistema de entregas
 
 Al finalizar un curso, el alumno puede:
@@ -67,8 +83,6 @@ En ambas plantillas, el campo **To Email** debe ser la dirección del docente (f
 ## 💬 Feedback de alumnos
 
 Al finalizar un curso los alumnos pueden dejar su opinión (estrellas + texto). El feedback se envía por email al docente (vía EmailJS) y se guarda en `localStorage` como respaldo.
-
-El **Panel docente → Ver opiniones de alumnos** muestra las opiniones guardadas en ese navegador.
 
 ---
 
