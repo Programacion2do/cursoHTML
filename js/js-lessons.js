@@ -60,20 +60,6 @@ h1   { color: #9f67ff; }
       { type: 'regex', pattern: 'getElementById',       message: 'Usá document.getElementById para acceder a un elemento', hint: "document.getElementById('titulo')" },
       { type: 'regex', pattern: '\\.textContent\\s*=',  message: 'Cambiá el textContent de algún elemento',                hint: "elemento.textContent = 'nuevo texto'" },
       { type: 'regex', pattern: '\\.style\\.',           message: 'Cambiá alguna propiedad de .style (color, backgroundColor...)', hint: "elemento.style.color = 'hotpink'" },
-    ],
-    quiz: [
-      {
-        question: '¿Cómo se accede a un elemento HTML con id="nombre" desde JavaScript?',
-        options: ['getElement("nombre")', 'document.getElementById("nombre")', 'getElementById("nombre")', 'document.getElement("nombre")'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! document.getElementById("nombre") devuelve el elemento con ese id. Se usa "document" porque es la puerta de entrada al HTML desde JavaScript.'
-      },
-      {
-        question: 'En JavaScript, ¿cómo se escribe la propiedad CSS background-color?',
-        options: ['background-color', 'background_color', 'backgroundColor', '"background-color"'],
-        _c: 'Mg==',
-        explanation: '¡Correcto! En JavaScript las propiedades CSS se escriben en camelCase: background-color → backgroundColor, font-size → fontSize, border-radius → borderRadius.'
-      }
     ]
   },
 
@@ -155,20 +141,6 @@ document.getElementById('extra').textContent =
       { type: 'regex', pattern: '\\bconst\\s+\\w+\\s*=',  message: 'Declarar al menos una constante con const',       hint: "const materia = 'Programación';" },
       { type: 'regex', pattern: '\\$\\{',                  message: 'Usar un template literal con ${variable}',        hint: '`Hola ${nombre}`' },
       { type: 'regex', pattern: '\\.textContent\\s*=',     message: 'Mostrar el resultado con .textContent',           hint: "document.getElementById('saludo').textContent = `...`" },
-    ],
-    quiz: [
-      {
-        question: '¿Cuál es la diferencia entre <code>let</code> y <code>const</code>?',
-        options: ['No hay diferencia', 'let puede cambiar de valor; const no puede reasignarse', 'const es más rápida que let', 'let solo funciona con strings'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! let declara variables que pueden cambiar de valor. const declara constantes — si intentás reasignar una const, obtenés un error en tiempo de ejecución.'
-      },
-      {
-        question: '¿Qué resultado da este código? <code>let x = 5; `El doble es ${x * 2}`</code>',
-        options: ['El doble es ${x * 2}', 'El doble es x * 2', 'El doble es 10', 'Error de sintaxis'],
-        _c: 'Mg==',
-        explanation: '¡Correcto! Los template literals evalúan ${expresión} y reemplazan con el resultado calculado. x * 2 = 10, entonces el resultado es "El doble es 10".'
-      }
     ]
   },
 
@@ -252,20 +224,6 @@ let temperatura = 35;
       { type: 'regex', pattern: '\\belse\\b',           message: 'Usá else (o else if) para los otros casos',       hint: '} else { ... }' },
       { type: 'regex', pattern: '[><]=?\\s*\\d',        message: 'Usá un operador de comparación (>, <, >=, <=)',   hint: 'temperatura > 30' },
       { type: 'regex', pattern: '\\.textContent\\s*=',  message: 'Mostrá el resultado con .textContent',            hint: "getElementById('clima').textContent = '...'" },
-    ],
-    quiz: [
-      {
-        question: '¿Cuál es la diferencia entre <code>==</code> y <code>===</code>?',
-        options: ['Son exactamente iguales', '=== compara valor Y tipo de dato; == solo compara el valor', '== es más moderno', '=== solo funciona con números'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! === (estricto) compara valor Y tipo. Por eso 5 == "5" es true pero 5 === "5" es false (distintos tipos: number vs string). Siempre usá ===.'
-      },
-      {
-        question: '¿Qué pasa si la condición del <code>if</code> es false y no hay <code>else</code>?',
-        options: ['Se produce un error en el código', 'El bloque if se ejecuta igual', 'El bloque if se salta y el programa sigue', 'El programa se detiene completamente'],
-        _c: 'Mg==',
-        explanation: '¡Correcto! Si la condición es false y no hay else, simplemente se salta el bloque if y el código continúa desde la siguiente línea. No pasa nada malo.'
-      }
     ]
   },
 
@@ -354,20 +312,6 @@ if (promedio >= 6) {
       { type: 'regex', pattern: '\\breturn\\b',                 message: 'La función debe retornar el resultado con return',     hint: 'return (n1 + n2 + n3) / 3;' },
       { type: 'regex', pattern: '\\w+\\s*\\(\\s*\\d',          message: 'Llamar la función pasándole números como argumento',   hint: 'calcularPromedio(8, 7, 9)' },
       { type: 'regex', pattern: '\\.textContent\\s*=',          message: 'Mostrar el resultado en el HTML con .textContent',    hint: "getElementById('resultado').textContent = `Promedio: ${promedio}`" },
-    ],
-    quiz: [
-      {
-        question: '¿Qué hace la palabra clave <code>return</code> dentro de una función?',
-        options: ['Termina el programa', 'Devuelve un valor al código que llamó la función', 'Imprime el valor en pantalla', 'Define el nombre de la función'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! return devuelve el valor al lugar donde se llamó la función. Si escribís let x = miFuncion(), el valor retornado queda guardado en x.'
-      },
-      {
-        question: '¿Cuántas veces podés llamar a una misma función?',
-        options: ['Solo una vez', 'Máximo 10 veces', 'Cuantas veces quieras', 'Depende del tamaño del archivo'],
-        _c: 'Mg==',
-        explanation: '¡Correcto! Esa es la ventaja de las funciones: reutilizar código. Podés llamar a saludar("Ana"), saludar("Luis") y saludar("Pedro") sin repetir la lógica.'
-      }
     ]
   },
 
@@ -442,20 +386,6 @@ li   { padding: 4px 0; font-size: 1rem; }
       { type: 'regex', pattern: 'querySelectorAll\\(',     message: 'Usá querySelectorAll() para seleccionar todos los <li>',    hint: "document.querySelectorAll('li')" },
       { type: 'regex', pattern: '\\.forEach\\(',           message: 'Usá .forEach() para iterar sobre los elementos',            hint: 'items.forEach(function(item) { ... })' },
       { type: 'regex', pattern: '\\.innerHTML\\s*=',       message: 'Usá .innerHTML para insertar contenido HTML en #info',      hint: "documento.querySelector('#info').innerHTML = '<strong>Total:</strong> 4'" },
-    ],
-    quiz: [
-      {
-        question: '¿Cuál es la diferencia entre <code>querySelector</code> y <code>querySelectorAll</code>?',
-        options: ['No hay diferencia', 'querySelector devuelve el primer elemento; querySelectorAll devuelve todos', 'querySelectorAll solo funciona con ids', 'querySelector solo funciona con clases'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! querySelector devuelve el PRIMER elemento que coincide (o null si no hay). querySelectorAll devuelve una lista con TODOS los elementos que coinciden.'
-      },
-      {
-        question: '¿Cuál es la diferencia entre <code>textContent</code> e <code>innerHTML</code>?',
-        options: ['Son exactamente iguales', 'textContent muestra texto plano; innerHTML renderiza etiquetas HTML', 'innerHTML es más lento siempre', 'textContent agrega el texto al final sin borrar lo anterior'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! Con innerHTML = "<b>hola</b>", el texto aparece en negrita. Con textContent = "<b>hola</b>", los caracteres < y > se muestran tal cual, sin interpretarse como HTML.'
-      }
     ]
   },
 
@@ -549,20 +479,6 @@ boton.addEventListener('click', function() {
       { type: 'regex', pattern: '\\.textContent\\s*=',                    message: 'Cambiá el textContent dentro del evento',             hint: "document.getElementById('mensaje').textContent = '...'" },
       { type: 'regex', pattern: '\\bif\\s*\\(',                           message: 'Usá un if para alternar entre los dos estados',       hint: 'if (clics % 2 === 0) { ... } else { ... }' },
     ],
-    formUrl: 'https://docs.google.com/forms/d/1HkyMfFVObQxBp_ZnMCs7lOEqSe57bPbUCkoPzMEo8WU/viewform',
-    quiz: [
-      {
-        question: '¿Qué hace <code>addEventListener</code>?',
-        options: ['Agrega un nuevo elemento al HTML', 'Registra una función que se ejecuta cuando ocurre un evento específico', 'Verifica si hay errores en el código', 'Conecta la página con el servidor'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! addEventListener registra un "escuchador": espera el evento y ejecuta la función cuando ocurre. Podés tener múltiples listeners en el mismo elemento.'
-      },
-      {
-        question: '¿Por qué declaramos <code>let clics = 0</code> FUERA del addEventListener?',
-        options: ['Por un error de sintaxis', 'Para que la variable se reinicie a 0 en cada clic', 'Para que la variable persista entre un clic y otro', 'No importa dónde se declare'],
-        _c: 'Mg==',
-        explanation: '¡Correcto! Si declarás la variable dentro del listener, se reinicia a 0 cada vez que hacen clic. Declarada fuera, mantiene su valor entre llamadas y puede acumular.'
-      }
-    ]
+    formUrl: 'https://docs.google.com/forms/d/1HkyMfFVObQxBp_ZnMCs7lOEqSe57bPbUCkoPzMEo8WU/viewform'
   },
 ];

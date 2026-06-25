@@ -62,20 +62,6 @@ p {
       { type: 'regex', pattern: 'h1\\s*\\{[^}]*color\\s*:',              message: 'Ponele un color al h1',               hint: 'h1 { color: hotpink; }' },
       { type: 'regex', pattern: 'body\\s*\\{[^}]*background-color\\s*:', message: 'Ponele un color de fondo al body',    hint: 'body { background-color: #1a1a2e; }' },
       { type: 'regex', pattern: 'p\\s*\\{[^}]*color\\s*:',               message: 'Ponele un color a los párrafos <p>', hint: 'p { color: gray; }' },
-    ],
-    quiz: [
-      {
-        question: '¿Qué hace CSS en una página web?',
-        options: ['Define la estructura (títulos, párrafos, listas)', 'Define cómo se ve (colores, tamaños, posición)', 'Maneja la lógica y los clics', 'Conecta la página con la base de datos'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! HTML define la estructura, CSS define el diseño visual. Son lenguajes distintos que trabajan juntos: HTML es el esqueleto, CSS es el diseño.'
-      },
-      {
-        question: 'En CSS, ¿qué es el "selector"?',
-        options: ['El valor que se le asigna a una propiedad', 'La parte que indica a qué elemento HTML se aplica el estilo', 'El nombre del archivo CSS', 'El bloque de llaves { }'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! El selector indica a qué elementos se les aplica el estilo. "h1" selecciona todos los h1, ".mi-clase" selecciona todos con esa clase.'
-      }
     ]
   },
 
@@ -152,20 +138,6 @@ p {
       { type: 'regex', pattern: 'h2\\s*\\{[^}]*color\\s*:',                                              message: 'Aplicá un color a los h2 con selector de elemento',   hint: 'h2 { color: coral; }' },
       { type: 'regex', pattern: '\\.tarjeta\\s*\\{[^}]*background-color\\s*:',                            message: 'Ponele background-color a .tarjeta',                  hint: '.tarjeta { background-color: #1e1e2e; }' },
       { type: 'regex', pattern: '#especial\\s*\\{[^}]*font-size\\s*:\\s*(2[2-9]|[3-9]\\d|\\d{3})px',    message: 'Ponele font-size mayor a 21px al #especial',           hint: '#especial { font-size: 24px; }' },
-    ],
-    quiz: [
-      {
-        question: '¿Cuál es la sintaxis correcta para un selector de clase?',
-        options: ['.mi-clase { }', '#mi-clase { }', 'mi-clase { }', '@mi-clase { }'],
-        _c: 'MA==',
-        explanation: '¡Correcto! Los selectores de clase empiezan con punto (.). En el HTML se escribe class="mi-clase" y en el CSS .mi-clase { }.'
-      },
-      {
-        question: 'Tenés <code>&lt;p class="nota"&gt;</code> y <code>&lt;h2 class="nota"&gt;</code>. Si escribís <code>.nota { color: red; }</code>, ¿qué se colorea?',
-        options: ['Solo el párrafo', 'Solo el h2', 'Los dos', 'Ninguno'],
-        _c: 'Mg==',
-        explanation: '¡Correcto! Una clase puede aplicarse a cualquier tipo de etiqueta. .nota colorea TODOS los elementos con class="nota", sin importar si son p, h2, div, etc.'
-      }
     ]
   },
 
@@ -237,20 +209,6 @@ color: rgb(78, 205, 196);   /* turquesa   */</code></pre>
       { type: 'regex', pattern: 'color\\s*:\\s*#[0-9a-fA-F]{3,6}', message: 'Usá al menos un color hexadecimal (#xxxxxx)',             hint: 'color: #ff6b6b;' },
       { type: 'regex', pattern: 'color\\s*:\\s*rgb\\(',            message: 'Usá al menos un color con rgb(r, g, b)',                  hint: 'color: rgb(255, 107, 107);' },
       { type: 'regex', pattern: 'background-color\\s*:',           message: 'Usá background-color en algún elemento',                  hint: 'background-color: #1a1a2e;' },
-    ],
-    quiz: [
-      {
-        question: '¿Cuál de estos es un color hexadecimal válido?',
-        options: ['rgb(255, 0, 0)', '#ff6b6b', 'hex(255, 107, 107)', 'color(200, 50, 80)'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! Los colores hexadecimales empiezan con # seguido de 6 caracteres (0-9 y a-f). rgb(255, 0, 0) es formato RGB — distinto.'
-      },
-      {
-        question: '¿Cuál es la diferencia entre <code>color</code> y <code>background-color</code>?',
-        options: ['No hay diferencia', 'color cambia el texto, background-color cambia el fondo', 'background-color cambia el fondo de toda la página siempre', 'color solo funciona en h1'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! color aplica al texto del elemento. background-color aplica al fondo detrás del texto.'
-      }
     ]
   },
 
@@ -327,20 +285,6 @@ h1   { font-family: Georgia, serif; }</code></pre>
       { type: 'regex', pattern: '\\.opinion\\s*\\{[^}]*font-style\\s*:\\s*italic',       message: 'Poner en itálica los elementos con class="opinion"',      hint: '.opinion { font-style: italic; }' },
       { type: 'regex', pattern: 'a\\s*\\{[^}]*text-decoration\\s*:\\s*none',             message: 'Quitar el subrayado a los links con text-decoration: none', hint: 'a { text-decoration: none; }' },
       { type: 'regex', pattern: 'body\\s*\\{[^}]*font-family\\s*:',                      message: 'Cambiar la font-family del body',                         hint: 'body { font-family: Arial, sans-serif; }' },
-    ],
-    quiz: [
-      {
-        question: '¿Qué hace <code>text-align: center</code>?',
-        options: ['Mueve el elemento al centro de la pantalla', 'Centra el texto dentro de su elemento', 'Agranda el texto al doble', 'Solo funciona en imágenes'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! text-align centra el texto DENTRO del elemento, no mueve el elemento en sí.'
-      },
-      {
-        question: '¿Cuál es la diferencia entre <code>font-weight: bold</code> y <code>font-weight: 700</code>?',
-        options: ['Son completamente distintos', 'Son lo mismo: 700 = bold, 400 = normal', 'bold es más grueso que 700', '700 solo funciona en Google Fonts'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! 400 = normal, 700 = bold. "bold" y "700" producen el mismo resultado.'
-      }
     ]
   },
 
@@ -436,20 +380,6 @@ h1   { font-family: Georgia, serif; }</code></pre>
       { type: 'regex', pattern: '\\.tarjeta\\s*\\{[^}]*border-radius\\s*:',    message: 'Redondeá las esquinas con border-radius',              hint: '.tarjeta { border-radius: 8px; }' },
       { type: 'regex', pattern: '\\.tarjeta\\s*\\{[^}]*margin\\s*:',           message: 'Agregá margin para separar las tarjetas',              hint: '.tarjeta { margin: 16px 0; }' },
       { type: 'regex', pattern: '\\.tarjeta\\s*\\{[^}]*background-color\\s*:', message: 'Agregá background-color para ver el efecto del padding', hint: '.tarjeta { background-color: #1e1e2e; }' },
-    ],
-    quiz: [
-      {
-        question: '¿Cuál es la diferencia entre <code>padding</code> y <code>margin</code>?',
-        options: ['No hay diferencia', 'padding es espacio adentro del borde; margin es espacio afuera', 'margin es adentro; padding es afuera', 'padding solo funciona con border'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! Padding = espacio entre contenido y borde (se colorea). Margin = espacio entre el elemento y sus vecinos (transparente).'
-      },
-      {
-        question: '¿Qué hace <code>border-radius: 10px</code>?',
-        options: ['Aumenta el grosor del borde a 10px', 'Redondea las esquinas del elemento', 'Gira el elemento 10 grados', 'Agrega 10px de padding alrededor'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! border-radius redondea las esquinas. Con valores grandes (50%) el elemento se convierte en un círculo.'
-      }
     ]
   },
 
@@ -560,20 +490,6 @@ h1 { margin: 24px 0 16px; }
       { type: 'regex', pattern: '\\.tarjetas\\s*\\{[^}]*gap\\s*:',             message: 'Agregá gap en .tarjetas',                                 hint: '.tarjetas { gap: 16px; }' },
       { type: 'regex', pattern: '\\.tarjetas\\s*\\{[^}]*flex-wrap\\s*:\\s*wrap', message: 'Agregá flex-wrap: wrap a .tarjetas',                    hint: '.tarjetas { flex-wrap: wrap; }' },
     ],
-    formUrl: 'https://docs.google.com/forms/d/1hhpwJ52LcVHfd4Rg6JJ6VlNa1gb5re7z6o3ClmHUh_s/viewform',
-    quiz: [
-      {
-        question: '¿En qué elemento se pone <code>display: flex</code>?',
-        options: ['En cada elemento hijo', 'En el body siempre', 'En el contenedor padre', 'En el html'],
-        _c: 'Mg==',
-        explanation: '¡Correcto! display: flex se pone en el contenedor. Los hijos directos se alinean automáticamente en fila.'
-      },
-      {
-        question: '¿Qué hace <code>justify-content: space-between</code>?',
-        options: ['Centra todos los elementos', 'Distribuye con el máximo espacio posible entre ellos', 'Pone todos al final', 'Agrega espacio dentro de cada elemento'],
-        _c: 'MQ==',
-        explanation: '¡Correcto! space-between empuja el primero al inicio y el último al final, con espacio igual entre los del medio. Ideal para barras de navegación.'
-      }
-    ]
+    formUrl: 'https://docs.google.com/forms/d/1hhpwJ52LcVHfd4Rg6JJ6VlNa1gb5re7z6o3ClmHUh_s/viewform'
   },
 ];
