@@ -12,7 +12,7 @@ const OBFUSCATE = ['app.js', 'challenge-app.js', 'challenges.js'];
 const EXCLUDE = new Set([
   'node_modules', 'dist', 'build.js',
   'package.json', 'package-lock.json',
-  'README-docente.md', 'soluciones.md',
+  'README-docente.md', 'soluciones.md', 'solucionesDesafios.md',
   'quiz-forms',
 ]);
 
