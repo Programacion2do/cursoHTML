@@ -140,7 +140,6 @@
       html: {
         lessons:     lessons,
         progressKey: 'htmlcourse_progress',
-        quizKey:     'htmlcourse_quiz',
         accent:      '#7c3aed',
         label:       'HTML',
         desc:        'El lenguaje de la web. Creá páginas con estructura, listas, tablas, formularios y más.',
@@ -151,7 +150,6 @@
       css: {
         lessons:     cssLessons,
         progressKey: 'csscourse_progress',
-        quizKey:     'csscourse_quiz',
         accent:      '#0ea5e9',
         label:       'CSS',
         desc:        'Dale color, forma y estilo a tus páginas web. Aprende selectores, colores, tipografía y Flexbox.',
@@ -162,7 +160,6 @@
       js: {
         lessons:     jsLessons,
         progressKey: 'jscourse_progress',
-        quizKey:     'jscourse_quiz',
         accent:      '#fbbf24',
         label:       'JavaScript',
         desc:        'Dale vida a tus páginas. Modificá el DOM, reaccioná a eventos y escribí lógica con variables, funciones y condicionales.',
@@ -201,7 +198,6 @@
         return;
       }
       const completed = JSON.parse(localStorage.getItem(cfg.progressKey) || '[]');
-      const quizDone  = JSON.parse(localStorage.getItem(cfg.quizKey)     || '[]');
       const pct       = Math.round((completed.length / cfg.lessons.length) * 100);
 
       // ── Hero ─────────────────────────────────────────
@@ -223,8 +219,8 @@
         </div>
       `;
 
-      const nextLesson = cfg.lessons.find(l => !quizDone.includes(l.id)) || cfg.lessons[0];
-      const btnLabel   = quizDone.length === 0 ? '▶ Comenzar el curso' : '▶ Continuar';
+      const nextLesson = cfg.lessons.find(l => !completed.includes(l.id)) || cfg.lessons[0];
+      const btnLabel   = completed.length === 0 ? '▶ Comenzar el curso' : '▶ Continuar';
       const heroBtn    = document.createElement('a');
       heroBtn.href      = cfg.link(nextLesson.id);
       heroBtn.className = 'btn-start';
@@ -309,7 +305,7 @@
         grid.className = 'lessons-grid';
 
         ch.lessons.forEach(l => {
-          const isDone = quizDone.includes(l.id);
+          const isDone = completed.includes(l.id);
           const card   = document.createElement('a');
           card.href      = cfg.link(l.id);
           card.className = 'lesson-card' + (isDone ? ' completed' : '');
@@ -338,9 +334,9 @@
     // ── PROGRESO: EXPORTAR / IMPORTAR ─────────────────────
     const _PROGRESS_KEYS = [
       'lastCourse',
-      'htmlcourse_progress', 'htmlcourse_quiz',
-      'csscourse_progress',  'csscourse_quiz',
-      'jscourse_progress',   'jscourse_quiz',
+      'htmlcourse_progress',
+      'csscourse_progress',
+      'jscourse_progress',
       'htmlchallenges_done', 'csschallenges_done', 'jschallenges_done',
     ];
 
@@ -423,7 +419,7 @@
       {
         icon:  '📚',
         title: 'Empezá por las lecciones',
-        body:  'Las <strong>lecciones</strong> son tu punto de partida.<br>Cada una tiene teoría, un ejercicio práctico en el editor y un quiz de comprensión.<br>Completalas en orden — cada una construye sobre la anterior.',
+        body:  'Las <strong>lecciones</strong> son tu punto de partida.<br>Cada una tiene teoría y un ejercicio práctico en el editor.<br>Al final del curso hay un <strong>quiz de comprensión</strong>.<br>Completalas en orden — cada una construye sobre la anterior.',
       },
       {
         icon:  '⚡',

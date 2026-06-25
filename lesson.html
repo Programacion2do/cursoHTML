@@ -30,6 +30,14 @@
       flex-shrink: 0;
     }
     .lesson-share-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg2); }
+    .btn-save-progress {
+      margin-left: 10px; padding: 5px 14px; border-radius: 7px;
+      font-size: 0.78rem; font-weight: 500; cursor: pointer;
+      border: 1px solid var(--border); background: var(--bg3);
+      color: var(--text2); font-family: inherit; transition: all 0.15s;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .btn-save-progress:hover { border-color: var(--accent2); color: var(--accent2); background: var(--bg2); }
     .lesson-toast {
       position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(16px);
@@ -60,6 +68,7 @@
       </div>
       <span id="progress-text">0/9</span>
     </div>
+    <button class="btn-save-progress" onclick="saveAndExport()" title="Guardar progreso para continuar en otro equipo">💾 Guardar progreso</button>
   </header>
 
   <!-- MAIN BODY -->

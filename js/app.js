@@ -356,6 +356,26 @@ function resetLesson() {
 }
 
 
+function saveAndExport() {
+  const keys = [
+    'lastCourse',
+    'htmlcourse_progress', 'csscourse_progress', 'jscourse_progress',
+    'htmlchallenges_done', 'csschallenges_done', 'jschallenges_done',
+  ];
+  const data = {};
+  keys.forEach(k => { const v = localStorage.getItem(k); if (v !== null) data[k] = v; });
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.includes('_code_')) data[k] = localStorage.getItem(k);
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'progreso_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('✓ Progreso guardado', 'ok');
+}
+
 function showToast(msg, type = 'info') {
   const t = document.createElement('div');
   t.className = `toast toast-${type}`; t.textContent = msg;
