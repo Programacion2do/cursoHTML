@@ -671,19 +671,42 @@ code, pre {
 
 
 /* ── GOOGLE FORM EMBED ────────────────────────────────── */
-.form-embed-header {
+#form-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.form-embed-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--accent2);
-  margin-bottom: 10px;
 }
+.form-back-btn {
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text2);
+  font-size: 0.78rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.form-back-btn:hover { background: var(--bg3); color: var(--text); }
 .form-embed {
+  flex: 1;
   width: 100%;
-  min-height: 420px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: none;
   background: white;
+  border-radius: 0 0 8px 8px;
 }
+#editor-area { display: flex; flex-direction: column; height: 100%; }
 
 
 /* ── RESIZER HANDLES ────────────────────────────────── */

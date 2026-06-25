@@ -119,14 +119,7 @@ function loadLesson(id) {
   // If already fully completed, restore done state
   if (alreadyDone) {
     document.getElementById('success-banner').style.display = 'flex';
-    if (currentLesson.formUrl) {
-      const panel  = document.getElementById('form-link-panel');
-      const iframe = document.getElementById('form-embed');
-      if (panel && iframe) {
-        iframe.src = currentLesson.formUrl + '?embedded=true';
-        panel.style.display = 'block';
-      }
-    }
+    if (currentLesson.formUrl) showFormPanel();
   }
 
   setTimeout(() => { editor.refresh(); editorCss.refresh(); editorJs.refresh(); updatePreview(); }, 50);
@@ -241,15 +234,7 @@ function markComplete() {
   updateProgressBar();
   enableNext();
 
-  if (currentLesson.formUrl) {
-    const panel  = document.getElementById('form-link-panel');
-    const iframe = document.getElementById('form-embed');
-    if (panel && iframe) {
-      iframe.src = currentLesson.formUrl + '?embedded=true';
-      panel.style.display = 'block';
-      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 150);
-    }
-  }
+  if (currentLesson.formUrl) showFormPanel();
 }
 
 
@@ -274,8 +259,24 @@ function clearFeedback() {
   document.getElementById('checks-panel').style.display   = 'none';
   document.getElementById('checks-list').innerHTML        = '';
   document.getElementById('success-banner').style.display = 'none';
-  const formPanel = document.getElementById('form-link-panel');
-  if (formPanel) formPanel.style.display = 'none';
+  hideFormPanel();
+}
+
+function showFormPanel() {
+  const formPanel  = document.getElementById('form-panel');
+  const editorArea = document.getElementById('editor-area');
+  const iframe     = document.getElementById('form-embed');
+  if (!formPanel || !iframe) return;
+  iframe.src = currentLesson.formUrl + '?embedded=true';
+  editorArea.style.display = 'none';
+  formPanel.style.display  = 'flex';
+}
+
+function hideFormPanel() {
+  const formPanel  = document.getElementById('form-panel');
+  const editorArea = document.getElementById('editor-area');
+  if (formPanel)  formPanel.style.display  = 'none';
+  if (editorArea) editorArea.style.display = '';
 }
 
 function updateNavButtons(id) {

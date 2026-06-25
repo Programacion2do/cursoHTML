@@ -89,12 +89,6 @@
           <button class="btn-retry" onclick="resetLesson()" title="Volvé al código inicial para practicar de nuevo">↺ Reintentar</button>
         </div>
 
-        <div id="form-link-panel" style="display:none">
-          <div class="divider"></div>
-          <div class="form-embed-header">📝 Quiz de comprensión</div>
-          <iframe id="form-embed" class="form-embed" src="" frameborder="0"></iframe>
-        </div>
-
         <div id="checks-panel">
           <div class="checks-title">Resultados</div>
           <div id="checks-list"></div>
@@ -120,20 +114,29 @@
 
     <!-- CENTER: Code editor -->
     <section class="panel-editor">
-      <div class="editor-topbar">
-        <div class="editor-tab active" id="tab-html" onclick="switchEditorTab('html')">index.html</div>
-        <div class="editor-tab editor-tab-css" id="tab-css" onclick="switchEditorTab('css')" style="display:none">style.css</div>
-        <div class="editor-tab editor-tab-js"  id="tab-js"  onclick="switchEditorTab('js')"  style="display:none">script.js</div>
-        <button class="lesson-share-btn" onclick="shareCode()" title="Copiar enlace con tu código actual para compartir">🔗 Compartir</button>
+      <div id="editor-area">
+        <div class="editor-topbar">
+          <div class="editor-tab active" id="tab-html" onclick="switchEditorTab('html')">index.html</div>
+          <div class="editor-tab editor-tab-css" id="tab-css" onclick="switchEditorTab('css')" style="display:none">style.css</div>
+          <div class="editor-tab editor-tab-js"  id="tab-js"  onclick="switchEditorTab('js')"  style="display:none">script.js</div>
+          <button class="lesson-share-btn" onclick="shareCode()" title="Copiar enlace con tu código actual para compartir">🔗 Compartir</button>
+        </div>
+        <div class="editor-wrap" id="wrap-html">
+          <textarea id="code-editor"></textarea>
+        </div>
+        <div class="editor-wrap" id="wrap-css" style="display:none">
+          <textarea id="code-editor-css"></textarea>
+        </div>
+        <div class="editor-wrap" id="wrap-js" style="display:none">
+          <textarea id="code-editor-js"></textarea>
+        </div>
       </div>
-      <div class="editor-wrap" id="wrap-html">
-        <textarea id="code-editor"></textarea>
-      </div>
-      <div class="editor-wrap" id="wrap-css" style="display:none">
-        <textarea id="code-editor-css"></textarea>
-      </div>
-      <div class="editor-wrap" id="wrap-js" style="display:none">
-        <textarea id="code-editor-js"></textarea>
+      <div id="form-panel" style="display:none">
+        <div class="form-embed-topbar">
+          <span>📝 Quiz de comprensión</span>
+          <button class="form-back-btn" onclick="hideFormPanel()">← Volver al editor</button>
+        </div>
+        <iframe id="form-embed" class="form-embed" src="" frameborder="0"></iframe>
       </div>
     </section>
 
