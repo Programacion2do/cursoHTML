@@ -1,0 +1,13 @@
+{
+  "shortCode": "5b6489ebc2db",
+  "name": "MinFlix Remix",
+  "lang": "html",
+  "created": "2025-05-19T22:52:07.857Z",
+  "lastUpdated": "2025-06-17T09:44:37.621Z",
+  "settings": {
+    "autofocusEnabled": true,
+    "testsEnabled": false,
+    "astro_pi_mission_submission": false
+  },
+  "url": "https://trinket.io/html/5b6489ebc2db"
+}

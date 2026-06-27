@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Optimizado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Segoe+UI&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #6d597a;
+      --color-primary-dark: #5a4765;
+      --color-primary-light: #4b3a55;
+      --color-accent: #b56576;
+      --color-text: #000000;
+      --color-light: #ffffff;
+    }
+
+    body {  
+      color: var(--color-text);
+      font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif; 
+      margin: 20px;
+      line-height: 1.5;
+    }
+
+    section {
+      margin-bottom: 2em;
+    }
+
+    /* CORRECCIÓN: Separar header y footer */
+    header {
+      background-color: var(--color-primary);
+      color: var(--color-light);
+      padding: 20px;
+      text-align: center;
+    }
+
+    footer {
+      background-color: var(--color-primary); /* Fondo restaurado */
+      color: var(--color-light);
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      border-top: 3px solid var(--color-accent);
+    }
+
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: 2.5em;
+      font-family: "Playfair Display", serif;
+      font-weight: 700; 
+    }
+
+    nav ul, .ul-horizontal {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin-right: 30px;
+    }
+
+    nav ul li:last-child {
+      margin-right: 0;
+    }
+
+    section ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .ul-horizontal {
+      gap: 20px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .ul-horizontal li a img {
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .ul-horizontal li a img:hover {
+      transform: scale(1.1);
+    }
+
+    nav a {
+      color: var(--color-light);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: var(--color-primary-light);
+    }
+
+    .presentacion {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .presentacion h2 {
+      font-size: 2em;
+      color: var(--color-text);
+      margin-bottom: 10px;
+    }
+
+    .presentacion img {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .video-responsive {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    .video-responsive iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    section .video-responsive {
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: var(--color-primary);
+      color: var(--color-light);
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--color-primary-dark);
+    }
+
+    .galeria {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .disco {
+      background-color: white;
+      padding: 15px;
+      border-radius: 40px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      margin: 10px;
+      overflow: hidden;
+    }
+
+    .disco img {
+      width: 100%;
+      height: auto;
+      border-radius: 30px;
+      transition: transform 0.3s ease;
+    }
+
+    .disco:hover img {
+      transform: scale(1.05);
+    }
+
+    .disco h3 {
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    .disco p {
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Música para el Alma</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Discografía</a></li>
+        <li><a href="#">Conciertos</a></li>
+        <li><a href="#">Biografía</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="presentacion">
+      <h2>Bienvenidos a nuestro universo musical</h2>
+      <p>Explora la esencia de nuestra creación artística y sumérgete en un viaje sonoro único.</p>
+      <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Concierto en vivo" style="max-width: 100%; height: auto;">
+    </section>
+
+    <section>
+      <h2>Nuestra Discografía</h2>
+      <div class="galeria">
+        <div class="disco">
+          <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Álbum Aurora">
+          <h3>Aurora</h3>
+          <p>2020 • 12 canciones</p>
+        </div>
+        <div class="disco">
+          <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Álbum Eclipse">
+          <h3>Eclipse</h3>
+          <p>2022 • 10 canciones</p>
+        </div>
+        <div class="disco">
+          <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Álbum Renacer">
+          <h3>Renacer</h3>
+          <p>2023 • 8 canciones</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Próximos Conciertos</h2>
+      <ul>
+        <li>15 Julio - Madrid, España</li>
+        <li>22 Julio - Barcelona, España</li>
+        <li>5 Agosto - París, Francia</li>
+        <li>19 Agosto - Berlín, Alemania</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Nuestro Último Videoclip</h2>
+      <div class="video-responsive">
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Videoclip musical" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section>
+      <h2>Contacto</h2>
+      <form>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" placeholder="Tu nombre" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="tu@email.com" required>
+        
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
+        
+        <button type="submit">Enviar Mensaje</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Música para el Alma. Todos los derechos reservados.</p>
+    <ul class="ul-horizontal">
+      <li><a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384005.png" alt="Facebook" width="30"></a></li>
+      <li><a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384017.png" alt="Instagram" width="30"></a></li>
+      <li><a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384012.png" alt="Twitter" width="30"></a></li>
+      <li><a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384014.png" alt="YouTube" width="30"></a></li>
+    </ul>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+</head>
+<body>
+    <form>
+        <p><strong>Género:</strong></p>
+        <input type="radio" id="masculino" name="genero" value="masculino">
+        <label for="masculino">Masculino</label><br>
+
+        <input type="radio" id="femenino" name="genero" value="femenino">
+        <label for="femenino">Femenino</label><br>
+
+        <input type="radio" id="otro" name="genero" value="otro" checked>
+        <label for="otro">Otro</label><br><br>
+
+        <label for="pais"><strong>País:</strong></label>
+        <select id="pais" name="pais">
+            <option value="uruguay" selected>Uruguay</option>
+            <option value="argentina">Argentina</option>
+            <option value="brasil">Brasil</option>
+            <option value="paraguay">Paraguay</option>
+        </select><br><br>
+
+        <p><strong>Intereses:</strong></p>
+        <input type="checkbox" id="musica" name="intereses" value="musica">
+        <label for="musica">Música</label><br>
+
+        <input type="checkbox" id="deportes" name="intereses" value="deportes">
+        <label for="deportes">Deportes</label><br>
+
+        <input type="checkbox" id="lectura" name="intereses" value="lectura">
+        <label for="lectura">Lectura</label><br><br>
+
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>

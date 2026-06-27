@@ -1,0 +1,108 @@
+body {  
+  background-color: #1e1e1e; /* Aplicar color de fondo oscuro */  
+  color: #f0f0f0; /* Definir color de texto base (claro para contrastar) */ 
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif; /* Establecer una fuente de texto legible y moderna (sans-serif) */  
+  margin: 0px;/* Eliminar márgenes por defecto */  
+  line-height: 1.6;/* Ajustar el espacio entre líneas (line-height) para mejor lectura */  
+}
+
+ 
+section {
+margin-bottom: 2em;/* Ajustar margen inferior de cada section*/
+}
+
+section p { /**elementos <p> que están dentro de un <section>*/
+  color: #cccccc;/* Definir color del texto de los párrafos (generalmente un gris más suave que el texto principal) */  
+  font-size: 1rem; /* Ajustar el tamaño de la fuente si es necesario */  
+}
+
+/**Aquí comienza el menú/
+
+/* Estilo general del header */
+header {
+  background-color: #222;        /* Fondo oscuro para destacar el menú */
+  color: #fff;                   /* Texto en blanco para contraste */
+  padding: 20px;                 /* Espacio interno alrededor del contenido */
+  text-align: center;            /* Centra el texto dentro del header */
+}
+
+/* Estilo del título principal */
+header h1 {
+  margin: 0 0 10px 0;            /* Margen abajo para separar del menú */
+  font-size: 2em;                /* Tamaño grande para resaltar el título */
+}
+
+/* Estilo de la lista de navegación */
+nav ul {
+  list-style: none;              /* Elimina las viñetas predeterminadas */
+  padding: 0;                   /* Quita el relleno interno por defecto */
+  margin: 0;                    /* Quita el margen externo por defecto */
+  display: flex;                /* Organiza los elementos en fila horizontal */
+  justify-content: center;      /* Centra los elementos horizontalmente */
+  /* Se elimina gap para usar margin en los li */
+}
+
+/* Estilo de cada elemento de la lista */
+nav ul li {
+  margin-right: 30px;            /* Espacio a la derecha de cada ítem */
+}
+
+/* Elimina margen a la derecha del último ítem para evitar espacio extra */
+nav ul li:last-child {
+  margin-right: 0;
+}
+
+/* Estilo de los enlaces dentro del menú */
+nav a {
+  color: #fff;                  /* Color blanco para los enlaces */
+  text-decoration: none;        /* Quita el subrayado de los enlaces */
+  font-weight: bold;            /* Texto en negrita para mayor visibilidad */
+  /* Se elimina transition para que no haya efecto de animación */
+}
+
+/* Estilo al pasar el cursor sobre los enlaces */
+nav a:hover {
+  color: #ffcc00;               /* Cambia el color para resaltar al pasar el mouse */
+}
+
+/*********************/
+
+/*aquí comienza la galeria*/
+
+/* Contenedor principal de la galería */
+.galeria {
+  display: flex;                         /* Usamos flexbox para colocar los elementos en fila */
+  flex-wrap: wrap;                       /* Permite que las tarjetas bajen si no caben horizontalmente */
+  justify-content: center;              /* Centra las tarjetas horizontalmente */
+}
+
+/* Estilo individual de cada tarjeta de película */
+.pelicula {
+  background-color: white;              /* Fondo blanco para cada tarjeta */
+  padding: 15px;                         /* Espaciado interno */
+  border-radius: 10px;                   /* Bordes redondeados */
+  width: 220px;                          /* Ancho fijo de cada tarjeta */
+  text-align: center;                    /* Centra el texto horizontalmente */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra suave para dar efecto de "tarjeta" */
+  margin: 10px;                          /* Espaciado alrededor de cada tarjeta */
+}
+
+/* Estilo para la imagen de cada película */
+.pelicula img {
+  width: 100%;                           /* Ocupa todo el ancho disponible de la tarjeta */
+  height: auto;                          /* Altura automática para mantener proporción */
+  border-radius: 5px;                    /* Bordes ligeramente redondeados en la imagen */
+}
+
+/* Título de la película */
+.pelicula h3 {
+  margin-top: 10px;                      /* Espacio superior */
+  font-size: 1.1em;                      /* Tamaño de fuente ligeramente mayor */
+  color: #333;                           /* Gris oscuro para buen contraste */
+}
+
+/* Descripción de la película */
+.pelicula p {
+  font-size: 0.9em;                      /* Texto un poco más pequeño */
+  color: #666;                           /* Gris medio, suave a la vista */
+}
