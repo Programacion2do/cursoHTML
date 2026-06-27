@@ -12,7 +12,7 @@ Plataforma de aprendizaje interactiva para enseñar HTML, CSS y JavaScript desde
 - **Editor de código en vivo** con vista previa instantánea
 - **Quiz de comprensión** al completar todas las lecciones de un curso
 - **Diploma descargable** al finalizar cada curso (después del quiz)
-- **Sistema de desafíos** con puntos XP y 5 niveles (🌱→🔭→💻→🚀→🏆)
+- **12 desafíos** con puntos XP y 5 niveles (🌱→🔭→💻→🚀→🏆)
 - **Playground libre** para experimentar sin restricciones
 - **Guardar progreso** — exportar e importar para continuar en otro equipo
 - Sin instalación, sin cuenta — funciona directo en el navegador
